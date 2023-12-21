@@ -1,10 +1,10 @@
 import { HamburgerIcon } from "@chakra-ui/icons";
 import { Box, Image, ListItem as ChakraListItem, Collapse, Flex, IconButton, List } from "@chakra-ui/react";
 import Button from "src/components/Button";
-import { useClickAway } from "src/hooks/useClickAway";
+import useClickAway from "src/hooks/useClickAway";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import LogoImg from "src/assets/logo.png";
+import LogoImg from "src/assets/react.svg";
 import formatAddress from "src/utils/formatAddress";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -27,6 +27,12 @@ const ListItem = ({ children, ...rest }: any) => (
 
 export default function Navbar() {
   const [showDropdown, setShowDropdown] = useState(false);
+
+
+  //@todo: add wallet connection logic.
+  const disconnect = () => { };
+  const account = "";
+
 
   const ref = useClickAway(() => setShowDropdown(false));
   const toggleDropdown = () => {
@@ -77,31 +83,32 @@ export default function Navbar() {
           onClick={() => setShowDropdown(false)}
           boxShadow="0px 4px 8px rgba(0, 0, 0, 0.05)"
         >
-          <ListItem onClick={onClickConnect}>
-            <Flex alignItems="center" justify="space-between">
-              <Box as="span" ml="space.s">
-                {account ? `${formatAddress(account)} ` : "Connect Wallet"}
-              </Box>
-              {account && (
-                <Button onClick={onClickCopyAccount} w="auto" variant="outline">
-                  Copy Address
-                </Button>
-              )}
-            </Flex>
-          </ListItem>
-
-          {account && (
-            <ListItem onClick={disconnect}>
-              <Flex alignItems="center">
+          <List bgColor="white" fontWeight={500}>
+            <ListItem onClick={onClickConnect}>
+              <Flex alignItems="center" justify="space-between">
                 <Box as="span" ml="space.s">
-                  Disconnect
+                  {account ? `${formatAddress(account)} ` : "Connect Wallet"}
                 </Box>
+                {account && (
+                  <Button onClick={onClickCopyAccount} w="auto" variant="outline">
+                    Copy Address
+                  </Button>
+                )}
               </Flex>
             </ListItem>
-          )}
-        </List>
-      </Box>
-    </Collapse>
+
+            {account && (
+              <ListItem onClick={disconnect}>
+                <Flex alignItems="center">
+                  <Box as="span" ml="space.s">
+                    Disconnect
+                  </Box>
+                </Flex>
+              </ListItem>
+            )}
+          </List>
+        </Box>
+      </Collapse>
     </Flex >
   );
 }
