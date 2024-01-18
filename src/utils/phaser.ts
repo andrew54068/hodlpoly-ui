@@ -4,13 +4,13 @@ import { Board as RexBoard, Shape as RexShape, Monopoly, MoveTo } from 'phaser3-
 import ChessData from 'phaser3-rex-plugins/plugins/board/chess/ChessData';
 
 const TILESMAP = [
-  '111 111',
-  '1 1 1 1',
-  '1101011',
-  '  1 1  ',
-  '1101011',
-  '1 1 1 1',
-  '111 111'
+  '1111111',
+  '1     1',
+  '1     1',
+  '1     1',
+  '1     1',
+  '1     1',
+  '1111111'
 ];
 
 declare module 'phaser' {
