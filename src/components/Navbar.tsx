@@ -46,6 +46,7 @@ export default function Navbar() {
     <Flex
       ref={ref}
       top="0"
+      left="0"
       h="75px"
       p="space.s"
       zIndex="banner"

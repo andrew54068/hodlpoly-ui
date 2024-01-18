@@ -5,6 +5,7 @@ import { ChakraProvider, Box } from "@chakra-ui/react";
 import "./App.css";
 import Navbar from "./components/Navbar";
 import NotFound from "src/components/NotFound";
+import Main from "src/components/Main";
 import { GlobalProvider } from "./context/globalContextProvider";
 
 function App() {
@@ -21,7 +22,7 @@ function App() {
           <Navbar />
           <Box margin="0 auto" maxW={isLanding ? "100%" : `520px`}>
             <Routes>
-              <Route path="/" element={<Box> Empty Page </Box>} />
+              <Route path="/" element={<Main />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Box>
