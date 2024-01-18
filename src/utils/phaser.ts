@@ -1,7 +1,7 @@
 import Phaser from 'phaser'
 import BoardPlugin from 'phaser3-rex-plugins/plugins/board-plugin.js';
 import { Board as RexBoard, Shape as RexShape, Monopoly, MoveTo } from 'phaser3-rex-plugins/plugins/board-components.js';
-import ChessData from 'phaser3-rex-plugins/plugins/board-components.js/chessdata/ChessData.js';
+import ChessData from 'phaser3-rex-plugins/plugins/board/chess/ChessData';
 
 const TILESMAP = [
   '111 111',
@@ -107,10 +107,12 @@ class ChessA extends RexShape implements IChessA {
   monopoly: Monopoly<Phaser.GameObjects.GameObject>;
   moveTo: MoveTo<Phaser.GameObjects.GameObject>;
   movingPathTiles: Phaser.GameObjects.GameObject[];
-  rexChess: ChessData
+  // rexChess: ChessData
 
   constructor(board, tileXY) {
     const scene = board.scene;
+    console.log('scene :', scene);
+    console.log('board :', board);
     if (tileXY === undefined) {
       tileXY = board.getRandomEmptyTileXY(0);
     }
