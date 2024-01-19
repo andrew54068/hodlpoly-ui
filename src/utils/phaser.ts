@@ -107,7 +107,7 @@ class ChessA extends RexShape implements IChessA {
   monopoly: Monopoly<Phaser.GameObjects.GameObject>;
   moveTo: MoveTo<Phaser.GameObjects.GameObject>;
   movingPathTiles: Phaser.GameObjects.GameObject[];
-  // rexChess: ChessData
+  rexChess!: ChessData
 
   constructor(board, tileXY) {
     const scene = board.scene;
