@@ -7,6 +7,7 @@ import Navbar from "./components/Navbar";
 import NotFound from "src/components/NotFound";
 import Main from "src/components/Main";
 import { GlobalProvider } from "./context/globalContextProvider";
+import 'src/types'
 
 function App() {
   const { pathname } = useLocation();
