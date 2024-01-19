@@ -4,13 +4,16 @@ import { GlobalContext } from "./global";
 export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
   const [account, setAccount] = useState<string | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
+  const [chainId, setChainId] = useState<string | null>(null);
   return (
     <GlobalContext.Provider
       value={{
         account: account,
         setAccount: setAccount,
         userId: userId,
-        setUserId: setUserId
+        setUserId: setUserId,
+        chainId,
+        setChainId,
       }}
     >
       {children}

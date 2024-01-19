@@ -182,7 +182,7 @@ export const useEthereum = (): {
       setAccount(accounts[0]);
 
       if (accounts.length > 0) {
-        logConnectWalletSuccess();
+        // logConnectWalletSuccess();
       }
 
       return accounts;
