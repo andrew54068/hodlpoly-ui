@@ -1,7 +1,6 @@
 import Phaser from 'phaser'
 import BoardPlugin from 'phaser3-rex-plugins/plugins/board-plugin.js';
 import { Board as RexBoard, Shape as RexShape, Monopoly, MoveTo } from 'phaser3-rex-plugins/plugins/board-components.js';
-import ChessData from 'phaser3-rex-plugins/plugins/board/chess/ChessData';
 
 const TILESMAP = [
   '1111111',
@@ -32,6 +31,7 @@ const createTileMap = function (tilesMap, out: string[] = []) {
 interface IChessA {
   monopoly: Monopoly;
   moveTo: MoveTo;
+
 }
 
 
@@ -70,6 +70,7 @@ class Board extends RexBoard {
   constructor(scene, tilesMap) {
     console.log('tilesMap :', tilesMap);
     const tiles = createTileMap(TILESMAP);
+    console.log('tiles :', tiles);
     // create board
     const config = {
       // grid: getHexagonGrid(scene),
@@ -107,7 +108,7 @@ class ChessA extends RexShape implements IChessA {
   monopoly: Monopoly<Phaser.GameObjects.GameObject>;
   moveTo: MoveTo<Phaser.GameObjects.GameObject>;
   movingPathTiles: Phaser.GameObjects.GameObject[];
-  rexChess!: ChessData
+  [key: string]: any;
 
   constructor(board, tileXY) {
     const scene = board.scene;
@@ -122,6 +123,7 @@ class ChessA extends RexShape implements IChessA {
     this.setScale(0.9);
 
     // add behaviors        
+    console.log('add behaviors :');
     this.monopoly = scene.rexBoard.add.monopoly(this, {
       face: 0,
       pathTileZ: 0,
@@ -140,7 +142,9 @@ class ChessA extends RexShape implements IChessA {
     this.hideMovingPath();
     let tileXY, worldXY;
     const scene = this.scene
-    const board = this.rexChess.board;
+    const board = this.rexChess?.board;
+
+    if (!board) return
 
     for (let i = 0, cnt = tileXYArray.length; i < cnt; i++) {
       tileXY = tileXYArray[i];
