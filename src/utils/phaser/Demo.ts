@@ -2,6 +2,7 @@ import Phaser from 'phaser'
 import Board from './Board'
 import ChessA from './ChessA'
 import { TILESMAP } from './constants'
+// import Hammer from 'hammerjs';
 
 const Between = Phaser.Math.Between;
 
@@ -33,25 +34,33 @@ export default class Demo extends Phaser.Scene {
       chessA.moveForward(movingPoints);
 
       // set pointer position 
-      this.dragStartX = pointer.worldX;
-      this.dragStartY = pointer.worldY;
+      this.dragStartX = pointer.x;
+      this.dragStartY = pointer.y;
     });
 
-    this.cameras.main.setBounds(-800, -600, 1600, 1200);
+    this.cameras.main.setBounds(0, 0, 1000, 800);
 
 
+    // const canvas = this.game.canvas;
+    // const hammer = new Hammer(canvas);
+    // hammer.get('pinch').set({ enable: true });
+
+    // hammer.on('pinch', (event) => {
+    //   console.log('event :', event);
+    //   // zooming logic
+    //   const scale = event.scale;
+    //   this.cameras.main.zoom = scale;
+    // });
+
+    // for drag and scrolling
     this.input.on('pointermove', (pointer) => {
-      if (pointer.isDown) {
-        const newScrollX = this.cameras.main.scrollX + this.dragStartX - pointer.worldX;
-        const newScrollY = this.cameras.main.scrollY + this.dragStartY - pointer.worldY;
+      if (!pointer.isDown) return;
 
-        // 使用 Lerp 函數進行平滑處理
-        this.cameras.main.scrollX = Phaser.Math.Linear(this.cameras.main.scrollX, newScrollX, 0.5);
-        this.cameras.main.scrollY = Phaser.Math.Linear(this.cameras.main.scrollY, newScrollY, 0.5);
+      this.cameras.main.scrollX -= (pointer.x - this.dragStartX);
+      this.cameras.main.scrollY -= (pointer.y - this.dragStartY);
 
-        this.dragStartX = pointer.worldX;
-        this.dragStartY = pointer.worldY;
-      }
+      this.dragStartX = pointer.x;
+      this.dragStartY = pointer.y;
     }, this);
 
 

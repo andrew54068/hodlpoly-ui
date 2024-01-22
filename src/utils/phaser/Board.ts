@@ -65,6 +65,7 @@ export default class Board extends RexBoard {
       line = tiles[tileY];
       for (let tileX = 0, xcnt = line.length; tileX < xcnt; tileX++) {
         symbol = line[tileX];
+        console.log('symbol :', symbol);
         if (symbol === ' ') {
           continue;
         }

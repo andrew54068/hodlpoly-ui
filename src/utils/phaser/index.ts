@@ -3,8 +3,6 @@ import BoardPlugin from 'phaser3-rex-plugins/plugins/board-plugin.js';
 import Demo from './Demo';
 
 
-
-
 const config = {
   type: Phaser.AUTO,
   parent: 'phaser-example',
