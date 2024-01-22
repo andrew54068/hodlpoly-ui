@@ -9,10 +9,11 @@ const Between = Phaser.Math.Between;
 export default class Demo extends Phaser.Scene {
   dragStartX: number = 0;
   dragStartY: number = 0;
+  chessA?: ChessA;
 
   constructor() {
     super({
-      key: 'examples'
+      key: 'demoExample'
     })
   }
 
@@ -25,6 +26,7 @@ export default class Demo extends Phaser.Scene {
       y: 0
     });
 
+    this.chessA = chessA;
     const movingPointsTxt = this.add.text(10, 10, 'yolo');
 
     this.input.on('pointerdown', (pointer) => {
@@ -65,5 +67,11 @@ export default class Demo extends Phaser.Scene {
 
 
     this.add.text(0, 580, 'Click to move forward.')
+  }
+
+  triggerMoveForward(movingPoints) {
+    if (this.chessA) {
+      this.chessA.moveForward(movingPoints);
+    }
   }
 }

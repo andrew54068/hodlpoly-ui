@@ -19,6 +19,11 @@ const config = {
       plugin: BoardPlugin,
       mapping: 'rexBoard'
     }]
+  },
+  callbacks: {
+    postBoot: (game) => {
+      window.myGameSceneDemo = game.scene.keys.demoExample;
+    }
   }
 };
 

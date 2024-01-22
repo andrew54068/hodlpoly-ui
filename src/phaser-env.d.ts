@@ -5,3 +5,11 @@ declare module 'phaser' {
     rexBoard: BoardPlugin;
   }
 }
+
+
+// add myGameScene to window 
+declare global {
+  interface Window {
+    myGameSceneDemo: Demo;
+  }
+}
