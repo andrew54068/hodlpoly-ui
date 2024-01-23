@@ -3,14 +3,14 @@ import BoardPlugin from 'phaser3-rex-plugins/plugins/board-plugin.js';
 import Demo from './Demo';
 
 
-const config = {
+export const config = {
   type: Phaser.AUTO,
   parent: 'phaser-example',
   width: 800,
-  height: 600,
+  height: 1000,
   scale: {
     mode: Phaser.Scale.NONE,
-    autoCenter: Phaser.Scale.CENTER_BOTH,
+    // autoCenter: Phaser.Scale.CENTER_BOTH,
   },
   scene: Demo,
   plugins: {
@@ -28,4 +28,3 @@ const config = {
 };
 
 
-export const game = new Phaser.Game(config);

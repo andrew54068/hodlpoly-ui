@@ -42,7 +42,7 @@ export default class Demo extends Phaser.Scene {
       this.dragStartY = pointer.y;
     });
 
-    this.cameras.main.setBounds(0, 0, 1000, 800);
+    this.cameras.main.setBounds(0, 0, 1000, 1000);
 
 
     // const canvas = this.game.canvas;
@@ -74,6 +74,12 @@ export default class Demo extends Phaser.Scene {
   triggerMoveForward(movingPoints) {
     if (this.chessA) {
       this.chessA.moveForward(movingPoints);
+    }
+  }
+
+  moveToOrigin() {
+    if (this.chessA) {
+      this.chessA.moveTo.moveTo({ x: 0, y: 0 });
     }
   }
 }

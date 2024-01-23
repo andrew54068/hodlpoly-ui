@@ -15,8 +15,8 @@ const getQuadGrid = function (scene) {
   const grid = scene.rexBoard.add.quadGrid({
     x: 100,
     y: 100,
-    cellWidth: 50,
-    cellHeight: 50,
+    cellWidth: 80,
+    cellHeight: 100,
     type: 0
   });
   return grid;
@@ -36,9 +36,6 @@ const getQuadGrid = function (scene) {
 //   })
 //   return grid;
 // };
-
-
-
 
 export default class Board extends RexBoard {
   // tilesMap
@@ -72,14 +69,14 @@ export default class Board extends RexBoard {
 
         cost = parseFloat(symbol);
         this.scene.rexBoard.add.shape(this, tileX, tileY, 0, COLORMAP[cost])
-          .setStrokeStyle(1, 0xffffff, 1)
+          .setStrokeStyle(2, 0xffffff, 1)
           .setData('cost', cost);
 
-
-        const worldXY = this.tileXYToWorldXY(tileX, tileY);
-        const image = this.scene.add.image(worldXY.x, worldXY.y, 'grass');
-        image.displayWidth = 50; // 設定圖片的顯示寬度
-        image.displayHeight = 50;
+        // add image to grid
+        // const worldXY = this.tileXYToWorldXY(tileX, tileY);
+        // const image = this.scene.add.image(worldXY.x, worldXY.y, 'grass');
+        // image.displayWidth = 50; // 設定圖片的顯示寬度
+        // image.displayHeight = 50;
       }
 
 

@@ -68,6 +68,7 @@ export default class ChessA extends RexShape implements IChessA {
 
     const path = this.monopoly.getPath(movingPoints);
     this.showMovingPath(path);
+    console.log('this.movingPathTiles', this.movingPathTiles)
     this.moveAlongPath(path);
     return this;
   }
@@ -80,6 +81,7 @@ export default class ChessA extends RexShape implements IChessA {
     this.moveTo.once('complete', () => {
       this.moveAlongPath(path);
     }, this);
+
     const tileData = path.shift();
     this.moveTo.moveTo(tileData);
     this.monopoly.setFace(this.moveTo.destinationDirection);
