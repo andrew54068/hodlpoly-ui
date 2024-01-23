@@ -74,7 +74,15 @@ export default class Board extends RexBoard {
         this.scene.rexBoard.add.shape(this, tileX, tileY, 0, COLORMAP[cost])
           .setStrokeStyle(1, 0xffffff, 1)
           .setData('cost', cost);
+
+
+        const worldXY = this.tileXYToWorldXY(tileX, tileY);
+        const image = this.scene.add.image(worldXY.x, worldXY.y, 'grass');
+        image.displayWidth = 50; // 設定圖片的顯示寬度
+        image.displayHeight = 50;
       }
+
+
     }
     return this;
   }

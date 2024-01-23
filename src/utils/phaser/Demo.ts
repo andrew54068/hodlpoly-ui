@@ -17,7 +17,9 @@ export default class Demo extends Phaser.Scene {
     })
   }
 
-  preload() { }
+  preload() {
+    this.load.image('grass', 'src/assets/grass.png');
+  }
 
   create() {
     const board = new Board(this, TILESMAP);
