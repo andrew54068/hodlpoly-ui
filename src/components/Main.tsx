@@ -2,11 +2,13 @@ import { useRef, useEffect } from "react";
 import { Box, Button } from "@chakra-ui/react";
 import 'src/utils/phaser'
 import { config } from 'src/utils/phaser'
+import generatePath from 'src/utils/phaser/generatePath'
 
 export default function Main() {
   const hasInit = useRef(false);
 
   useEffect(() => {
+    console.log('generatePath(8, 8);', generatePath(100))
     const phaserContainer = document.getElementById('phaser-example');
     if (!hasInit.current && phaserContainer && !window.myGameSceneDemo) {
       console.log('init phaser');

@@ -62,6 +62,7 @@ export default class ChessA extends RexShape implements IChessA {
   }
 
   moveForward(movingPoints) {
+    console.log('tileXYZ', this.rexChess.tileXYZ)
     if (this.moveTo.isRunning) {
       return this;
     }

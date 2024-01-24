@@ -16,4 +16,12 @@ module.exports = {
     ],
     '@typescript-eslint/no-explicit-any': 'off',
   },
+  "overrides": [
+    {
+      "files": ["tests/**/*"],
+      "env": {
+        "jest": true
+      }
+    }
+  ]
 }
