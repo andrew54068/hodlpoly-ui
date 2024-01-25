@@ -1,52 +1,44 @@
-export default function generatePath(numOnes) {
-  // 根據 "1" 的數量計算矩陣的尺寸
-  const size = Math.ceil(Math.sqrt(numOnes));
-  let matrix = Array.from({ length: size }, () => new Array(size).fill(" "));
+import find2DArrayCenter from '../find2DArrayCenter';
 
-  let direction = 'right';
-  let row = 0, col = -1;
-  let count = 0;
+export default function generatePath(size) {
+  if (size <= 0) return [];
 
-  while (count < numOnes) {
-    if (direction === 'right') {
-      while (col + 1 < size && count < numOnes) {
-        matrix[row][++col] = "1";
-        count++;
+  // 初始化矩陣
+  const matrix = Array.from({ length: size }, () => new Array(size).fill(0));
+
+  // 找到中心點
+  const [centerY, centerX] = find2DArrayCenter(matrix);
+  let x = centerX, y = centerY;
+
+  // 記錄起始點和結束點
+  const startPoint = { x: centerX, y: centerY };
+  let endPoint = { x: centerX, y: centerY };
+
+  // 設置螺旋方向和步數
+  const direction = [[0, -1], [1, 0], [0, 1], [-1, 0]]; // 左, 下, 右, 上
+  let currentDirection = 0, steps = 1;
+
+  while (true) {
+    for (let step = 0; step < steps; step++) {
+      // 檢查是否超出邊界
+      if (x < 0 || x >= size || y < 0 || y >= size) {
+        return { matrix, startPoint, endPoint };
       }
-      direction = 'down';
-    } else if (direction === 'down') {
-      while (row + 1 < size && count < numOnes) {
-        matrix[++row][col] = "1";
-        count++;
-      }
-      direction = 'left';
-    } else if (direction === 'left') {
-      while (col - 1 >= 0 && count < numOnes) {
-        matrix[row][--col] = "1";
-        count++;
-      }
-      direction = 'up';
-    } else if (direction === 'up') {
-      while (row - 1 >= 0 && count < numOnes) {
-        matrix[--row][col] = "1";
-        count++;
-      }
-      if (row > 0 || col > 0) {
-        direction = 'right';
-      }
+
+      // 設置當前位置為1並更新結束點
+      matrix[y][x] = 1;
+      endPoint = { x, y };
+
+      // 移動到下一個位置
+      x += direction[currentDirection][0];
+      y += direction[currentDirection][1];
     }
 
-    if (count === numOnes) {
-      break;
-    }
+    // 更新方向和步數
+    currentDirection = (currentDirection + 1) % 4;
+    steps++; // 每次轉彎後增加步數
+    if (x < 0 || x >= size || y < 0 || y >= size) break; // 檢查下一步是否超出邊界
   }
 
-  // Trim unused rows and columns
-  matrix = matrix.filter(row => row.some(cell => cell === "1"));
-  matrix.forEach(row => {
-    const lastIndex = row.lastIndexOf("1");
-    row.splice(lastIndex + 1);
-  });
-
-  return matrix;
+  return { matrix, startPoint, endPoint };
 }
