@@ -12,6 +12,7 @@ export default class ChessA extends RexShape implements IChessA {
   movingPathTiles: Phaser.GameObjects.GameObject[];
   startPoint = { x: 0, y: 0 };
   endPoint = { x: 0, y: 0 };
+  currentPoint = { x: 0, y: 0 };
   [key: string]: any;
 
   constructor(board, {
@@ -32,7 +33,9 @@ export default class ChessA extends RexShape implements IChessA {
     super(board, startPoint.x, startPoint.y, 1, 0x3f51b5);
 
     this.startPoint = startPoint;
+    this.currentPoint = startPoint;
     this.endPoint = endPoint;
+
     scene.add.existing(this);
     this.setScale(0.9);
 
@@ -95,25 +98,35 @@ export default class ChessA extends RexShape implements IChessA {
       return;
     }
 
-    this.moveTo.once('complete', () => {
-      if (path.length === 0) {
-        return;
+
+    this.moveTo.once('complete', ({ currentPoint }) => {
+      console.log('currentPoint :', currentPoint);
+      // const [nextTile] = path;
+
+
+      if (currentPoint.x === this.startPoint.x && currentPoint.y === this.startPoint.y) {
+        this.setVisible(true);
       }
 
+
+      if (this.checkIsEnd(currentPoint)) {
+        console.log('the end')
+        console.log('this :', this);
+
+        this.setVisible(false);
+        // stop moving
+        this.currentPoint = this.startPoint;
+        path = []
+
+        return this.moveAlongPath([this.startPoint]);
+      }
+
+      if (path.length === 0) return
       this.moveAlongPath(path);
     }, this);
 
     const nextTile = path.shift();
-
-    if (this.checkIsEnd(nextTile)) {
-      console.log('the end')
-      console.log('this :', this);
-      // stop moving
-      path = []
-      this.moveTo.moveTo(this.startPoint);
-      this.monopoly.setFace(this.moveTo.destinationDirection);
-      return this
-    }
+    this.currentPoint = nextTile;
 
     this.moveTo.moveTo(nextTile);
     this.monopoly.setFace(this.moveTo.destinationDirection);
