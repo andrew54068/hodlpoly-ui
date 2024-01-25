@@ -3,8 +3,6 @@ import generateTilePath from './generateTilePath';
 describe('generateTilePath Function', () => {
   test('should correctly generate a path for a 10x10 array', () => {
     const { matrix, startPoint, endPoint } = generateTilePath(10);
-    console.log('startPoint :', startPoint);
-    console.log('endPoint :', endPoint);
     expect(matrix).toBeInstanceOf(Array);
     expect(matrix.length).toBe(10);
     expect(matrix.every(row => row.length === 10)).toBeTruthy();

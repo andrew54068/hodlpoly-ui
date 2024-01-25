@@ -7,9 +7,7 @@ export default function generateTilePath(tileNumbers: number): {
   endPoint: { x: number, y: number }
 } {
 
-  console.log('tileNumbers :', tileNumbers);
   const arraySize = findMaxValueInTileSeries(tileNumbers);
-  console.log('arraySize :', arraySize);
 
   // Throws an error if the array size is not positive
   if (arraySize <= 0) {
@@ -59,7 +57,6 @@ export default function generateTilePath(tileNumbers: number): {
       // Set the current position to "1" and update the endpoint
       matrix[y][x] = "1";
       tileCount += 1
-      console.log('tileCount :', tileCount);
       endPoint = { x, y };
 
       // Move to the next position

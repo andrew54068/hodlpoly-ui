@@ -10,20 +10,33 @@ export default class ChessA extends RexShape implements IChessA {
   monopoly: Monopoly<Phaser.GameObjects.GameObject>;
   moveTo: MoveTo<Phaser.GameObjects.GameObject>;
   movingPathTiles: Phaser.GameObjects.GameObject[];
+  startPoint = { x: 0, y: 0 };
+  endPoint = { x: 0, y: 0 };
   [key: string]: any;
 
-  constructor(board, tileXY) {
+  constructor(board, {
+    startPoint,
+    endPoint
+  }) {
+
+    console.log('startPoint :', startPoint);
+    console.log('endPoint :', endPoint);
+
     const scene = board.scene;
-    if (tileXY === undefined) {
-      tileXY = board.getRandomEmptyTileXY(0);
+
+    if (startPoint === undefined) {
+      startPoint = board.getRandomEmptyTileXY(0);
     }
-    // Shape(board, tileX, tileY, tileZ, fillColor, fillAlpha, addToBoard)
-    super(board, tileXY.x, tileXY.y, 1, 0x3f51b5);
+
+    // Shape(board, startPoint.x, startPoint.y, startPoint.z, fillColor, fillAlpha, addToBoard)
+    super(board, startPoint.x, startPoint.y, 1, 0x3f51b5);
+
+    this.startPoint = startPoint;
+    this.endPoint = endPoint;
     scene.add.existing(this);
     this.setScale(0.9);
 
     // add behaviors        
-    console.log('add behaviors :');
     this.monopoly = scene.rexBoard.add.monopoly(this, {
       face: 0,
       pathTileZ: 0,
@@ -62,7 +75,6 @@ export default class ChessA extends RexShape implements IChessA {
   }
 
   moveForward(movingPoints) {
-    console.log('tileXYZ', this.rexChess.tileXYZ)
     if (this.moveTo.isRunning) {
       return this;
     }
@@ -74,17 +86,36 @@ export default class ChessA extends RexShape implements IChessA {
     return this;
   }
 
+  checkIsEnd(tileXY) {
+    return (this.endPoint.x === tileXY.x && this.endPoint.y === tileXY.y)
+  }
+
   moveAlongPath(path) {
     if (path.length === 0) {
       return;
     }
 
     this.moveTo.once('complete', () => {
+      if (path.length === 0) {
+        return;
+      }
+
       this.moveAlongPath(path);
     }, this);
 
-    const tileData = path.shift();
-    this.moveTo.moveTo(tileData);
+    const nextTile = path.shift();
+
+    if (this.checkIsEnd(nextTile)) {
+      console.log('the end')
+      console.log('this :', this);
+      // stop moving
+      path = []
+      this.moveTo.moveTo(this.startPoint);
+      this.monopoly.setFace(this.moveTo.destinationDirection);
+      return this
+    }
+
+    this.moveTo.moveTo(nextTile);
     this.monopoly.setFace(this.moveTo.destinationDirection);
     return this;
   }

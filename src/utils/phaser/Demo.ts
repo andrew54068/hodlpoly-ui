@@ -1,7 +1,6 @@
 import Phaser from 'phaser'
 import Board from './Board'
 import ChessA from './ChessA'
-import { TILESMAP } from './constants'
 import generateTilePath from 'src/utils/phaser/generateTilePath'
 
 
@@ -25,13 +24,15 @@ export default class Demo extends Phaser.Scene {
   create() {
     const {
       matrix: tilePath,
-      startPoint
-    } = generateTilePath(15)
+      startPoint,
+      endPoint
+    } = generateTilePath(20)
 
+    console.log('tilePath :', tilePath);
     const board = new Board(this, tilePath);
     const chessA = new ChessA(board, {
-      x: startPoint.x,
-      y: startPoint.y
+      startPoint,
+      endPoint
     });
 
     this.chessA = chessA;

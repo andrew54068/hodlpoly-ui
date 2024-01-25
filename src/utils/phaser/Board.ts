@@ -73,7 +73,7 @@ export default class Board extends RexBoard {
         // add image to grid
         // const worldXY = this.tileXYToWorldXY(tileX, tileY);
         // const image = this.scene.add.image(worldXY.x, worldXY.y, 'grass');
-        // image.displayWidth = 50; // 設定圖片的顯示寬度
+        // image.displayWidth = 50; 
         // image.displayHeight = 50;
       }
 
