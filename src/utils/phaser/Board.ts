@@ -1,16 +1,15 @@
 import { Board as RexBoard } from 'phaser3-rex-plugins/plugins/board-components.js';
-import { TILESMAP, COLORMAP } from './constants';
-import generatePath from 'src/utils/phaser/generatePath'
+import { COLORMAP } from './constants';
 
-const createTileMap = function (tilesMap, out: string[] = []) {
-  if (out === undefined) {
-    out = [];
-  }
-  for (let i = 0, cnt = tilesMap.length; i < cnt; i++) {
-    out.push(tilesMap[i].split(''));
-  }
-  return out;
-}
+// const createTileMap = function (tilesMap, out: string[] = []) {
+//   if (out === undefined) {
+//     out = [];
+//   }
+//   for (let i = 0, cnt = tilesMap.length; i < cnt; i++) {
+//     out.push(tilesMap[i].split(''));
+//   }
+//   return out;
+// }
 
 const getQuadGrid = function (scene) {
   const grid = scene.rexBoard.add.quadGrid({
@@ -40,12 +39,8 @@ const getQuadGrid = function (scene) {
 
 export default class Board extends RexBoard {
   // tilesMap
-  constructor(scene, tilesMap) {
-    console.log('tilesMap :', tilesMap);
-    const tiles = createTileMap(tilesMap);
-    console.log('tiles :', tiles);
+  constructor(scene, tiles) {
 
-    // console.log('tiles :', tiles);
     // create board
     const config = {
       // grid: getHexagonGrid(scene),

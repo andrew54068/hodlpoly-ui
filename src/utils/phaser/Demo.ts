@@ -2,7 +2,8 @@ import Phaser from 'phaser'
 import Board from './Board'
 import ChessA from './ChessA'
 import { TILESMAP } from './constants'
-// import Hammer from 'hammerjs';
+import generateTilePath from 'src/utils/phaser/generateTilePath'
+
 
 const Between = Phaser.Math.Between;
 
@@ -22,10 +23,16 @@ export default class Demo extends Phaser.Scene {
   }
 
   create() {
-    const board = new Board(this, TILESMAP);
+    const {
+      matrix: tilePath,
+      startPoint
+    } = generateTilePath(10)
+    console.log('tilePath :', tilePath);
+
+    const board = new Board(this, tilePath);
     const chessA = new ChessA(board, {
-      x: 0,
-      y: 0
+      x: startPoint.x,
+      y: startPoint.y
     });
 
     this.chessA = chessA;
