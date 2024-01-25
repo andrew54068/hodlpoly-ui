@@ -26,8 +26,7 @@ export default class Demo extends Phaser.Scene {
     const {
       matrix: tilePath,
       startPoint
-    } = generateTilePath(10)
-    console.log('tilePath :', tilePath);
+    } = generateTilePath(15)
 
     const board = new Board(this, tilePath);
     const chessA = new ChessA(board, {

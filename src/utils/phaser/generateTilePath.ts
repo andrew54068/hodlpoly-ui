@@ -1,10 +1,16 @@
 import find2DArrayCenter from '../find2DArrayCenter';
+import findMaxValueInTileSeries from './findMaxValueInTileSeries';
 
-export default function generateTilePath(arraySize: number): {
+export default function generateTilePath(tileNumbers: number): {
   matrix: string[][],
   startPoint: { x: number, y: number },
   endPoint: { x: number, y: number }
 } {
+
+  console.log('tileNumbers :', tileNumbers);
+  const arraySize = findMaxValueInTileSeries(tileNumbers);
+  console.log('arraySize :', arraySize);
+
   // Throws an error if the array size is not positive
   if (arraySize <= 0) {
     throw new Error('arraySize must be greater than 0');
@@ -25,6 +31,7 @@ export default function generateTilePath(arraySize: number): {
     }
   }
 
+  let tileCount = 0
   const [centerX, centerY] = arrayCenter;
   let x = centerX, y = centerY;
 
@@ -36,19 +43,26 @@ export default function generateTilePath(arraySize: number): {
   const direction = [[-1, 0], [0, 1], [1, 0], [0, -1]]; // Left, Down, Right, Up
   let currentDirection = 0, steps = 1;
 
+  // eslint-disable-next-line no-constant-condition
   while (true) {
     for (let step = 0; step < steps; step++) {
       // Check if it's out of bounds
+
+      if (tileCount >= tileNumbers) {
+        return { matrix, startPoint, endPoint };
+      }
+
       if (x < 0 || x >= arraySize || y < 0 || y >= arraySize) {
         return { matrix, startPoint, endPoint };
       }
 
       // Set the current position to "1" and update the endpoint
       matrix[y][x] = "1";
+      tileCount += 1
+      console.log('tileCount :', tileCount);
       endPoint = { x, y };
 
       // Move to the next position
-      console.log('currentDirection :', currentDirection);
       x += direction[currentDirection][0];
       y += direction[currentDirection][1];
     }

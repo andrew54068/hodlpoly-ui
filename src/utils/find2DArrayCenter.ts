@@ -10,8 +10,8 @@ export default function find2DArrayCenter(matrix) {
   const cols = matrix[0].length;
   console.log('cols :', cols);
 
-  const centerRow = Math.floor(rows / 2 - 1);
-  const centerCol = Math.floor(cols / 2 - 1);
+  const centerRow = Math.ceil(rows / 2 - 1);
+  const centerCol = Math.ceil(cols / 2 - 1);
 
   return [centerRow, centerCol];
 }
