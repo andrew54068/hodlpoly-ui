@@ -9,6 +9,7 @@ import { useEffect, useContext } from "react";
 import { useMediaQuery, MenuButton, MenuItem, MenuList, Menu } from "@chakra-ui/react";
 import { GlobalContext } from "src/context/global";
 import LogoImg from "src/assets/react.svg?react";
+import { Web3Button } from '@web3modal/react'
 
 const ListItem = ({ children, ...rest }: any) => (
   <ChakraListItem
@@ -25,6 +26,9 @@ const ListItem = ({ children, ...rest }: any) => (
     </Box>
   </ChakraListItem>
 );
+
+
+
 
 export default function Navbar() {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -52,6 +56,7 @@ export default function Navbar() {
   };
 
   const onClickConnect = async () => {
+
   };
 
   return (
@@ -74,7 +79,6 @@ export default function Navbar() {
           </Link>
         </Box>
 
-
         {
           isMobile ? <Flex alignItems="center">
             <IconButton onClick={toggleDropdown} aria-label="menu-button" icon={<HamburgerIcon />} variant="outline" />
@@ -86,17 +90,14 @@ export default function Navbar() {
             </Box>
             <Box>
               {
-                !account ? <Button onClick={onClickConnect} >
-                  Connect Wallet
-                </Button> : <Box>
-
+                !account ? <Web3Button /> : <Box>
                   <Menu>
                     <>
                       <MenuButton>
                         {formatAddress(account)}
                       </MenuButton>
                       <MenuList color="#00001E" onClick={disconnect}>
-                        <MenuItem> Disconnect</MenuItem>
+                        <MenuItem> Disconnect </MenuItem>
                       </MenuList>
                     </>
                   </Menu>
@@ -128,7 +129,9 @@ export default function Navbar() {
           textAlign="left"
         >
           <List fontWeight={500}>
-
+            <ListItem>
+              <Web3Button />
+            </ListItem>
             <Link to="/">
               <ListItem>
                 Main
