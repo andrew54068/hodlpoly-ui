@@ -93,14 +93,21 @@ export const supportedChains = [
   //   faucet: "https://faucet.paradigm.xyz/",
   //   environment: "testnet",
   // },
+  {
+    name: "Base Goerli",
+    chainId: "0x14a33",
+    rpcUrls: ["https://goerli.base.org"],
+    faucet: "https://faucet.quicknode.com/base/goerli",
+    environment: "testnet",
+  },
 ];
 
 const sdkConfig = {
   ethereum: {
     // (required) chainId to be used
-    chainId: "42161", // Arb Goerli: 421613
+    chainId: "84531", // Base Goerli: 0x14a33
     // (required for Ethereum) JSON RPC endpoint
-    rpc: import.meta.env.VITE_APP_RPC || "https://rpc.arb1.arbitrum.gateway.fm",
+    rpc: import.meta.env.VITE_APP_RPC || "https://goerli.base.org",
   },
 };
 

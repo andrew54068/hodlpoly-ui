@@ -50,6 +50,7 @@ export default function generateTilePath(tileNumbers: number): {
         return { matrix, startPoint, endPoint };
       }
 
+      //check the bound 
       if (x < 0 || x >= arraySize || y < 0 || y >= arraySize) {
         return { matrix, startPoint, endPoint };
       }
