@@ -44,21 +44,8 @@ export default function Main() {
       client: { public: publicClient, wallet: walletClient }
     })
 
-    const result = await contract.write.move()
+    const result = await contract.read.getPlayer([address])
     console.log('result :', result);
-
-    // send tx by wagmi
-
-    // const { request } = await prepareWriteContract({
-    //   address: FOMOPOLY_ADDRESS_TESTNET,
-    //   abi: fomopolyAbi.abi,
-    //   functionName: 'move',
-    //   chainId: baseGoerli.id,
-
-    // })
-    // const { hash } = await writeContract(request)
-    // console.log('hash :', hash);
-
   }
 
   const moveToOrigin = () => {
