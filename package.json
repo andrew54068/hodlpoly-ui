@@ -13,12 +13,16 @@
   "dependencies": {
     "@amplitude/analytics-browser": "^2.3.8",
     "@blocto/sdk": "^0.9.0-beta.2",
+    "@blocto/wagmi-connector": "^2",
     "@blocto/web-chakra-theme": "^1.2.9",
     "@chakra-ui/anatomy": "^2.2.2",
     "@chakra-ui/icons": "^2.1.1",
     "@chakra-ui/react": "^2.8.2",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "@tanstack/react-query": "^5.17.19",
+    "@web3modal/ethereum": "^2.7.1",
+    "@web3modal/react": "^2.7.1",
     "framer-motion": "^10.16.16",
     "hammerjs": "^2.0.8",
     "lodash": "^4.17.21",
@@ -28,9 +32,10 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.21.0",
+    "viem": "^2.4.0",
     "vite-plugin-node-polyfills": "^0.17.0",
     "vite-plugin-svgr": "^4.2.0",
-    "web3": "^4.3.0"
+    "wagmi": "2.0.1"
   },
   "devDependencies": {
     "@types/jest": "^29.5.11",

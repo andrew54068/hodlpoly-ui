@@ -1,11 +1,20 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useContext } from "react";
 import { Box, Button } from "@chakra-ui/react";
 import 'src/utils/phaser'
 import { config } from 'src/utils/phaser'
+import { GlobalContext } from 'src/context/global';
+import { ConnectModalProvider } from "src/components/WalletConnectModal";
+import { FOMOPOLY_ADDRESS_TESTNET } from 'src/constants'
+import fomopolyAbi from 'src/abi/fomopoly'
+import { getContract } from 'viem'
+import { useAccount } from 'wagmi'
+import { getConnectedWalletClient, publicClient } from 'src/config/clients'
 
 
 export default function Main() {
   const hasInit = useRef(false);
+  const { isConnectModalOpen, onConnectModalClose } = useContext(GlobalContext)
+  const { address } = useAccount()
 
   useEffect(() => {
     const phaserContainer = document.getElementById('phaser-example');
@@ -17,12 +26,26 @@ export default function Main() {
     hasInit.current = true
   }, [hasInit]);
 
-  const onClickMove = () => {
-    if (window.myGameSceneDemo) {
-      console.log('window.myGameSceneDemo :', window.myGameSceneDemo);
+  const onClickMove = async () => {
 
-      window.myGameSceneDemo.triggerMoveForward(3);
-    }
+    // if (window.myGameSceneDemo) {
+    //   console.log('window.myGameSceneDemo :', window.myGameSceneDemo);
+
+    //   window.myGameSceneDemo.triggerMoveForward(3);
+    // }
+
+    // send tx by viem
+    const walletClient = await getConnectedWalletClient({ address })
+
+    if (!walletClient) return
+    const contract = getContract({
+      address: FOMOPOLY_ADDRESS_TESTNET,
+      abi: fomopolyAbi.abi,
+      client: { public: publicClient, wallet: walletClient }
+    })
+
+    const result = await contract.read.getPlayer([address])
+    console.log('result :', result);
   }
 
   const moveToOrigin = () => {
@@ -31,9 +54,12 @@ export default function Main() {
     }
   }
 
-  return <Box mt="75px" minH="100vh">
-    <div id="phaser-example"></div>
-    <Button onClick={onClickMove}>Move</Button>
-    <Button onClick={moveToOrigin}>Back to origin</Button>
-  </Box>
+  return <ConnectModalProvider isOpen={isConnectModalOpen} onClose={onConnectModalClose}>
+    <Box mt="75px" minH="100vh">
+      <Button onClick={onClickMove}>Move</Button>
+      <Button onClick={moveToOrigin}>Back to origin</Button>
+      <div id="phaser-example"></div>
+
+    </Box>
+  </ConnectModalProvider>
 }
