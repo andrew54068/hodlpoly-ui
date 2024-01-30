@@ -1,6 +1,7 @@
 import { createConfig } from 'wagmi'
 import { baseGoerli } from 'wagmi/chains'
 import { http } from "wagmi";
+import { injected } from "wagmi/connectors";
 import { blocto } from "@blocto/wagmi-connector";
 
 
@@ -10,7 +11,7 @@ export const supportChains = [baseGoerli]
 export const wagmiConfig = createConfig({
   chains: [baseGoerli],
   multiInjectedProviderDiscovery: false,
-  connectors: [blocto()],
+  connectors: [blocto(), injected()],
   ssr: true,
   transports: {
     [baseGoerli.id]: http(),

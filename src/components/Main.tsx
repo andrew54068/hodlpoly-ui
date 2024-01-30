@@ -4,17 +4,17 @@ import 'src/utils/phaser'
 import { config } from 'src/utils/phaser'
 import { GlobalContext } from 'src/context/global';
 import { ConnectModalProvider } from "src/components/WalletConnectModal";
-// import { getContract } from 'viem'
-// import { FOMOPOLY_ADDRESS_TESTNET } from 'src/constants'
-// import fomopolyAbi from 'src/abi/fomopoly'
-// import { baseGoerli } from 'viem/chains'
-// import { writeContract, prepareWriteContract } from '@wagmi/core'
-
+import { FOMOPOLY_ADDRESS_TESTNET } from 'src/constants'
+import fomopolyAbi from 'src/abi/fomopoly'
+import { getContract } from 'viem'
+import { useAccount } from 'wagmi'
+import { getConnectedWalletClient, publicClient } from 'src/config/clients'
 
 
 export default function Main() {
   const hasInit = useRef(false);
   const { isConnectModalOpen, onConnectModalClose } = useContext(GlobalContext)
+  const { address } = useAccount()
 
   useEffect(() => {
     const phaserContainer = document.getElementById('phaser-example');
@@ -35,17 +35,17 @@ export default function Main() {
     // }
 
     // send tx by viem
-    // console.log('walletClient :', walletClient);
-    // if (!walletClient) return
-    // const contract = getContract({
-    //   address: FOMOPOLY_ADDRESS_TESTNET,
-    //   abi: fomopolyAbi.abi,
-    //   publicClient,
-    //   walletClient
-    // })
+    const walletClient = await getConnectedWalletClient({ address })
 
-    // const result = await contract.write.move()
-    // console.log('result :', result);
+    if (!walletClient) return
+    const contract = getContract({
+      address: FOMOPOLY_ADDRESS_TESTNET,
+      abi: fomopolyAbi.abi,
+      client: { public: publicClient, wallet: walletClient }
+    })
+
+    const result = await contract.write.move()
+    console.log('result :', result);
 
     // send tx by wagmi
 

@@ -24,7 +24,7 @@ export const WalletOptions = ({ onClose }) => {
             await connect({ connector });
           }}
         >
-          {connector.name}
+          {connector.name === 'Injected' ? 'Metamask' : connector.name}
         </Button>
       ))}
     </Box>
