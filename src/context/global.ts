@@ -7,6 +7,9 @@ export const GlobalContext = createContext<{
   setUserId: (userId: string | null) => void;
   chainId: string | null;
   setChainId: (chainId: string | null) => void;
+  isConnectModalOpen: boolean,
+  onConnectModalOpen: () => void,
+  onConnectModalClose: () => void,
 }>({
   account: null,
   setAccount: () => undefined,
@@ -14,4 +17,7 @@ export const GlobalContext = createContext<{
   setUserId: () => undefined,
   chainId: null,
   setChainId: () => undefined,
+  isConnectModalOpen: false,
+  onConnectModalOpen: () => undefined,
+  onConnectModalClose: () => undefined,
 });
