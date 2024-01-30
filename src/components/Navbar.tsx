@@ -33,7 +33,7 @@ const ListItem = ({ children, ...rest }: any) => (
 
 
 export default function Navbar() {
-  const { onConnectModalOpen, isConnectModalOpen } = useContext(GlobalContext)
+  const { onConnectModalOpen } = useContext(GlobalContext)
 
   const [showDropdown, setShowDropdown] = useState(false);
   const [isMobile] = useMediaQuery("(max-width: 768px)");
