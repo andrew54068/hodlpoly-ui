@@ -3,7 +3,7 @@
 
 import { createPublicClient, http } from 'viem'
 import { baseGoerli } from 'viem/chains'
-import { getWalletClient } from '@wagmi/core'
+import { getWalletClient, getConnections } from '@wagmi/core'
 import { wagmiConfig } from './index'
 
 
@@ -13,9 +13,14 @@ export const publicClient = createPublicClient({
 })
 
 
-export const getConnectedWalletClient = async ({ address }) => {
-  return await getWalletClient(wagmiConfig, {
+export const getConnectedWalletClient = ({ address }) => {
+
+  const connections = getConnections(wagmiConfig)
+  const walletClient = getWalletClient(wagmiConfig, {
     chainId: baseGoerli.id,
-    account: address
+    account: address,
+    connector: connections[0]?.connector,
   })
+  return walletClient
+
 }

@@ -37,7 +37,7 @@ export default class ChessA extends RexShape implements IChessA {
     this.endPoint = endPoint;
 
     scene.add.existing(this);
-    this.setScale(0.9);
+    this.setScale(0.5);
 
     // add behaviors        
     this.monopoly = scene.rexBoard.add.monopoly(this, {
