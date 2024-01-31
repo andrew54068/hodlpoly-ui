@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 import BoardPlugin from 'phaser3-rex-plugins/plugins/board-plugin.js';
-import Demo from './Demo';
+import FomopolyMap from './FomopolyMap';
 
 
 export const config = {
@@ -12,7 +12,7 @@ export const config = {
     mode: Phaser.Scale.NONE,
     // autoCenter: Phaser.Scale.CENTER_BOTH,
   },
-  scene: Demo,
+  scene: FomopolyMap,
   plugins: {
     scene: [{
       key: 'rexBoard',
@@ -22,7 +22,7 @@ export const config = {
   },
   callbacks: {
     postBoot: (game) => {
-      window.myGameSceneDemo = game.scene.keys.demoExample;
+      window.fomopolyMap = game.scene.keys.fomopolyMap;
     }
   }
 };
