@@ -1,4 +1,4 @@
-import { useRef, useEffect, useContext } from "react";
+import { useRef, useEffect, useContext, useCallback } from "react";
 import { Box, Button } from "@chakra-ui/react";
 import 'src/utils/phaser'
 import { config } from 'src/utils/phaser'
@@ -6,15 +6,37 @@ import { GlobalContext } from 'src/context/global';
 import { ConnectModalProvider } from "src/components/WalletConnectModal";
 import { FOMOPOLY_ADDRESS_TESTNET } from 'src/constants'
 import fomopolyAbi from 'src/abi/fomopoly'
-import { getContract, waitForTransactionReceipt } from 'viem'
-import { useAccount } from 'wagmi'
+import { getContract } from 'viem'
+import { useAccount, useReadContract } from 'wagmi'
 import { getConnectedWalletClient, publicClient } from 'src/config/clients'
 
 
 export default function Main() {
   const hasInit = useRef(false);
   const { isConnectModalOpen, onConnectModalClose } = useContext(GlobalContext)
-  const { address } = useAccount()
+  const { address = '' } = useAccount()
+
+  const { data: landAmount } = useReadContract({
+    abi: fomopolyAbi.abi,
+    address: FOMOPOLY_ADDRESS_TESTNET,
+    functionName: 'maxLands',
+    // args: []
+  })
+
+  console.log('landAmount :', landAmount);
+
+  const getContractClient = useCallback(async () => {
+    const walletClient = await getConnectedWalletClient({ address })
+
+    if (!walletClient) return
+    const contract = getContract({
+      address: FOMOPOLY_ADDRESS_TESTNET,
+      abi: fomopolyAbi.abi,
+      client: { public: publicClient, wallet: walletClient }
+    })
+
+    return contract
+  }, [address])
 
   useEffect(() => {
     const phaserContainer = document.getElementById('phaser-example');
@@ -26,19 +48,17 @@ export default function Main() {
     hasInit.current = true
   }, [hasInit]);
 
+  useEffect(() => {
+    if (window.fomopolyMap && landAmount > 0) {
+      window.fomopolyMap.setLandAmount(landAmount);
+    }
+  }, [landAmount])
+
+
   const onClickMove = async () => {
 
-
-
-    // send tx by viem
-    const walletClient = await getConnectedWalletClient({ address })
-
-    if (!walletClient) return
-    const contract = getContract({
-      address: FOMOPOLY_ADDRESS_TESTNET,
-      abi: fomopolyAbi.abi,
-      client: { public: publicClient, wallet: walletClient }
-    })
+    const contract = await getContractClient()
+    if (!contract) return
 
     const [positionBeforeMove] = await contract.read.getPlayer([address])
 
@@ -51,7 +71,6 @@ export default function Main() {
     if (window.fomopolyMap) {
       window.fomopolyMap.triggerMoveForward(steps);
     }
-
   }
 
   const moveToOrigin = () => {
