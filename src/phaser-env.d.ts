@@ -11,6 +11,6 @@ declare module 'phaser' {
 // add myGameScene to window 
 declare global {
   interface Window {
-    fomopolyMap: FomopolyMap;
+    fomopolyMap: FomopolyMap<Omit<Phaser.Scene>>;
   }
 }
