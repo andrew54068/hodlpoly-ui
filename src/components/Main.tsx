@@ -18,20 +18,20 @@ export default function Main() {
 
   useEffect(() => {
     const phaserContainer = document.getElementById('phaser-example');
-    if (!hasInit.current && phaserContainer && !window.myGameSceneDemo) {
+    if (!hasInit.current && phaserContainer && !window.fomopolyMap) {
       console.log('init phaser');
       const game = new Phaser.Game(config);
-      window.myGameSceneDemo = game.scene.keys.demoExample;
+      window.fomopolyMap = game.scene.keys.fomopolyMap;
     }
     hasInit.current = true
   }, [hasInit]);
 
   const onClickMove = async () => {
 
-    // if (window.myGameSceneDemo) {
-    //   console.log('window.myGameSceneDemo :', window.myGameSceneDemo);
+    // if (window.fomopolyMap) {
+    //   console.log('window.fomopolyMap :', window.fomopolyMap);
 
-    //   window.myGameSceneDemo.triggerMoveForward(3);
+    //   window.fomopolyMap.triggerMoveForward(3);
     // }
 
     // send tx by viem
@@ -49,8 +49,8 @@ export default function Main() {
   }
 
   const moveToOrigin = () => {
-    if (window.myGameSceneDemo) {
-      window.myGameSceneDemo.moveToOrigin();
+    if (window.fomopolyMap) {
+      window.fomopolyMap.moveToOrigin();
     }
   }
 

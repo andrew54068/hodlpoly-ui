@@ -6,14 +6,14 @@ import generateTilePath from 'src/utils/phaser/generateTilePath'
 
 const Between = Phaser.Math.Between;
 
-export default class Demo extends Phaser.Scene {
+export default class FomopolyMap extends Phaser.Scene {
   dragStartX: number = 0;
   dragStartY: number = 0;
   chessA?: ChessA;
 
   constructor() {
     super({
-      key: 'demoExample'
+      key: 'fomopolyMap'
     })
   }
 

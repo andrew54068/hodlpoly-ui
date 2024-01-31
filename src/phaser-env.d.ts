@@ -1,4 +1,5 @@
 import BoardPlugin from 'phaser3-rex-plugins/plugins/board-plugin.js';
+import FomopolyMap from 'src/utils/phaser/FomopolyMap';
 
 declare module 'phaser' {
   interface Scene extends Phaser.Scene {
@@ -10,6 +11,6 @@ declare module 'phaser' {
 // add myGameScene to window 
 declare global {
   interface Window {
-    myGameSceneDemo: Demo;
+    fomopolyMap: FomopolyMap;
   }
 }
