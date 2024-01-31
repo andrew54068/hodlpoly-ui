@@ -6,7 +6,7 @@ import { ChakraProvider, Box } from "@chakra-ui/react";
 import "./App.css";
 import Navbar from "./components/Navbar";
 import NotFound from "src/components/NotFound";
-import Main from "src/components/Main";
+import MainPage from "src/components/MainPage";
 import { GlobalProvider } from "./context/globalContextProvider";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import 'src/types'
@@ -38,7 +38,7 @@ function App() {
               <Navbar />
               <Box margin="0 auto" maxW={isLanding ? "100%" : `520px`}>
                 <Routes>
-                  <Route path="/" element={<Main />} />
+                  <Route path="/" element={<MainPage />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </Box>

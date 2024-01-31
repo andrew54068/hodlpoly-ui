@@ -6,7 +6,7 @@ import { GlobalContext } from 'src/context/global';
 import { ConnectModalProvider } from "src/components/WalletConnectModal";
 import { FOMOPOLY_ADDRESS_TESTNET } from 'src/constants'
 import fomopolyAbi from 'src/abi/fomopoly'
-import { getContract } from 'viem'
+import { getContract, waitForTransactionReceipt } from 'viem'
 import { useAccount } from 'wagmi'
 import { getConnectedWalletClient, publicClient } from 'src/config/clients'
 
@@ -28,11 +28,7 @@ export default function Main() {
 
   const onClickMove = async () => {
 
-    // if (window.fomopolyMap) {
-    //   console.log('window.fomopolyMap :', window.fomopolyMap);
 
-    //   window.fomopolyMap.triggerMoveForward(3);
-    // }
 
     // send tx by viem
     const walletClient = await getConnectedWalletClient({ address })
@@ -44,8 +40,18 @@ export default function Main() {
       client: { public: publicClient, wallet: walletClient }
     })
 
-    const result = await contract.read.getPlayer([address])
-    console.log('result :', result);
+    const [positionBeforeMove] = await contract.read.getPlayer([address])
+
+    const hash = await contract.write.move()
+    await publicClient.waitForTransactionReceipt({ hash })
+
+    const [positionAfterMove] = await contract.read.getPlayer([address])
+    const steps = positionAfterMove - positionBeforeMove
+
+    if (window.fomopolyMap) {
+      window.fomopolyMap.triggerMoveForward(steps);
+    }
+
   }
 
   const moveToOrigin = () => {
