@@ -9,10 +9,14 @@ export const TILESMAP = [
   '1 1111 1',
   '1      1',
   '11111111'
-
 ];
 
+export const BOARD_CELL_WIDTH = 80;
+export const BOARD_CELL_HEIGHT = 100;
+export const GAME_WIDTH = 1000;
+export const GAME_HEIGHT = 1000;
 
-export const COLORMAP = [0x087f23, 0x4caf50];
+// export const COLORMAP = [0x087f23, 0x4caf50];
+export const COLORMAP = [0x087f23, 0xffffff];
 
 

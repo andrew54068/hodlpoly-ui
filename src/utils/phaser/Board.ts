@@ -1,5 +1,5 @@
 import { Board as RexBoard } from 'phaser3-rex-plugins/plugins/board-components.js';
-import { COLORMAP } from './constants';
+import { COLORMAP, BOARD_CELL_HEIGHT, BOARD_CELL_WIDTH } from './constants';
 
 // const createTileMap = function (tilesMap, out: string[] = []) {
 //   if (out === undefined) {
@@ -15,8 +15,8 @@ const getQuadGrid = function (scene) {
   const grid = scene.rexBoard.add.quadGrid({
     x: 100,
     y: 100,
-    cellWidth: 80,
-    cellHeight: 100,
+    cellWidth: BOARD_CELL_WIDTH,
+    cellHeight: BOARD_CELL_HEIGHT,
     type: 0
   });
   return grid;
@@ -38,9 +38,9 @@ const getQuadGrid = function (scene) {
 // };
 
 export default class Board extends RexBoard {
-  // tilesMap
-  constructor(scene, tiles) {
+  tilesSize: number = 0;
 
+  constructor(scene, tiles) {
     // create board
     const config = {
       // grid: getHexagonGrid(scene),
@@ -51,6 +51,7 @@ export default class Board extends RexBoard {
     }
     super(scene, config);
     this.createPath(tiles);
+    this.tilesSize = tiles.length;
   }
 
   createPath(tiles) {
@@ -60,14 +61,13 @@ export default class Board extends RexBoard {
       line = tiles[tileY];
       for (let tileX = 0, xcnt = line.length; tileX < xcnt; tileX++) {
         symbol = line[tileX];
-        console.log('symbol :', symbol);
         if (symbol === ' ') {
           continue;
         }
 
         cost = parseFloat(symbol);
         this.scene.rexBoard.add.shape(this, tileX, tileY, 0, COLORMAP[cost])
-          .setStrokeStyle(2, 0xffffff, 1)
+          .setStrokeStyle(2, 0x4caf50, 1)
           .setData('cost', cost);
 
         // add image to grid
@@ -76,8 +76,6 @@ export default class Board extends RexBoard {
         // image.displayWidth = 50; 
         // image.displayHeight = 50;
       }
-
-
     }
     return this;
   }
