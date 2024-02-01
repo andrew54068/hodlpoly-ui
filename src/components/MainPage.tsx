@@ -1,5 +1,5 @@
 import { useRef, useEffect, useContext, useCallback } from "react";
-import { Box, Button } from "@chakra-ui/react";
+import { Flex, Box, Button } from "@chakra-ui/react";
 import 'src/utils/phaser'
 import { config } from 'src/utils/phaser'
 import { GlobalContext } from 'src/context/global';
@@ -81,8 +81,10 @@ export default function Main() {
 
   return <ConnectModalProvider isOpen={isConnectModalOpen} onClose={onConnectModalClose}>
     <Box mt="75px" minH="100vh">
-      <Button onClick={onClickMove}>Move</Button>
-      <Button onClick={moveToOrigin}>Back to origin</Button>
+      <Flex mb="space.m" gap="16px">
+        <Button onClick={onClickMove}>Move</Button>
+        <Button onClick={moveToOrigin}>Back to origin</Button>
+      </Flex>
       <div id="phaser-example"></div>
 
     </Box>
