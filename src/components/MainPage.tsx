@@ -20,10 +20,16 @@ export default function Main() {
     abi: fomopolyAbi.abi,
     address: FOMOPOLY_ADDRESS_TESTNET,
     functionName: 'maxLands',
-    // args: []
   })
 
-  console.log('landAmount :', landAmount);
+  // @todo: show land price on the map 
+  // const result = useReadContract({
+  //   abi: fomopolyAbi.abi,
+  //   address: FOMOPOLY_ADDRESS_TESTNET,
+  //   functionName: 'getAllLandPrice',
+  //   args: [0, landAmount]
+  // })
+  // console.log('result :', result);
 
   const getContractClient = useCallback(async () => {
     const walletClient = await getConnectedWalletClient({ address })
@@ -39,7 +45,7 @@ export default function Main() {
   }, [address])
 
   useEffect(() => {
-    const phaserContainer = document.getElementById('phaser-example');
+    const phaserContainer = document.getElementById('phaser-zone');
     if (!hasInit.current && phaserContainer && !window.fomopolyMap) {
       console.log('init phaser');
       const game = new Phaser.Game(config);
@@ -56,7 +62,6 @@ export default function Main() {
 
 
   const onClickMove = async () => {
-
     const contract = await getContractClient()
     if (!contract) return
 
@@ -73,19 +78,22 @@ export default function Main() {
     }
   }
 
-  const moveToOrigin = () => {
-    if (window.fomopolyMap) {
-      window.fomopolyMap.moveToOrigin();
-    }
+  const onClickBuyLand = async () => {
+    const contract = await getContractClient()
+    if (!contract) return
+    // @todo: get land price 
+    // const hash = await contract.write.buyLand()
+
   }
+
 
   return <ConnectModalProvider isOpen={isConnectModalOpen} onClose={onConnectModalClose}>
     <Box mt="75px" minH="100vh">
       <Flex mb="space.m" gap="16px">
-        <Button onClick={onClickMove}>Move</Button>
-        <Button onClick={moveToOrigin}>Back to origin</Button>
+        {/* <Button onClick={onClickMove}>Move</Button> */}
+        <Button onClick={onClickBuyLand}>Buy Land</Button>
       </Flex>
-      <div id="phaser-example"></div>
+      <div id="phaser-zone"></div>
 
     </Box>
   </ConnectModalProvider>
