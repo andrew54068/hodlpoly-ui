@@ -7,6 +7,7 @@ import generateTilePath from 'src/utils/phaser/generateTilePath'
 const Between = Phaser.Math.Between;
 
 export default class FomopolyMap extends Phaser.Scene {
+  background: Phaser.GameObjects.Image;
   landAmount: number = 1;
   dragStartX: number = 0;
   dragStartY: number = 0;
@@ -27,9 +28,11 @@ export default class FomopolyMap extends Phaser.Scene {
 
   preload() {
     this.load.image('grass', 'src/assets/grass.png');
+    this.load.image('background', 'src/assets/background.svg');
   }
 
   createBoard() {
+    // @todo: get path x,y coordinates 
     const {
       matrix: tilePath,
       startPoint,
@@ -51,45 +54,37 @@ export default class FomopolyMap extends Phaser.Scene {
     });
 
     this.chessA = chessA;
+
   }
 
   create() {
 
-    const movingPointsTxt = this.add.text(10, 10, 'yolo');
+    // const movingPointsTxt = this.add.text(10, 10, 'yolo');
     this.add.text(10, 30, 'Click to move forward.')
 
-    // this.scale.parentSize.width
-    console.log('this.scale :', this.scale);
+    // add background
+    this.background = this.add.image(0, 0, 'background').setOrigin(0, 0);
+    this.resizeBackgroundImage();
 
     this.input.on('pointerdown', (pointer) => {
-      console.log('pointer :', pointer);
-      const movingPoints = Between(1, 6);
-      movingPointsTxt.setText(`${movingPoints}`)
-      this.chessA?.moveForward(movingPoints);
+      // Move the chess
+      // const movingPoints = Between(1, 6);
+      // movingPointsTxt.setText(`${movingPoints}`)
+      // this.chessA?.moveForward(movingPoints);
 
       // set pointer position 
       this.dragStartX = pointer.x;
       this.dragStartY = pointer.y;
+
     });
 
     this.input.on('wheel', (pointer, gameObjects, deltaX, deltaY) => {
       let zoom = this.cameras.main.zoom + deltaY * -0.001;
 
-      const minZoom = Math.min(this.displayHeight / this.boardHeight, this.boardHeight / this.displayHeight, 1)
-      zoom = Phaser.Math.Clamp(zoom, minZoom / (this.displayHeight / GAME_HEIGHT), 1); // Set minimum and maximum zoom levels
+      const minZoom = Math.min(this.displayHeight / this.boardHeight, this.boardHeight / this.displayHeight, 1) / (this.displayHeight / GAME_HEIGHT)
+      zoom = Phaser.Math.Clamp(zoom, minZoom, 2); // Set minimum and maximum zoom levels
       this.cameras.main.setZoom(zoom);
     });
-
-    // const canvas = this.game.canvas;
-    // const hammer = new Hammer(canvas);
-    // hammer.get('pinch').set({ enable: true });
-
-    // hammer.on('pinch', (event) => {
-    //   console.log('event :', event);
-    //   // zooming logic
-    //   const scale = event.scale;
-    //   this.cameras.main.zoom = scale;
-    // });
 
     // for drag and scrolling
     this.input.on('pointermove', (pointer) => {
@@ -101,6 +96,18 @@ export default class FomopolyMap extends Phaser.Scene {
       this.dragStartX = pointer.x;
       this.dragStartY = pointer.y;
     }, this);
+  }
+
+  resizeBackgroundImage() {
+    const width = this.cameras.main.width;
+    const height = this.cameras.main.height;
+
+    // calculate scale ratio
+    const scaleX = width / this.background.width;
+    const scaleY = height / this.background.height;
+    const maxScale = Math.max(scaleX, scaleY);
+
+    this.background.setScale(maxScale);
   }
 
   triggerMoveForward(movingPoints) {
