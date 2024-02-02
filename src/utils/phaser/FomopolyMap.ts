@@ -4,10 +4,10 @@ import ChessA from './ChessA'
 import { BOARD_CELL_HEIGHT, BOARD_CELL_WIDTH, GAME_HEIGHT } from './constants'
 import generateTilePath from 'src/utils/phaser/generateTilePath'
 
-const Between = Phaser.Math.Between;
+// const Between = Phaser.Math.Between;
 
 export default class FomopolyMap extends Phaser.Scene {
-  background: Phaser.GameObjects.Image;
+  background?: Phaser.GameObjects.Image;
   landAmount: number = 1;
   dragStartX: number = 0;
   dragStartY: number = 0;
@@ -19,6 +19,7 @@ export default class FomopolyMap extends Phaser.Scene {
   boardHeight: number = 0;
   chessA?: ChessA;
   board?: Board;
+  pathXY?: { x: number, y: number }[];
 
   constructor() {
     super({
@@ -36,11 +37,13 @@ export default class FomopolyMap extends Phaser.Scene {
     const {
       matrix: tilePath,
       startPoint,
-      endPoint
+      endPoint,
+      pathXY
     } = generateTilePath(this.landAmount)
 
     const board = new Board(this, tilePath);
     this.board = board;
+    this.pathXY = pathXY
     this.displayWidth = this.scale.displaySize.width;
     this.displayHeight = this.scale.displaySize.height;
 
@@ -103,11 +106,11 @@ export default class FomopolyMap extends Phaser.Scene {
     const height = this.cameras.main.height;
 
     // calculate scale ratio
-    const scaleX = width / this.background.width;
-    const scaleY = height / this.background.height;
+    const scaleX = width / (this.background?.width ?? 1);
+    const scaleY = height / (this.background?.height ?? 1);
     const maxScale = Math.max(scaleX, scaleY);
 
-    this.background.setScale(maxScale);
+    this.background?.setScale(maxScale);
   }
 
   triggerMoveForward(movingPoints) {
@@ -116,9 +119,10 @@ export default class FomopolyMap extends Phaser.Scene {
     }
   }
 
-  moveToOrigin() {
+  setUserPositionBySteps(totalSteps: number) {
     if (this.chessA) {
-      this.chessA.moveTo.moveTo({ x: 0, y: 0 });
+      this.chessA.moveTo.setSpeed(10000);
+      this.chessA.moveTo.moveTo(this.pathXY?.[totalSteps - 1] ?? { x: 0, y: 0 });
     }
   }
 
