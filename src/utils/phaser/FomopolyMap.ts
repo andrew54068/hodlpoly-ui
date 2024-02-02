@@ -33,7 +33,6 @@ export default class FomopolyMap extends Phaser.Scene {
   }
 
   createBoard() {
-    // @todo: get path x,y coordinates 
     const {
       matrix: tilePath,
       startPoint,
@@ -61,9 +60,7 @@ export default class FomopolyMap extends Phaser.Scene {
   }
 
   create() {
-
-    // const movingPointsTxt = this.add.text(10, 10, 'yolo');
-    this.add.text(10, 30, 'Click to move forward.')
+    this.add.text(10, 30, 'Roll the dice to move forward.')
 
     // add background
     this.background = this.add.image(0, 0, 'background').setOrigin(0, 0);
