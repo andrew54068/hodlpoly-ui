@@ -6,7 +6,7 @@ import { GlobalContext } from 'src/context/global';
 import { ConnectModalProvider } from "src/components/WalletConnectModal";
 import { FOMOPOLY_ADDRESS_TESTNET } from 'src/constants'
 import fomopolyAbi from 'src/abi/fomopoly'
-import { getContract, formatEther } from 'viem'
+import { getContract } from 'viem'
 import { useAccount, useReadContract } from 'wagmi'
 import { getConnectedWalletClient, publicClient } from 'src/config/clients'
 
