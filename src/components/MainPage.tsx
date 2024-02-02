@@ -6,7 +6,7 @@ import { GlobalContext } from 'src/context/global';
 import { ConnectModalProvider } from "src/components/WalletConnectModal";
 import { FOMOPOLY_ADDRESS_TESTNET } from 'src/constants'
 import fomopolyAbi from 'src/abi/fomopoly'
-import { getContract } from 'viem'
+import { getContract, formatEther } from 'viem'
 import { useAccount, useReadContract } from 'wagmi'
 import { getConnectedWalletClient, publicClient } from 'src/config/clients'
 
@@ -33,13 +33,12 @@ export default function Main() {
 
 
   // @todo: show land price on the map 
-  // const result = useReadContract({
-  //   abi: fomopolyAbi.abi,
-  //   address: FOMOPOLY_ADDRESS_TESTNET,
-  //   functionName: 'getAllLandPrice',
-  //   args: [0, landAmount]
-  // })
-  // console.log('result :', result);
+  const { data: allLandPrices = [] } = useReadContract({
+    abi: fomopolyAbi.abi,
+    address: FOMOPOLY_ADDRESS_TESTNET,
+    functionName: 'getAllLandPrice',
+    args: [0, landAmount]
+  })
 
   const getContractClient = useCallback(async () => {
     const walletClient = await getConnectedWalletClient({ address })
@@ -92,20 +91,23 @@ export default function Main() {
     }
   }
 
-  // const onClickBuyLand = async () => {
-  //   const contract = await getContractClient()
-  //   if (!contract) return
-  //   // @todo: get land price 
-  //   // const hash = await contract.write.buyLand()
+  const onClickBuyLand = async () => {
+    const contract = await getContractClient()
+    if (!contract) return
+    // @todo: get land price 
+    const landPrice = allLandPrices[userSteps]
+    console.log('landPrice :', landPrice);
 
-  // }
+    // const hash = await contract.write.buyLand()
+
+  }
 
 
   return <ConnectModalProvider isOpen={isConnectModalOpen} onClose={onConnectModalClose}>
     <Box mt="75px" minH="100vh">
       <Flex mb="space.m" gap="16px">
         <Button onClick={onClickMove}>Move</Button>
-        {/* <Button onClick={onClickBuyLand}>Buy Land</Button> */}
+        <Button onClick={onClickBuyLand}>Buy Land</Button>
       </Flex>
       <div id="phaser-zone-fomopoly"></div>
 
