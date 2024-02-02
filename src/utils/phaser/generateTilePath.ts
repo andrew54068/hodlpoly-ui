@@ -5,6 +5,7 @@ export default function generateTilePath(tileNumbers: number): {
   matrix: string[][],
   startPoint: { x: number, y: number },
   endPoint: { x: number, y: number }
+  pathXY?: { x: number, y: number }[]
 } {
 
   const arraySize = findMaxValueInTileSeries(tileNumbers);
@@ -20,6 +21,7 @@ export default function generateTilePath(tileNumbers: number): {
   // Find the center of the array
   const arrayCenter = find2DArrayCenter(matrix);
 
+
   // Return default values if the center is not found
   if (!arrayCenter) {
     return {
@@ -30,6 +32,7 @@ export default function generateTilePath(tileNumbers: number): {
   }
 
   let tileCount = 0
+  const pathXY: { x: number, y: number }[] = [];
   const [centerX, centerY] = arrayCenter;
   let x = centerX, y = centerY;
 
@@ -47,7 +50,7 @@ export default function generateTilePath(tileNumbers: number): {
       // Check if it's out of bounds
 
       if (tileCount >= tileNumbers) {
-        return { matrix, startPoint, endPoint };
+        return { matrix, startPoint, endPoint, pathXY };
       }
 
       //check the bound 
@@ -57,6 +60,7 @@ export default function generateTilePath(tileNumbers: number): {
 
       // Set the current position to "1" and update the endpoint
       matrix[y][x] = "1";
+      pathXY.push({ x, y });
       tileCount += 1
       endPoint = { x, y };
 
@@ -71,5 +75,5 @@ export default function generateTilePath(tileNumbers: number): {
     if (x < 0 || x >= arraySize || y < 0 || y >= arraySize) break; // Check if the next step is out of bounds
   }
 
-  return { matrix, startPoint, endPoint };
+  return { matrix, startPoint, endPoint, pathXY };
 }

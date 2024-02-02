@@ -22,14 +22,14 @@ export default function Main() {
     functionName: 'maxLands',
   })
 
-  const { data: [userPosition] = [] } = useReadContract({
+  const { data: [userSteps] = [] } = useReadContract({
     abi: fomopolyAbi.abi,
     address: FOMOPOLY_ADDRESS_TESTNET,
     functionName: 'getPlayer',
     args: [address]
   }) || {}
   //@todo: set the user position on the map
-  console.log('playerData :', userPosition);
+  console.log('playerData :', userSteps);
 
 
   // @todo: show land price on the map 
@@ -68,7 +68,11 @@ export default function Main() {
     if (window.fomopolyMap && landAmount > 0) {
       window.fomopolyMap.setLandAmount(landAmount);
     }
-  }, [landAmount])
+
+    if (window.fomopolyMap && userSteps) {
+      window.fomopolyMap.setUserPositionBySteps(userSteps)
+    }
+  }, [landAmount, userSteps])
 
 
   const onClickMove = async () => {
