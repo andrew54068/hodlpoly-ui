@@ -9,9 +9,7 @@ import formatAddress from "src/utils/formatAddress";
 import { useMediaQuery, MenuButton, MenuItem, MenuList, Menu } from "@chakra-ui/react";
 import LogoImg from "src/assets/react.svg?react";
 import { GlobalContext } from 'src/context/global';
-
-
-
+import { NAVBAR_HIGHT } from "src/utils/constants";
 
 const ListItem = ({ children, ...rest }: any) => (
   <ChakraListItem
@@ -59,7 +57,7 @@ export default function Navbar() {
       ref={ref}
       top="0"
       left="0"
-      h="75px"
+      h={`${NAVBAR_HIGHT}px`}
       p="space.s"
       px="space.m"
       zIndex="banner"
