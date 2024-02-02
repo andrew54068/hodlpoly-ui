@@ -5,7 +5,7 @@ import FomopolyMap from './FomopolyMap';
 
 export const config = {
   type: Phaser.AUTO,
-  parent: 'phaser-example',
+  parent: 'phaser-zone-fomopoly',
   width: 1000,
   height: 1000,
   scale: {

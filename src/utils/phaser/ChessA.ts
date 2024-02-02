@@ -20,9 +20,6 @@ export default class ChessA extends RexShape implements IChessA {
     endPoint
   }) {
 
-    console.log('startPoint :', startPoint);
-    console.log('endPoint :', endPoint);
-
     const scene = board.scene;
 
     if (startPoint === undefined) {
@@ -84,7 +81,6 @@ export default class ChessA extends RexShape implements IChessA {
 
     const path = this.monopoly.getPath(movingPoints);
     this.showMovingPath(path);
-    console.log('this.movingPathTiles', this.movingPathTiles)
     this.moveAlongPath(path);
     return this;
   }

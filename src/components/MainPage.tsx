@@ -22,6 +22,16 @@ export default function Main() {
     functionName: 'maxLands',
   })
 
+  const { data: [userPosition] = [] } = useReadContract({
+    abi: fomopolyAbi.abi,
+    address: FOMOPOLY_ADDRESS_TESTNET,
+    functionName: 'getPlayer',
+    args: [address]
+  }) || {}
+  //@todo: set the user position on the map
+  console.log('playerData :', userPosition);
+
+
   // @todo: show land price on the map 
   // const result = useReadContract({
   //   abi: fomopolyAbi.abi,
@@ -45,7 +55,7 @@ export default function Main() {
   }, [address])
 
   useEffect(() => {
-    const phaserContainer = document.getElementById('phaser-zone');
+    const phaserContainer = document.getElementById('phaser-zone-fomopoly');
     if (!hasInit.current && phaserContainer && !window.fomopolyMap) {
       console.log('init phaser');
       const game = new Phaser.Game(config);
@@ -78,22 +88,22 @@ export default function Main() {
     }
   }
 
-  const onClickBuyLand = async () => {
-    const contract = await getContractClient()
-    if (!contract) return
-    // @todo: get land price 
-    // const hash = await contract.write.buyLand()
+  // const onClickBuyLand = async () => {
+  //   const contract = await getContractClient()
+  //   if (!contract) return
+  //   // @todo: get land price 
+  //   // const hash = await contract.write.buyLand()
 
-  }
+  // }
 
 
   return <ConnectModalProvider isOpen={isConnectModalOpen} onClose={onConnectModalClose}>
     <Box mt="75px" minH="100vh">
       <Flex mb="space.m" gap="16px">
-        {/* <Button onClick={onClickMove}>Move</Button> */}
-        <Button onClick={onClickBuyLand}>Buy Land</Button>
+        <Button onClick={onClickMove}>Move</Button>
+        {/* <Button onClick={onClickBuyLand}>Buy Land</Button> */}
       </Flex>
-      <div id="phaser-zone"></div>
+      <div id="phaser-zone-fomopoly"></div>
 
     </Box>
   </ConnectModalProvider>
