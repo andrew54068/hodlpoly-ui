@@ -7,8 +7,10 @@ import { ConnectModalProvider } from "src/components/WalletConnectModal";
 import { FOMOPOLY_ADDRESS_TESTNET } from 'src/constants'
 import fomopolyAbi from 'src/abi/fomopoly'
 import { getContract } from 'viem'
+import { NAVBAR_HIGHT } from 'src/utils/constants'
 import { useAccount, useReadContract } from 'wagmi'
 import { getConnectedWalletClient, publicClient } from 'src/config/clients'
+import Menu from "./Menu";
 
 
 export default function Main() {
@@ -108,6 +110,16 @@ export default function Main() {
       <Flex mb="space.m" gap="16px">
         <Button onClick={onClickMove}>Move</Button>
         <Button onClick={onClickBuyLand}>Buy Land</Button>
+        <Menu
+          position="fixed"
+          width="auto"
+          maxW="container.sm"
+          zIndex="banner"
+          float="right"
+          right="0px"
+          top={`${NAVBAR_HIGHT}px`}
+          m="2rem"
+        />
       </Flex>
       <div id="phaser-zone-fomopoly"></div>
 

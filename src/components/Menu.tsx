@@ -1,23 +1,16 @@
 import {
   Button,
-  Card,
-  CardBody,
   Container,
   Modal,
   ModalBody,
   ModalCloseButton,
   ModalContent,
   ModalOverlay,
-  SimpleGrid,
   Tab,
   TabList,
-  TabPanel,
   TabPanels,
   Tabs,
-  Image,
-  Text,
   useDisclosure,
-  Flex,
 } from "@chakra-ui/react";
 import { inventoryItems, shopItems } from "src/utils/constants";
 import { ShopPanel } from "./ShopPanel";
@@ -33,7 +26,7 @@ export type InventoryItem = ShopItem & {
   amount: number;
 };
 
-export const Menu = ({ ...rest }: any) => {
+const Menu = ({ ...rest }: any) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -74,3 +67,6 @@ export const Menu = ({ ...rest }: any) => {
     </Container>
   );
 };
+
+
+export default Menu;
