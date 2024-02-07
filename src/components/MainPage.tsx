@@ -100,7 +100,8 @@ export default function Main() {
     const landPrice = allLandPrices[userSteps]
     console.log('landPrice :', landPrice);
 
-    // const hash = await contract.write.buyLand()
+    const hash = await contract.write.buyLand([], { value: landPrice })
+    console.log('hash :', hash);
 
   }
 
