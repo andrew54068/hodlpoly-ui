@@ -18,5 +18,6 @@ export const GAME_HEIGHT = 1000;
 
 // export const COLORMAP = [0x087f23, 0x4caf50];
 export const COLORMAP = [0x087f23, 0xffffff];
-
+export const CHESS_SPEED_NORMAL = 400;
+export const CHESS_SPEED_FAST = 1000000000;
 

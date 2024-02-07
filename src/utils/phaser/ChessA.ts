@@ -1,10 +1,12 @@
 import Phaser from 'phaser';
 import { Shape as RexShape, Monopoly, MoveTo } from 'phaser3-rex-plugins/plugins/board-components.js';
-
+import { CHESS_SPEED_FAST, CHESS_SPEED_NORMAL } from './constants'
 interface IChessA {
   monopoly: Monopoly;
   moveTo: MoveTo;
 }
+
+
 
 export default class ChessA extends RexShape implements IChessA {
   monopoly: Monopoly<Phaser.GameObjects.GameObject>;
@@ -46,9 +48,14 @@ export default class ChessA extends RexShape implements IChessA {
       },
     });
     this.moveTo = scene.rexBoard.add.moveTo(this);
-
     // private members
+
     this.movingPathTiles = [];
+
+    this.on('finishMoving', () => {
+      // always set the speed back to normal when finish moving along path
+      this.moveTo.setSpeed(CHESS_SPEED_NORMAL);
+    })
   }
 
   showMovingPath(tileXYArray) {
@@ -79,8 +86,9 @@ export default class ChessA extends RexShape implements IChessA {
       return this;
     }
 
+
     const path = this.monopoly.getPath(movingPoints);
-    this.showMovingPath(path);
+    // this.showMovingPath(path);
     this.moveAlongPath(path);
     return this;
   }
@@ -90,34 +98,34 @@ export default class ChessA extends RexShape implements IChessA {
   }
 
   moveAlongPath(path) {
+    // const board = this.rexChess?.board;
+
     if (path.length === 0) {
       return;
     }
 
 
     this.moveTo.once('complete', ({ currentPoint }) => {
-      console.log('currentPoint :', currentPoint);
-      // const [nextTile] = path;
-
-
       if (currentPoint.x === this.startPoint.x && currentPoint.y === this.startPoint.y) {
         this.setVisible(true);
       }
 
 
       if (this.checkIsEnd(currentPoint)) {
-        console.log('the end')
-        console.log('this :', this);
 
         this.setVisible(false);
-        // stop moving
+        // stop moving and move to the start point
         this.currentPoint = this.startPoint;
         path = []
 
+        this.moveTo.setSpeed(CHESS_SPEED_FAST);
         return this.moveAlongPath([this.startPoint]);
       }
 
-      if (path.length === 0) return
+      if (path.length === 0) {
+        this.emit('finishMoving');
+        return
+      }
       this.moveAlongPath(path);
     }, this);
 

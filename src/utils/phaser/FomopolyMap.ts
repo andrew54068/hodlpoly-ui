@@ -1,10 +1,11 @@
 import Phaser from 'phaser'
 import Board from './Board'
 import ChessA from './ChessA'
-import { BOARD_CELL_HEIGHT, BOARD_CELL_WIDTH, GAME_HEIGHT } from './constants'
+import { CHESS_SPEED_FAST, BOARD_CELL_HEIGHT, BOARD_CELL_WIDTH, GAME_HEIGHT, CHESS_SPEED_NORMAL } from './constants'
 import generateTilePath from 'src/utils/phaser/generateTilePath'
 
-// const Between = Phaser.Math.Between;
+
+const Between = Phaser.Math.Between;
 
 export default class FomopolyMap extends Phaser.Scene {
   background?: Phaser.GameObjects.Image;
@@ -68,8 +69,8 @@ export default class FomopolyMap extends Phaser.Scene {
 
     this.input.on('pointerdown', (pointer) => {
       // Move the chess
-      // const movingPoints = Between(1, 6);
       // movingPointsTxt.setText(`${movingPoints}`)
+      // const movingPoints = Between(1, 6);
       // this.chessA?.moveForward(movingPoints);
 
       // set pointer position 
@@ -118,8 +119,20 @@ export default class FomopolyMap extends Phaser.Scene {
 
   setUserPositionBySteps(totalSteps: number) {
     if (this.chessA) {
-      this.chessA.moveTo.setSpeed(10000);
-      this.chessA.moveTo.moveTo(this.pathXY?.[totalSteps - 1] ?? { x: 0, y: 0 });
+      this.chessA.moveTo.setSpeed(CHESS_SPEED_FAST);
+      const userPosition = this.pathXY?.[totalSteps - 1] ?? { x: 0, y: 0 }
+      const nextPosition = this.pathXY?.[totalSteps] ?? { x: 0, y: 0 }
+      const userDirection = this.board?.getNeighborTileDirection(userPosition, nextPosition);
+      this.chessA.moveTo.moveTo(userPosition.x, userPosition.y);
+
+      if (userDirection !== undefined && userDirection !== null) {
+        this.chessA.monopoly.setFace(userDirection)
+      }
+
+
+      this.chessA.moveTo.once('complete', () => {
+        this.chessA?.moveTo.setSpeed(CHESS_SPEED_NORMAL);
+      })
     }
   }
 
