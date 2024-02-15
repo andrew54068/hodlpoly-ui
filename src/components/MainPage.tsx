@@ -11,7 +11,7 @@ import { NAVBAR_HIGHT } from 'src/utils/constants'
 import { useAccount } from 'wagmi'
 import useUserFomopolyData from 'src/hooks/useUserFomopolyData';
 import { getConnectedWalletClient, publicClient } from 'src/config/clients'
-import Menu from "./Menu";
+import GameMenu from "./GameMenu";
 import { NumberType } from 'src/types'
 import getHeatMapColors from 'src/utils/getHeatMapColors'
 
@@ -111,7 +111,7 @@ export default function Main() {
       <Flex mb="space.m" gap="16px">
         <Button onClick={onClickMove}>Move</Button>
         <Button onClick={onClickBuyLand}>Buy Land</Button>
-        <Menu
+        <GameMenu
           position="fixed"
           width="auto"
           maxW="container.sm"

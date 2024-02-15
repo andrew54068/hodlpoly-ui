@@ -7,7 +7,7 @@ import {
   Image,
   TabPanel,
 } from "@chakra-ui/react";
-import { InventoryItem } from "./Menu";
+import { InventoryItem } from "./GameMenu";
 
 interface InventoryPanelProps {
   items: InventoryItem[];

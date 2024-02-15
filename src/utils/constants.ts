@@ -1,4 +1,4 @@
-import { InventoryItem, ShopItem } from "src/components/Menu";
+import { InventoryItem, ShopItem } from "src/components/GameMenu";
 
 export const NAVBAR_HIGHT = 75
 
