@@ -1,5 +1,5 @@
 import { Board as RexBoard } from 'phaser3-rex-plugins/plugins/board-components.js';
-import { COLORMAP, BOARD_CELL_HEIGHT, BOARD_CELL_WIDTH } from './constants';
+import { COLORMAP, BOARD_CELL_HEIGHT, BOARD_CELL_WIDTH, LAND_TAG_COLOR } from './constants';
 
 // const createTileMap = function (tilesMap, out: string[] = []) {
 //   if (out === undefined) {
@@ -54,6 +54,46 @@ export default class Board extends RexBoard {
     this.tilesSize = tiles.length;
   }
 
+  createBorderRectangle(scene, x, y, width, height, borderColor, borderWidth) {
+    const graphics = scene.add.graphics();
+
+    graphics.lineStyle(borderWidth, borderColor);
+
+    // the origin of the rectangle is at left top
+    graphics.strokeRect(x - width / 2, y - height / 2, width, height);
+
+    graphics.setDepth(1);
+  }
+
+
+  createGradientRectangle(scene, x, y, width, height) {
+    // create a canvas
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = width;
+    canvas.height = height;
+    if (!ctx) return;
+
+    const grd = ctx.createLinearGradient(0, 0, width, 0);
+    grd?.addColorStop(0, "black");
+    grd?.addColorStop(0.5, "black");
+    grd?.addColorStop(1, "white");
+
+    ctx.fillStyle = grd;
+    ctx.fillRect(0, 0, width, height);
+
+    // transform the canvas into a texture
+    const textureKey = 'gradientTexture' + Date.now(); // generate a unique key
+    scene.textures.addCanvas(textureKey, canvas);
+
+    const sprite = scene.add.sprite(x, y, textureKey);
+    sprite.setOrigin(0.5, 0.5); //set origin to the center of the sprite
+    sprite.setDepth(1);
+
+    return sprite;
+  }
+
+
   createPath(tiles) {
     // tiles : 2d array
     let line, symbol, cost;
@@ -67,9 +107,24 @@ export default class Board extends RexBoard {
 
         cost = parseFloat(symbol);
         this.scene.rexBoard.add.shape(this, tileX, tileY, 0, COLORMAP[cost])
-          .setStrokeStyle(2, 0x4caf50, 1)
+          .setStrokeStyle(2, 0x000000, 1)
           .setData('cost', cost)
           .setDepth(1);
+
+        // add land tag
+        const worldXY = this.tileXYToWorldXY(tileX, tileY, true);
+        const landTagWidth = BOARD_CELL_WIDTH
+        const landTagHeight = BOARD_CELL_HEIGHT / 4
+
+        this.createBorderRectangle(
+          this.scene,
+          worldXY.x,
+          worldXY.y - BOARD_CELL_HEIGHT / 2 + landTagHeight / 2,
+          landTagWidth,
+          landTagHeight,
+          '0x000000',
+          2
+        );
 
         // add image to grid
         // const worldXY = this.tileXYToWorldXY(tileX, tileY);
@@ -79,5 +134,13 @@ export default class Board extends RexBoard {
       }
     }
     return this;
+  }
+
+  addLandTagToTile(tileX, tileY, width = BOARD_CELL_WIDTH, height = BOARD_CELL_HEIGHT / 4) {
+    // get word position of the tile
+    const worldXY = this.tileXYToWorldXY(tileX, tileY, true);
+
+
+    this.createGradientRectangle(this.scene, worldXY.x, worldXY.y - BOARD_CELL_HEIGHT / 2 + height / 2, width, height);
   }
 }

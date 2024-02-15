@@ -8,7 +8,8 @@ import { FOMOPOLY_ADDRESS_TESTNET } from 'src/constants'
 import fomopolyAbi from 'src/abi/fomopoly'
 import { getContract } from 'viem'
 import { NAVBAR_HIGHT } from 'src/utils/constants'
-import { useAccount, useReadContract } from 'wagmi'
+import { useAccount } from 'wagmi'
+import useUserFomopolyData from 'src/hooks/useUserFomopolyData';
 import { getConnectedWalletClient, publicClient } from 'src/config/clients'
 import Menu from "./Menu";
 import { NumberType } from 'src/types'
@@ -18,28 +19,7 @@ export default function Main() {
   const { isConnectModalOpen, onConnectModalClose } = useContext(GlobalContext)
   const { address = '' } = useAccount()
 
-  const { data: landAmount } = useReadContract({
-    abi: fomopolyAbi.abi,
-    address: FOMOPOLY_ADDRESS_TESTNET,
-    functionName: 'maxLands',
-  })
-  console.log('landAmount :', landAmount);
-
-  const { data: [userSteps] = [] } = useReadContract({
-    abi: fomopolyAbi.abi,
-    address: FOMOPOLY_ADDRESS_TESTNET,
-    functionName: 'getPlayer',
-    args: [address]
-  }) || {}
-
-
-  // @todo: show land price on the map 
-  const { data: allLandPrices = [] } = useReadContract({
-    abi: fomopolyAbi.abi,
-    address: FOMOPOLY_ADDRESS_TESTNET,
-    functionName: 'getAllLandPrice',
-    args: [0, landAmount]
-  })
+  const { allLandPrices, landAmount, userOwnedLands, userSteps } = useUserFomopolyData()
 
   const getContractClient = useCallback(async () => {
     const walletClient = await getConnectedWalletClient({ address })
@@ -75,7 +55,14 @@ export default function Main() {
     if (window.fomopolyMap && userSteps) {
       window.fomopolyMap.setUserPositionBySteps(userSteps)
     }
-  }, [landAmount, userSteps])
+
+    if (window.fomopolyMap && userOwnedLands) {
+      window.fomopolyMap.setOwnedLandTags(userOwnedLands)
+    }
+  }, [landAmount, userSteps, userOwnedLands])
+
+
+
 
 
   const onClickMove = async () => {
