@@ -7,7 +7,7 @@ import {
   Image,
   TabPanel,
 } from "@chakra-ui/react";
-import { ShopItem } from "./Menu";
+import { ShopItem } from "./GameMenu";
 
 interface ShopPanelProps {
   items: ShopItem[];

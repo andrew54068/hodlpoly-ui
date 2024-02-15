@@ -12,9 +12,12 @@ import {
   Tabs,
   useDisclosure,
 } from "@chakra-ui/react";
+import { useAccount, useReadContract } from "wagmi";
 import { inventoryItems, shopItems } from "src/utils/constants";
 import { ShopPanel } from "./ShopPanel";
 import { InventoryPanel } from "./InventoryPanel";
+import fomopolyAbi from 'src/abi/fomopoly'
+import { FOMOPOLY_ADDRESS_TESTNET } from "src/constants";
 
 export type ShopItem = {
   image: string;
@@ -26,8 +29,18 @@ export type InventoryItem = ShopItem & {
   amount: number;
 };
 
-const Menu = ({ ...rest }: any) => {
+const GameMenu = ({ ...rest }: any) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { address = '' } = useAccount()
+
+  const { data: props } = useReadContract({
+    abi: fomopolyAbi.abi,
+    address: FOMOPOLY_ADDRESS_TESTNET,
+    functionName: 'getPlayerProps',
+    args: [address]
+  })
+
+  console.log(`💥 props: ${JSON.stringify(props, null, '  ')}`);
 
   return (
     <Container {...rest}>
@@ -49,7 +62,7 @@ const Menu = ({ ...rest }: any) => {
                 <Tab>Leaderboard</Tab>
                 <Tab>Setting</Tab>
               </TabList>
-              <TabPanels>
+              <TabPanels width="80%">
                 <ShopPanel items={shopItems} />
                 <InventoryPanel items={inventoryItems} />
               </TabPanels>
@@ -69,4 +82,4 @@ const Menu = ({ ...rest }: any) => {
 };
 
 
-export default Menu;
+export default GameMenu;
