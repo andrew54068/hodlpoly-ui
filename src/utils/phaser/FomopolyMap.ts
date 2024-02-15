@@ -1,7 +1,14 @@
 import Phaser from 'phaser'
 import Board from './Board'
 import ChessA from './ChessA'
-import { CHESS_SPEED_FAST, BOARD_CELL_HEIGHT, BOARD_CELL_WIDTH, GAME_HEIGHT, CHESS_SPEED_NORMAL } from './constants'
+import {
+  CHESS_SPEED_FAST,
+  BOARD_CELL_HEIGHT,
+  BOARD_CELL_WIDTH,
+  GAME_HEIGHT,
+  CHESS_SPEED_NORMAL,
+  LAND_TAG_COLOR
+} from './constants'
 import generateTilePath from 'src/utils/phaser/generateTilePath'
 
 
@@ -142,5 +149,16 @@ export default class FomopolyMap extends Phaser.Scene {
       this.board.destroy()
     }
     this.createBoard()
+  }
+
+  setOwnedLandTags(ownedLands) {
+    if (this.board) {
+      for (let i = 0; i < ownedLands.length; i++) {
+        const tagXY = this.pathXY?.[ownedLands[i]]
+        if (!tagXY) continue;
+
+        this.board.addLandTagToTile(tagXY.x, tagXY.y);
+      }
+    }
   }
 }

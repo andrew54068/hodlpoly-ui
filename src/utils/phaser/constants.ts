@@ -16,6 +16,7 @@ export const BOARD_CELL_HEIGHT = 100;
 export const GAME_WIDTH = 1000;
 export const GAME_HEIGHT = 1000;
 
+export const LAND_TAG_COLOR = 0x000000;
 // export const COLORMAP = [0x087f23, 0x4caf50];
 export const COLORMAP = [0x087f23, 0xffffff];
 export const CHESS_SPEED_NORMAL = 400;
