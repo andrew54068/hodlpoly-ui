@@ -68,7 +68,8 @@ export default class Board extends RexBoard {
         cost = parseFloat(symbol);
         this.scene.rexBoard.add.shape(this, tileX, tileY, 0, COLORMAP[cost])
           .setStrokeStyle(2, 0x4caf50, 1)
-          .setData('cost', cost);
+          .setData('cost', cost)
+          .setDepth(1);
 
         // add image to grid
         // const worldXY = this.tileXYToWorldXY(tileX, tileY);

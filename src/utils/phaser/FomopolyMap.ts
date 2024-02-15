@@ -120,8 +120,8 @@ export default class FomopolyMap extends Phaser.Scene {
   setUserPositionBySteps(totalSteps: number) {
     if (this.chessA) {
       this.chessA.moveTo.setSpeed(CHESS_SPEED_FAST);
-      const userPosition = this.pathXY?.[totalSteps - 1] ?? { x: 0, y: 0 }
-      const nextPosition = this.pathXY?.[totalSteps] ?? { x: 0, y: 0 }
+      const userPosition = this.pathXY?.[totalSteps] ?? { x: 0, y: 0 }
+      const nextPosition = this.pathXY?.[totalSteps + 1] ?? { x: 0, y: 0 }
       const userDirection = this.board?.getNeighborTileDirection(userPosition, nextPosition);
       this.chessA.moveTo.moveTo(userPosition.x, userPosition.y);
 

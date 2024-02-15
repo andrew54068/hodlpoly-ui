@@ -11,7 +11,7 @@ import { NAVBAR_HIGHT } from 'src/utils/constants'
 import { useAccount, useReadContract } from 'wagmi'
 import { getConnectedWalletClient, publicClient } from 'src/config/clients'
 import Menu from "./Menu";
-
+import { NumberType } from 'src/types'
 
 export default function Main() {
   const hasInit = useRef(false);
@@ -23,6 +23,7 @@ export default function Main() {
     address: FOMOPOLY_ADDRESS_TESTNET,
     functionName: 'maxLands',
   })
+  console.log('landAmount :', landAmount);
 
   const { data: [userSteps] = [] } = useReadContract({
     abi: fomopolyAbi.abi,
@@ -30,8 +31,6 @@ export default function Main() {
     functionName: 'getPlayer',
     args: [address]
   }) || {}
-  //@todo: set the user position on the map
-  console.log('playerData :', userSteps);
 
 
   // @todo: show land price on the map 
@@ -60,12 +59,15 @@ export default function Main() {
     if (!hasInit.current && phaserContainer && !window.fomopolyMap) {
       console.log('init phaser');
       const game = new Phaser.Game(config);
+      console.log('game :', game);
       window.fomopolyMap = game.scene.keys.fomopolyMap;
+      if (landAmount > 0) window.fomopolyMap.setLandAmount(landAmount);
     }
     hasInit.current = true
-  }, [hasInit]);
+  }, [hasInit, landAmount]);
 
   useEffect(() => {
+
     if (window.fomopolyMap && landAmount > 0) {
       window.fomopolyMap.setLandAmount(landAmount);
     }
@@ -82,11 +84,13 @@ export default function Main() {
 
     const [positionBeforeMove] = await contract.read.getPlayer([address])
 
-    const hash = await contract.write.move()
+    const hash = await contract.write.move([NumberType.Any])
+    console.log('hash :', hash);
     await publicClient.waitForTransactionReceipt({ hash })
 
     const [positionAfterMove] = await contract.read.getPlayer([address])
     const steps = positionAfterMove - positionBeforeMove
+    console.log('steps :', steps);
 
     if (window.fomopolyMap) {
       window.fomopolyMap.triggerMoveForward(steps);

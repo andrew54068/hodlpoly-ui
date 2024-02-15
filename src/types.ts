@@ -1,0 +1,1 @@
+export enum NumberType { Any, Odd, Even, Low, High }
