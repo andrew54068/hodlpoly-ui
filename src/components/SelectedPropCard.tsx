@@ -11,9 +11,16 @@ import { ShopItem } from "./GameMenu";
 
 interface SelectedPropCardProps extends CardProps {
   item: ShopItem;
+  actionTitle: 'Buy' | 'Use';
+  onClickActionItem: (item: ShopItem) => void;
 }
 
-export const SelectedPropCard = ({ item, ...rest }: SelectedPropCardProps) => {
+export const SelectedPropCard = ({
+  item,
+  actionTitle,
+  onClickActionItem,
+  ...rest
+}: SelectedPropCardProps) => {
   return (
     <Card
       border="2px"
@@ -48,8 +55,11 @@ export const SelectedPropCard = ({ item, ...rest }: SelectedPropCardProps) => {
             p="16px 10px"
             color="#FFFFFF"
             background="linear-gradient(270deg, #FFF -26.8%, #000 30.45%)"
+            onClick={() => {
+              onClickActionItem(item);
+            }}
           >
-            Buy
+            {actionTitle}
           </Button>
         </Flex>
       </CardBody>

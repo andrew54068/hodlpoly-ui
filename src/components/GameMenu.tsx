@@ -18,11 +18,23 @@ import { ShopPanel } from "./ShopPanel";
 import { InventoryPanel } from "./InventoryPanel";
 import fomopolyAbi from "src/abi/fomopoly";
 import { FOMOPOLY_ADDRESS_TESTNET } from "src/constants";
+import { useReducer, useState } from "react";
+
+export enum Props {
+  OddDice = 0,
+  EvenDice = 1,
+  LowDice = 2,
+  HighDice = 3,
+  TitleDeed = 4,
+  Ticket = 5, // 10 tickets for 1 lottery ticket
+  LotteryTicket = 6,
+}
 
 export type ShopItem = {
   image: React.FunctionComponent;
   name: string;
   desc: string;
+  prop: Props;
 };
 
 export type InventoryItem = ShopItem & {
@@ -30,6 +42,8 @@ export type InventoryItem = ShopItem & {
 };
 
 const GameMenu = ({ ...rest }: any) => {
+  // const [key, setKey] = useState(0);
+  const [, forceUpdate] = useReducer((x) => x + 1, 0);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { address = "" } = useAccount();
 
@@ -40,7 +54,7 @@ const GameMenu = ({ ...rest }: any) => {
     args: [address],
   });
 
-  let inventoryItems: InventoryItem[] = []
+  let inventoryItems: InventoryItem[] = [];
   if (props) {
     console.log(typeof props);
     const [
@@ -51,14 +65,23 @@ const GameMenu = ({ ...rest }: any) => {
       titleDeed,
       ticket,
       lotteryTicket,
-    ] = props.map(value => Number(value));
-    const reorderedAmount = [titleDeed, highDice, lowDice, oddDice, evenDice, lotteryTicket]
-    inventoryItems = shopItems.map((value, index) => {
-      return {
-        ...value,
-        amount: reorderedAmount[index],
-      };
-    }).filter(value => value.amount != 0);
+    ] = props.map((value) => Number(value));
+    const reorderedAmount = [
+      titleDeed,
+      highDice,
+      lowDice,
+      oddDice,
+      evenDice,
+      lotteryTicket,
+    ];
+    inventoryItems = shopItems
+      .map((value, index) => {
+        return {
+          ...value,
+          amount: reorderedAmount[index],
+        };
+      })
+      .filter((value) => value.amount != 0);
   }
 
   return (
@@ -78,11 +101,15 @@ const GameMenu = ({ ...rest }: any) => {
               <TabList>
                 <Tab>Shop</Tab>
                 <Tab>Inventory</Tab>
-                <Tab>Leaderboard</Tab>
                 <Tab>Setting</Tab>
               </TabList>
               <TabPanels>
-                <ShopPanel items={shopItems} />
+                <ShopPanel
+                  items={shopItems}
+                  onUpdateAmount={() => {
+                    forceUpdate();
+                  }}
+                />
                 <InventoryPanel items={inventoryItems} />
               </TabPanels>
             </Tabs>

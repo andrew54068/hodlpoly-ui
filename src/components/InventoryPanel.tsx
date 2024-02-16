@@ -26,7 +26,11 @@ export const InventoryPanel = ({ items }: InventoryPanelProps) => {
             );
           })}
         </SimpleGrid>
-        <SelectedPropCard item={selectedItem} />
+        <SelectedPropCard
+          actionTitle="Use"
+          item={selectedItem}
+          onClickActionItem={() => {}}
+        />
       </Flex>
     </TabPanel>
   );
