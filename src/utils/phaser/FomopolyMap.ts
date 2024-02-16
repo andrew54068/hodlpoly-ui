@@ -12,10 +12,11 @@ import {
 import generateTilePath from 'src/utils/phaser/generateTilePath'
 
 
-const Between = Phaser.Math.Between;
+// const Between = Phaser.Math.Between;
 
 export default class FomopolyMap extends Phaser.Scene {
   background?: Phaser.GameObjects.Image;
+  isHeatMapMode: boolean = false;
   landAmount: number = 1;
   dragStartX: number = 0;
   dragStartY: number = 0;
@@ -160,5 +161,9 @@ export default class FomopolyMap extends Phaser.Scene {
         this.board.addLandTagToTile(tagXY.x, tagXY.y);
       }
     }
+  }
+
+  setHeatMapMode(open) {
+    this.isHeatMapMode = open;
   }
 }

@@ -112,14 +112,13 @@ export default function Navbar() {
           top: "75px",
           left: 0,
           width: "100%",
-          zIndex: 1400,
+          zIndex: "dropdown",
           background: "white",
           boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.05)",
         }}
       >
         <Box
           py="space.s"
-          zIndex="overlay"
           background="white"
           onClick={() => setShowDropdown(false)}
           boxShadow="0px 4px 8px rgba(0, 0, 0, 0.05)"

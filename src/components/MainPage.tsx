@@ -1,5 +1,5 @@
-import { useRef, useEffect, useContext, useCallback } from "react";
-import { Flex, Box, Button } from "@chakra-ui/react";
+import { useRef, useEffect, useState, useContext, useCallback } from "react";
+import { Flex, Box, Button, Switch } from "@chakra-ui/react";
 import 'src/utils/phaser'
 import { config } from 'src/utils/phaser'
 import { GlobalContext } from 'src/context/global';
@@ -13,9 +13,11 @@ import useUserFomopolyData from 'src/hooks/useUserFomopolyData';
 import { getConnectedWalletClient, publicClient } from 'src/config/clients'
 import Menu from "./Menu";
 import { NumberType } from 'src/types'
+import getHeatMapColors from 'src/utils/getHeatMapColors'
 
 export default function Main() {
   const hasInit = useRef(false);
+  const [isHeatMapMode, setIsHeatMapMode] = useState(false)
   const { isConnectModalOpen, onConnectModalClose } = useContext(GlobalContext)
   const { address = '' } = useAccount()
 
@@ -63,7 +65,14 @@ export default function Main() {
 
 
 
-
+  const onHeatMapSwitchClick = () => {
+    if (window.fomopolyMap) {
+      window.fomopolyMap.setHeatMapMode(isHeatMapMode);
+      console.log('allLandPrices :', allLandPrices);
+      getHeatMapColors(allLandPrices)
+      setIsHeatMapMode(prev => !prev)
+    }
+  }
 
   const onClickMove = async () => {
     const contract = await getContractClient()
@@ -91,9 +100,9 @@ export default function Main() {
     const landPrice = allLandPrices[userSteps]
     console.log('landPrice :', landPrice);
 
+    // @todo: check land price and balance before sending the tx
     const hash = await contract.write.buyLand([], { value: landPrice })
     console.log('hash :', hash);
-
   }
 
 
@@ -106,15 +115,23 @@ export default function Main() {
           position="fixed"
           width="auto"
           maxW="container.sm"
-          zIndex="banner"
+          zIndex="docked"
           float="right"
           right="0px"
           top={`${NAVBAR_HIGHT}px`}
           m="2rem"
         />
       </Flex>
-      <div id="phaser-zone-fomopoly"></div>
+      <Box id="phaser-zone-fomopoly" position="relative">
+        <Box
+          position="absolute"
+          top="20px"
+          left="20px"
+          color="white">
+          <Switch size='lg' colorScheme='red' onChange={onHeatMapSwitchClick} />
+        </Box>
+      </Box>
 
     </Box>
-  </ConnectModalProvider>
+  </ConnectModalProvider >
 }
