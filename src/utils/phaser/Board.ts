@@ -76,8 +76,8 @@ export default class Board extends RexBoard {
 
     const grd = ctx.createLinearGradient(0, 0, width, 0);
     grd?.addColorStop(0, "black");
-    grd?.addColorStop(0.5, "black");
-    grd?.addColorStop(1, "white");
+    grd?.addColorStop(0.7, "black");
+    grd?.addColorStop(1, "gray");
 
     ctx.fillStyle = grd;
     ctx.fillRect(0, 0, width, height);

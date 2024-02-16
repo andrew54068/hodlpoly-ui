@@ -22,3 +22,10 @@ export const COLORMAP = [0x087f23, 0xffffff];
 export const CHESS_SPEED_NORMAL = 400;
 export const CHESS_SPEED_FAST = 1000000000;
 
+export const HEATMAP_COLORS = [
+  '#FEE2E2',
+  '#FCA5A5',
+  '#EF4444',
+  '#B91C1C',
+  '#7F1D1D'
+]
