@@ -1,53 +1,33 @@
-import {
-  Card,
-  CardBody,
-  Flex,
-  SimpleGrid,
-  Text,
-  Image,
-  TabPanel,
-} from "@chakra-ui/react";
-import { InventoryItem } from "./GameMenu";
+import { useState } from "react";
+import { Flex, SimpleGrid, TabPanel } from "@chakra-ui/react";
+import { InventoryItem, ShopItem } from "./GameMenu";
+import { PropButton } from "./PropButton";
+import { SelectedPropCard } from "./SelectedPropCard";
 
 interface InventoryPanelProps {
   items: InventoryItem[];
 }
 
 export const InventoryPanel = ({ items }: InventoryPanelProps) => {
+  const [selectedItem, setSelectedItem] = useState<ShopItem>(items[0]);
+
   return (
-    <TabPanel>
-      <SimpleGrid columns={3} spacing="20px">
-        {items.map((item) => {
-          return (
-            <Card key={item.name} w="100px" h="120px" border="2px" m="0px">
-              <CardBody p="12px">
-                <Text
-                  position="absolute"
-                  top="0px"
-                  right="0px"
-                  m="0px 4px"
-                  fontSize="10px"
-                  fontWeight="600"
-                >
-                  x {item.amount}
-                </Text>
-                <Flex direction="column" alignItems="center" rowGap="10px">
-                  <Image src={item.image} borderRadius="lg" boxSize="52px" />
-                  <Text
-                    width="76px"
-                    fontSize="13px"
-                    lineHeight="16px"
-                    fontWeight="600"
-                    align="center"
-                  >
-                    {item.name}
-                  </Text>
-                </Flex>
-              </CardBody>
-            </Card>
-          );
-        })}
-      </SimpleGrid>
+    <TabPanel p="24px">
+      <Flex alignItems="start" justifyContent="space-between" columnGap="24px">
+        <SimpleGrid columns={3} spacing="20px" m="0px">
+          {items.map((item) => {
+            return (
+              <PropButton
+                key={item.name}
+                amount={item.amount}
+                item={item}
+                onClickItem={setSelectedItem}
+              />
+            );
+          })}
+        </SimpleGrid>
+        <SelectedPropCard item={selectedItem} />
+      </Flex>
     </TabPanel>
   );
 };
