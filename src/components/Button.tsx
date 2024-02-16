@@ -1,7 +1,6 @@
 import { Flex, Box, ButtonProps, Button as ChakraButton, Spinner } from "@chakra-ui/react";
 import { MouseEventHandler, forwardRef } from "react";
 
-
 interface CustomButtonProps extends ButtonProps {
   isLoading?: boolean;
   showRing?: boolean;

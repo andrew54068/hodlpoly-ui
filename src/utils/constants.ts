@@ -1,55 +1,47 @@
-import { InventoryItem, ShopItem } from "src/components/GameMenu";
+import { ShopItem } from "src/components/GameMenu";
+import Protector from "src/assets/protector.svg?react";
+// import WorldWideTraveler from "src/assets/worldWideTraveler.svg?react";
+import OddDise from "src/assets/oddDise.svg?react";
+import HighDise from "src/assets/highDise.svg?react";
+import EvenDise from "src/assets/evenDise.svg?react";
+import LowDise from "src/assets/lowDise.svg?react";
 
 export const NAVBAR_HIGHT = 75
 
 export const shopItems: ShopItem[] = [
     {
-        image:
-            "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+        image: Protector,
         name: "Land Protector",
-        desc: "You can protect your land 1 time wen someone step on you land.",
+        desc: "Increases the price of a specified owned land by 200%, reducing the likelihood of other players purchasing it.",
     },
+    // {
+    //     image: WorldWideTraveler,
+    //     name: "World Wide Traveler",
+    //     desc: "Instantly travel to a specified land on the board.",
+    // },
     {
-        image:
-            "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
-        name: "World Wide Traveler",
-        desc: "You can protect your land 1 time wen someone step on you land.",
-    },
-    {
-        image:
-            "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
-        name: "Fomo Box",
-        desc: "You can protect your land 1 time wen someone step on you land.",
-    },
-    {
-        image:
-            "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+        image: HighDise,
         name: "Special Dice / High",
-        desc: "You can protect your land 1 time wen someone step on you land.",
+        desc: "Rolls higher numbers (4,5,6) to navigate you closer to your target land.",
     },
     {
-        image:
-            "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+        image: LowDise,
         name: "Special Dice / Low",
-        desc: "You can protect your land 1 time wen someone step on you land.",
+        desc: "Rolls lower numbers (1,2,3) to navigate you closer to your target land.",
     },
     {
-        image:
-            "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+        image: OddDise,
         name: "Special Dice / Odd",
-        desc: "You can protect your land 1 time wen someone step on you land.",
+        desc: "Rolls odd numbers (1,3,5) to navigate you closer to your target land.",
     },
     {
-        image:
-            "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+        image: EvenDise,
         name: "Special Dice / Even",
-        desc: "You can protect your land 1 time wen someone step on you land.",
+        desc: "Rolls even numbers (2,4,6) to navigate you closer to your target land.",
+    },
+    {
+        image: EvenDise,
+        name: "Ticket",
+        desc: "Ticket to treasure! Increase your chance with every ticket for the prize pool.",
     },
 ];
-
-export const inventoryItems: InventoryItem[] = shopItems.map(value => {
-    return {
-        ...value,
-        amount: Math.floor(Math.random() * 10)
-    }
-})
