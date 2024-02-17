@@ -67,10 +67,10 @@ export default function Main() {
 
   const onHeatMapSwitchClick = () => {
     if (window.fomopolyMap) {
-      window.fomopolyMap.setHeatMapMode(isHeatMapMode);
+      const heatMapSteps = getHeatMapColors(allLandPrices)
       console.log('allLandPrices :', allLandPrices);
-      getHeatMapColors(allLandPrices)
       setIsHeatMapMode(prev => !prev)
+      window.fomopolyMap.setHeatMapMode(!isHeatMapMode, heatMapSteps);
     }
   }
 
@@ -96,6 +96,7 @@ export default function Main() {
   const onClickBuyLand = async () => {
     const contract = await getContractClient()
     if (!contract) return
+    // @todo: check if the user has owned the land
     // @todo: get land price 
     const landPrice = allLandPrices[userSteps]
     console.log('landPrice :', landPrice);

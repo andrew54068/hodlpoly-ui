@@ -1,5 +1,5 @@
 import { Board as RexBoard } from 'phaser3-rex-plugins/plugins/board-components.js';
-import { COLORMAP, BOARD_CELL_HEIGHT, BOARD_CELL_WIDTH, LAND_TAG_COLOR } from './constants';
+import { COLORMAP, HEATMAP_COLORS, BOARD_CELL_HEIGHT, BOARD_CELL_WIDTH } from './constants';
 
 // const createTileMap = function (tilesMap, out: string[] = []) {
 //   if (out === undefined) {
@@ -39,6 +39,7 @@ const getQuadGrid = function (scene) {
 
 export default class Board extends RexBoard {
   tilesSize: number = 0;
+  tileShapes: Phaser.GameObjects.Shape[] = [];
 
   constructor(scene, tiles) {
     // create board
@@ -106,10 +107,15 @@ export default class Board extends RexBoard {
         }
 
         cost = parseFloat(symbol);
-        this.scene.rexBoard.add.shape(this, tileX, tileY, 0, COLORMAP[cost])
+        const tile = this.scene.rexBoard.add.shape(this, tileX, tileY, 0, COLORMAP[cost])
           .setStrokeStyle(2, 0x000000, 1)
           .setData('cost', cost)
           .setDepth(1);
+
+        // store the tile shapes for changing color later
+        if (tile) {
+          this.tileShapes.push(tile)
+        }
 
         // add land tag
         const worldXY = this.tileXYToWorldXY(tileX, tileY, true);
@@ -141,6 +147,28 @@ export default class Board extends RexBoard {
     const worldXY = this.tileXYToWorldXY(tileX, tileY, true);
 
 
-    this.createGradientRectangle(this.scene, worldXY.x, worldXY.y - BOARD_CELL_HEIGHT / 2 + height / 2, width, height);
+    this.createGradientRectangle(
+      this.scene,
+      worldXY.x,
+      worldXY.y - BOARD_CELL_HEIGHT / 2 + height / 2, width, height
+    );
+  }
+
+  openHeatMapMode(heatMapSteps) {
+    const colors = heatMapSteps.map(step => HEATMAP_COLORS[step])
+    console.log('colors :', colors);
+    this.tileShapes.forEach((shape, index) => {
+      shape.fillColor = colors[index]
+      console.log('colors[index] :', colors[index]);
+      // lift the shape to the top
+      shape.setDepth(5)
+    })
+  }
+
+  closeHeatMapMode() {
+    this.tileShapes.forEach((shape) => {
+      shape.fillColor = COLORMAP[shape.getData('cost')]
+      shape.setDepth(0)
+    })
   }
 }

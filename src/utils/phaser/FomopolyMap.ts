@@ -7,7 +7,8 @@ import {
   BOARD_CELL_WIDTH,
   GAME_HEIGHT,
   CHESS_SPEED_NORMAL,
-  LAND_TAG_COLOR
+  LAND_TAG_COLOR,
+  HEATMAP_COLORS
 } from './constants'
 import generateTilePath from 'src/utils/phaser/generateTilePath'
 
@@ -144,6 +145,8 @@ export default class FomopolyMap extends Phaser.Scene {
     }
   }
 
+  // worldTravelToTile (){}
+
   setLandAmount(landAmount) {
     this.landAmount = landAmount
     if (this.board) {
@@ -163,7 +166,13 @@ export default class FomopolyMap extends Phaser.Scene {
     }
   }
 
-  setHeatMapMode(open) {
+  setHeatMapMode(open, heatMapSteps) {
+    console.log('heatMapSteps :', heatMapSteps);
     this.isHeatMapMode = open;
+    if (this.isHeatMapMode && this.board) {
+      this.board.openHeatMapMode(heatMapSteps);
+    } else if (this.board) {
+      this.board.closeHeatMapMode()
+    }
   }
 }
