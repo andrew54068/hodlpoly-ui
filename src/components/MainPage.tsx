@@ -68,7 +68,6 @@ export default function Main() {
   const onHeatMapSwitchClick = () => {
     if (window.fomopolyMap) {
       const heatMapSteps = getHeatMapColors(allLandPrices)
-      console.log('allLandPrices :', allLandPrices);
       setIsHeatMapMode(prev => !prev)
       window.fomopolyMap.setHeatMapMode(!isHeatMapMode, heatMapSteps);
     }
@@ -99,6 +98,7 @@ export default function Main() {
     // @todo: check if the user has owned the land
     // @todo: get land price 
     const landPrice = allLandPrices[userSteps]
+    console.log('allLandPrices :', allLandPrices);
     console.log('landPrice :', landPrice);
 
     // @todo: check land price and balance before sending the tx

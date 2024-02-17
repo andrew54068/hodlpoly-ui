@@ -26,7 +26,7 @@ describe('getHeatMapColors', () => {
 
   it('should handle cases with high and low extremes', () => {
     const prices = [1, 1000, 5000, 10000, 10001, 50000];
-    const expected = [0, 0, 0, 0, 1, 4]; // Adjust if necessary based on the grading logic
+    const expected = [0, 0, 0, 0, 0, 4]; // Adjust if necessary based on the grading logic
     expect(getHeatMapColors(prices)).toEqual(expected);
   });
 

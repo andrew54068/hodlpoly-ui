@@ -114,6 +114,7 @@ export default class Board extends RexBoard {
 
         // store the tile shapes for changing color later
         if (tile) {
+          //@todo: don't use the tileShapes array, use tile path to make sure the order is correct
           this.tileShapes.push(tile)
         }
 
