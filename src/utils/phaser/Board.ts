@@ -38,10 +38,12 @@ const getQuadGrid = function (scene) {
 // };
 
 export default class Board extends RexBoard {
+  pathXY?: { x: number, y: number }[];
   tilesSize: number = 0;
-  tileShapes: Phaser.GameObjects.Shape[] = [];
+  heatMapShapes: any[] = [];
 
-  constructor(scene, tiles) {
+  constructor(scene, tiles, pathXY) {
+
     // create board
     const config = {
       // grid: getHexagonGrid(scene),
@@ -52,6 +54,7 @@ export default class Board extends RexBoard {
     }
     super(scene, config);
     this.createPath(tiles);
+    this.pathXY = pathXY;
     this.tilesSize = tiles.length;
   }
 
@@ -107,16 +110,12 @@ export default class Board extends RexBoard {
         }
 
         cost = parseFloat(symbol);
-        const tile = this.scene.rexBoard.add.shape(this, tileX, tileY, 0, COLORMAP[cost])
+        this.scene.rexBoard.add.shape(this, tileX, tileY, 0, COLORMAP[cost])
           .setStrokeStyle(2, 0x000000, 1)
           .setData('cost', cost)
           .setDepth(1);
 
-        // store the tile shapes for changing color later
-        if (tile) {
-          //@todo: don't use the tileShapes array, use tile path to make sure the order is correct
-          this.tileShapes.push(tile)
-        }
+
 
         // add land tag
         const worldXY = this.tileXYToWorldXY(tileX, tileY, true);
@@ -156,20 +155,39 @@ export default class Board extends RexBoard {
   }
 
   openHeatMapMode(heatMapSteps) {
-    const colors = heatMapSteps.map(step => HEATMAP_COLORS[step])
-    console.log('colors :', colors);
-    this.tileShapes.forEach((shape, index) => {
-      shape.fillColor = colors[index]
-      console.log('colors[index] :', colors[index]);
-      // lift the shape to the top
-      shape.setDepth(5)
-    })
+
+    // Create a local Graphics object for drawing heat map rectangles
+
+    this.pathXY?.forEach((xy, index) => {
+      const worldXY = this.tileXYToWorldXY(xy.x, xy.y, true);
+      const stepIndex = heatMapSteps[index];
+
+      if (stepIndex !== undefined && stepIndex < HEATMAP_COLORS.length) {
+        const colorHex = HEATMAP_COLORS[stepIndex];
+        const heatMapGraphics = this.scene.add.graphics();
+
+        heatMapGraphics.fillStyle(colorHex, 1); // Set the fill color
+        heatMapGraphics.lineStyle(2, 0x000000, 1);
+        // Draw the rectangle
+        heatMapGraphics.fillRect(
+          worldXY.x - BOARD_CELL_WIDTH / 2,
+          worldXY.y - BOARD_CELL_HEIGHT / 2,
+          BOARD_CELL_WIDTH,
+          BOARD_CELL_HEIGHT
+        ).setDepth(5);
+
+        heatMapGraphics.strokeRect(
+          worldXY.x - BOARD_CELL_WIDTH / 2,
+          worldXY.y - BOARD_CELL_HEIGHT / 2,
+          BOARD_CELL_WIDTH,
+          BOARD_CELL_HEIGHT
+        ).setDepth(5);
+        this.heatMapShapes.push(heatMapGraphics);
+      }
+    });
   }
 
   closeHeatMapMode() {
-    this.tileShapes.forEach((shape) => {
-      shape.fillColor = COLORMAP[shape.getData('cost')]
-      shape.setDepth(0)
-    })
+    this.heatMapShapes.forEach(shape => shape.destroy());
   }
 }

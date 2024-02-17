@@ -7,8 +7,8 @@ import {
   BOARD_CELL_WIDTH,
   GAME_HEIGHT,
   CHESS_SPEED_NORMAL,
-  LAND_TAG_COLOR,
-  HEATMAP_COLORS
+  // LAND_TAG_COLOR,
+  // HEATMAP_COLORS
 } from './constants'
 import generateTilePath from 'src/utils/phaser/generateTilePath'
 
@@ -50,7 +50,7 @@ export default class FomopolyMap extends Phaser.Scene {
       pathXY
     } = generateTilePath(this.landAmount)
 
-    const board = new Board(this, tilePath);
+    const board = new Board(this, tilePath, pathXY);
     this.board = board;
     this.pathXY = pathXY
     this.displayWidth = this.scale.displaySize.width;
