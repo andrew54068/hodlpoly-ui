@@ -1,5 +1,5 @@
 import { Flex, SimpleGrid, TabPanel } from "@chakra-ui/react";
-import { Props, ShopItem } from "./GameMenu";
+import { ShopItem } from "./GameMenu";
 import fomopolyAbi from "src/abi/fomopoly";
 import { useCallback, useState } from "react";
 import { PropButton } from "./PropButton";
@@ -30,8 +30,6 @@ export const ShopPanel = ({ items, onUpdateAmount }: ShopPanelProps) => {
 
     return contract;
   }, [address]);
-
-  console.log(`💥 Props.OddDice: ${JSON.stringify(Props.OddDice, null, "  ")}`);
 
   const { data: allPropsPrices = [] } = useReadContract({
     abi: fomopolyAbi.abi,
