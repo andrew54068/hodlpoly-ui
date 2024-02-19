@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Center, Text, Flex, SimpleGrid, TabPanel } from "@chakra-ui/react";
+import { Center, Flex, SimpleGrid, TabPanel } from "@chakra-ui/react";
 import { InventoryItem, ShopItem } from "./GameMenu";
 import { PropButton } from "./PropButton";
 import { SelectedPropCard } from "./SelectedPropCard";
