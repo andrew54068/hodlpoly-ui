@@ -6,6 +6,7 @@ import {
   Divider,
   Flex,
   Text,
+  Image,
 } from "@chakra-ui/react";
 import { ShopItem } from "./GameMenu";
 
@@ -21,6 +22,7 @@ export const SelectedPropCard = ({
   onClickActionItem,
   ...rest
 }: SelectedPropCardProps) => {
+
   return (
     <Card
       border="2px"
@@ -39,7 +41,7 @@ export const SelectedPropCard = ({
           justifyContent="start"
           rowGap="10px"
         >
-          <item.image />
+          <Image src={item.image}></Image>
           <Text
             width="76px"
             fontSize="13px"

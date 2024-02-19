@@ -15,7 +15,7 @@ interface ShopPanelProps {
 }
 
 export const ShopPanel = ({ items, onUpdateAmount }: ShopPanelProps) => {
-  const [selectedItem, setSelectedItem] = useState(items[0]);
+  const [selectedItem, setSelectedItem] = useState<ShopItem>(items[0]);
   const { address = "" } = useAccount();
 
   const getContractClient = useCallback(async () => {
@@ -68,8 +68,8 @@ export const ShopPanel = ({ items, onUpdateAmount }: ShopPanelProps) => {
           })}
         </SimpleGrid>
         <SelectedPropCard
-          actionTitle="Buy"
           item={selectedItem}
+          actionTitle="Buy"
           onClickActionItem={onClickBuyProp}
         />
       </Flex>
