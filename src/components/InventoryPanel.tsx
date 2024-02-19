@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Flex, SimpleGrid, TabPanel } from "@chakra-ui/react";
+import { Center, Text, Flex, SimpleGrid, TabPanel } from "@chakra-ui/react";
 import { InventoryItem, ShopItem } from "./GameMenu";
 import { PropButton } from "./PropButton";
 import { SelectedPropCard } from "./SelectedPropCard";
@@ -9,7 +9,9 @@ interface InventoryPanelProps {
 }
 
 export const InventoryPanel = ({ items }: InventoryPanelProps) => {
-  const [selectedItem, setSelectedItem] = useState<ShopItem>(items[0]);
+  const [selectedItem, setSelectedItem] = useState<ShopItem | undefined>(
+    items[0]
+  );
 
   return (
     <TabPanel p="24px">
@@ -26,11 +28,17 @@ export const InventoryPanel = ({ items }: InventoryPanelProps) => {
             );
           })}
         </SimpleGrid>
-        <SelectedPropCard
-          actionTitle="Use"
-          item={selectedItem}
-          onClickActionItem={() => {}}
-        />
+        {selectedItem ? (
+          <SelectedPropCard
+            actionTitle="Use"
+            item={selectedItem}
+            onClickActionItem={() => {}}
+          />
+        ) : (
+          <Center display="block" position="absolute">
+            You don't have any props yet!
+          </Center>
+        )}
       </Flex>
     </TabPanel>
   );

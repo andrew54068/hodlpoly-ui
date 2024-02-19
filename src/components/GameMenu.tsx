@@ -31,7 +31,7 @@ export enum Props {
 }
 
 export type ShopItem = {
-  image: React.FunctionComponent;
+  image: string;
   name: string;
   desc: string;
   prop: Props;
@@ -57,15 +57,8 @@ const GameMenu = ({ ...rest }: any) => {
   let inventoryItems: InventoryItem[] = [];
   if (props) {
     console.log(typeof props);
-    const [
-      oddDice,
-      evenDice,
-      lowDice,
-      highDice,
-      titleDeed,
-      ticket,
-      lotteryTicket,
-    ] = props.map((value) => Number(value));
+    const [oddDice, evenDice, lowDice, highDice, titleDeed, , lotteryTicket] =
+      props.map((value) => Number(value));
     const reorderedAmount = [
       titleDeed,
       highDice,
@@ -90,12 +83,6 @@ const GameMenu = ({ ...rest }: any) => {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent width="564px" height="531px" p="16px" maxW="564px">
-          <ModalCloseButton
-            position="absolute"
-            top="10px"
-            right="0px"
-            m="10px"
-          />
           <ModalBody m="0px" p="0px">
             <Tabs variant="enclosed">
               <TabList>
@@ -114,6 +101,12 @@ const GameMenu = ({ ...rest }: any) => {
               </TabPanels>
             </Tabs>
           </ModalBody>
+          <ModalCloseButton
+            position="absolute"
+            top="10px"
+            right="0px"
+            m="10px"
+          />
         </ModalContent>
       </Modal>
     </Container>

@@ -5,6 +5,7 @@ import {
   CardBody,
   Flex,
   Text,
+  Image,
 } from "@chakra-ui/react";
 import { ShopItem } from "./GameMenu";
 
@@ -53,7 +54,7 @@ export const PropButton = ({
             </Text>
           )}
           <Flex direction="column" alignItems="center" rowGap="10px">
-            <item.image />
+            <Image src={item.image}></Image>
             <Text
               width="76px"
               fontSize="13px"
