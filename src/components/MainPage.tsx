@@ -15,7 +15,7 @@ import GameMenu from "./GameMenu";
 import { NumberType } from 'src/types'
 import getHeatMapColors from 'src/utils/getHeatMapColors'
 
-export default function Main() {
+export default function MainPage() {
   const hasInit = useRef(false);
   const [isHeatMapMode, setIsHeatMapMode] = useState(false)
   const { isConnectModalOpen, onConnectModalClose } = useContext(GlobalContext)
