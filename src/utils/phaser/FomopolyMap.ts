@@ -1,6 +1,8 @@
 import Phaser from 'phaser'
 import Board from './Board'
 import ChessA from './ChessA'
+import Grass from 'src/assets/grass.png'
+import Background from 'src/assets/background.svg'
 import {
   CHESS_SPEED_FAST,
   BOARD_CELL_HEIGHT,
@@ -38,8 +40,8 @@ export default class FomopolyMap extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('grass', 'src/assets/grass.png');
-    this.load.image('background', 'src/assets/background.svg');
+    this.load.image('grass', Grass);
+    this.load.image('background', Background);
   }
 
   createBoard() {
@@ -167,7 +169,6 @@ export default class FomopolyMap extends Phaser.Scene {
   }
 
   setHeatMapMode(open, heatMapSteps) {
-    console.log('heatMapSteps :', heatMapSteps);
     this.isHeatMapMode = open;
     if (this.isHeatMapMode && this.board) {
       this.board.openHeatMapMode(heatMapSteps);
