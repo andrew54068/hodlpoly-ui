@@ -1,11 +1,12 @@
 
 import { FOMOPOLY_ADDRESS_TESTNET } from 'src/constants'
-import { useAccount, useReadContract } from 'wagmi'
+import { useAccount, useReadContract, useBalance } from 'wagmi'
 import fomopolyAbi from 'src/abi/fomopoly'
 
 
 export default function useUserFomopolyData() {
-  const { address = '' } = useAccount()
+  const { address = '0x0' } = useAccount()
+  const userBalance = useBalance({ address })
 
   const { data: landAmount } = useReadContract({
     abi: fomopolyAbi.abi,
@@ -23,7 +24,7 @@ export default function useUserFomopolyData() {
 
 
   // @todo: show land price on the map 
-  const { data: allLandPrices = [] } = useReadContract({
+  const { data: allLandPrices = [] }: { data?: bigint[] } = useReadContract({
     abi: fomopolyAbi.abi,
     address: FOMOPOLY_ADDRESS_TESTNET,
     functionName: 'getAllLandPrice',
@@ -38,5 +39,11 @@ export default function useUserFomopolyData() {
   })
 
 
-  return { allLandPrices, landAmount, userSteps, userOwnedLands }
+  return {
+    allLandPrices,
+    landAmount,
+    userSteps,
+    userOwnedLands,
+    userBalance
+  }
 }

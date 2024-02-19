@@ -1,12 +1,13 @@
 import BigNumber from 'bignumber.js';
 
-export default function getHeatMapColors(allLandPrices: number[]) {
+export default function getHeatMapColors(allLandPrices: bigint[]) {
   if (allLandPrices.length === 0) return [];
-  const uniquePrices = [...new Set(allLandPrices)].sort((a, b) => new BigNumber(a).minus(b).toNumber());
+  const allLandPriceStrings = allLandPrices.map(price => price.toString());
+  const uniquePrices = [...new Set(allLandPriceStrings)].sort((a, b) => new BigNumber(a).minus(b).toNumber());
   const uniqueCount = uniquePrices.length;
 
-  const maxVal = BigNumber.maximum(...allLandPrices);
-  const minVal = BigNumber.minimum(...allLandPrices);
+  const maxVal = BigNumber.maximum(...allLandPriceStrings);
+  const minVal = BigNumber.minimum(...allLandPriceStrings);
 
 
   // Determine the number of steps based on the number of unique prices, max 4 steps

@@ -157,7 +157,6 @@ export default class Board extends RexBoard {
   openHeatMapMode(heatMapSteps) {
 
     // Create a local Graphics object for drawing heat map rectangles
-
     this.pathXY?.forEach((xy, index) => {
       const worldXY = this.tileXYToWorldXY(xy.x, xy.y, true);
       const stepIndex = heatMapSteps[index];

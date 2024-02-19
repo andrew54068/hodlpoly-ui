@@ -10,6 +10,7 @@ import { getContract } from 'viem'
 import { NAVBAR_HIGHT } from 'src/utils/constants'
 import { useAccount } from 'wagmi'
 import useUserFomopolyData from 'src/hooks/useUserFomopolyData';
+import useUserActions from 'src/hooks/useUserActions';
 import { getConnectedWalletClient, publicClient } from 'src/config/clients'
 import GameMenu from "./GameMenu";
 import { NumberType } from 'src/types'
@@ -18,10 +19,12 @@ import getHeatMapColors from 'src/utils/getHeatMapColors'
 export default function MainPage() {
   const hasInit = useRef(false);
   const [isHeatMapMode, setIsHeatMapMode] = useState(false)
+
   const { isConnectModalOpen, onConnectModalClose } = useContext(GlobalContext)
   const { address = '' } = useAccount()
 
-  const { allLandPrices, landAmount, userOwnedLands, userSteps } = useUserFomopolyData()
+  const { userBalance, allLandPrices, landAmount, userOwnedLands, userSteps } = useUserFomopolyData()
+  const { rollTheDice, buyLand } = useUserActions()
 
   const getContractClient = useCallback(async () => {
     const walletClient = await getConnectedWalletClient({ address })
@@ -71,35 +74,12 @@ export default function MainPage() {
   }
 
   const onClickMove = async () => {
-    const contract = await getContractClient()
-    if (!contract) return
-
-    const [positionBeforeMove] = await contract.read.getPlayer([address])
-
-    const hash = await contract.write.move([NumberType.Any])
-    console.log('hash :', hash);
-    await publicClient.waitForTransactionReceipt({ hash })
-
-    const [positionAfterMove] = await contract.read.getPlayer([address])
-    const steps = positionAfterMove - positionBeforeMove
-    console.log('steps :', steps);
-
-    if (window.fomopolyMap) {
-      window.fomopolyMap.triggerMoveForward(steps);
-    }
+    await rollTheDice(NumberType.Any)
   }
 
   const onClickBuyLand = async () => {
-    const contract = await getContractClient()
-    if (!contract) return
-    // @todo: check if the user has owned the land
-    // @todo: get land price 
-    const landPrice = allLandPrices[userSteps]
-    console.log('allLandPrices :', allLandPrices);
-    console.log('landPrice :', landPrice);
 
-    // @todo: check land price and balance before sending the tx
-    const hash = await contract.write.buyLand([], { value: landPrice })
+    const hash = await buyLand()
     console.log('hash :', hash);
   }
 
