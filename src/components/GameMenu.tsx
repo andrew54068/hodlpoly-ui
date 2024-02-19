@@ -18,7 +18,7 @@ import { ShopPanel } from "./ShopPanel";
 import { InventoryPanel } from "./InventoryPanel";
 import fomopolyAbi from "src/abi/fomopoly";
 import { FOMOPOLY_ADDRESS_TESTNET } from "src/constants";
-import { useReducer, useState } from "react";
+import { useReducer } from "react";
 
 export enum Props {
   OddDice = 0,
@@ -42,7 +42,6 @@ export type InventoryItem = ShopItem & {
 };
 
 const GameMenu = ({ ...rest }: any) => {
-  // const [key, setKey] = useState(0);
   const [, forceUpdate] = useReducer((x) => x + 1, 0);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { address = "" } = useAccount();

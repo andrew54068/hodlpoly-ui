@@ -49,7 +49,6 @@ export default function MainPage() {
   }, [hasInit, landAmount]);
 
   useEffect(() => {
-
     if (window.fomopolyMap && landAmount > 0) {
       window.fomopolyMap.setLandAmount(landAmount);
     }
@@ -62,8 +61,6 @@ export default function MainPage() {
       window.fomopolyMap.setOwnedLandTags(userOwnedLands)
     }
   }, [landAmount, userSteps, userOwnedLands])
-
-
 
   const onHeatMapSwitchClick = () => {
     if (window.fomopolyMap) {
@@ -105,7 +102,6 @@ export default function MainPage() {
     const hash = await contract.write.buyLand([], { value: landPrice })
     console.log('hash :', hash);
   }
-
 
   return <ConnectModalProvider isOpen={isConnectModalOpen} onClose={onConnectModalClose}>
     <Box mt="75px" minH="100vh">
