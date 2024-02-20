@@ -19,6 +19,7 @@ import { InventoryPanel } from "./InventoryPanel";
 import fomopolyAbi from "src/abi/fomopoly";
 import { FOMOPOLY_ADDRESS_TESTNET } from "src/constants";
 import { useReducer } from "react";
+import { SettingPanel } from "./SettingPanel";
 
 export enum Props {
   OddDice = 0,
@@ -39,6 +40,23 @@ export type ShopItem = {
 
 export type InventoryItem = ShopItem & {
   amount: number;
+};
+
+const normalTabTextStyle = {
+  color: "#C0C0C0",
+  fontSize: "16px",
+  fontStyle: "normal",
+  fontWeight: "400",
+  lineHeight: "normal",
+};
+
+const focuseTabTextStyle = {
+  bg: "#FFFFFF",
+  color: "#000000",
+  fontSize: "18px",
+  fontStyle: "normal",
+  fontWeight: "600",
+  lineHeight: "normal",
 };
 
 const GameMenu = ({ ...rest }: any) => {
@@ -83,7 +101,7 @@ const GameMenu = ({ ...rest }: any) => {
         <ModalOverlay />
         <ModalContent
           width="564px"
-          height="531px"
+          height="auto"
           p="16px"
           maxW="564px"
           borderRadius="0px"
@@ -92,13 +110,31 @@ const GameMenu = ({ ...rest }: any) => {
           <ModalBody m="0px" p="0px" bg="clear">
             <Tabs variant="enclosed">
               <TabList color="#C0C0C0">
-                <Tab isFocusable _focus={{ bg: "#FFFFFF" }}>
+                <Tab
+                  isFocusable
+                  borderRadius="0px"
+                  {...normalTabTextStyle}
+                  _focus={focuseTabTextStyle}
+                  _selected={focuseTabTextStyle}
+                >
                   Shop
                 </Tab>
-                <Tab isFocusable _focus={{ bg: "#FFFFFF" }}>
+                <Tab
+                  isFocusable
+                  borderRadius="0px"
+                  {...normalTabTextStyle}
+                  _focus={focuseTabTextStyle}
+                  _selected={focuseTabTextStyle}
+                >
                   Inventory
                 </Tab>
-                <Tab isFocusable _focus={{ bg: "#FFFFFF" }}>
+                <Tab
+                  isFocusable
+                  borderRadius="0px"
+                  {...normalTabTextStyle}
+                  _focus={focuseTabTextStyle}
+                  _selected={focuseTabTextStyle}
+                >
                   Setting
                 </Tab>
               </TabList>
@@ -110,6 +146,7 @@ const GameMenu = ({ ...rest }: any) => {
                   }}
                 />
                 <InventoryPanel items={inventoryItems} />
+                <SettingPanel />
               </TabPanels>
             </Tabs>
           </ModalBody>
