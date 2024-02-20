@@ -25,6 +25,13 @@ const pressButtonStyle = {
     "0px 2px 6px 0px rgba(16, 24, 40, 0.06), -3px 1px 0px 0px rgba(0, 0, 0, 0.40) inset",
 };
 
+const activeButtonStyle = {
+  borderRadius: "8px",
+  background: "linear-gradient(270deg, #FFF -26.8%, #000 30.45%)",
+  boxShadow:
+    "0px 2px 6px 0px rgba(16, 24, 40, 0.06), -3px 1px 0px 0px rgba(0, 0, 0, 0.40) inset",
+};
+
 export const SettingPanel = () => {
   return (
     <TabPanel p="24px" bg="#FFFFFF" h="180px">
@@ -45,6 +52,7 @@ export const SettingPanel = () => {
             {...normalButtonStyle}
             _hover={hoverButtonStyle}
             _pressed={pressButtonStyle}
+            _active={activeButtonStyle}
           >
             <Link
               href="https://twitter.com/FreeFlowonFlow"
@@ -68,6 +76,7 @@ export const SettingPanel = () => {
             {...normalButtonStyle}
             _hover={hoverButtonStyle}
             _pressed={pressButtonStyle}
+            _active={activeButtonStyle}
           >
             <Link
               href="https://freeflow.gitbook.io/freeflow/projects/fomopoly/game-mechanism"
@@ -91,6 +100,7 @@ export const SettingPanel = () => {
             {...normalButtonStyle}
             _hover={hoverButtonStyle}
             _pressed={pressButtonStyle}
+            _active={activeButtonStyle}
             onClick={() => {
               disconnect(wagmiConfig);
             }}
