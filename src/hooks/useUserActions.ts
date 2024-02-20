@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 import { getConnectedWalletClient, publicClient } from 'src/config/clients'
-import { FOMOPOLY_ADDRESS_TESTNET } from 'src/constants'
+import { FOMOPOLY_PROXY_ADDRESS } from 'src/constants'
 import { useAccount } from 'wagmi'
 import fomopolyAbi from 'src/abi/fomopoly'
 import { getContract } from 'viem'
@@ -16,7 +16,7 @@ export default function useUserActions() {
 
     if (!walletClient) return
     const contract = getContract({
-      address: FOMOPOLY_ADDRESS_TESTNET,
+      address: FOMOPOLY_PROXY_ADDRESS,
       abi: fomopolyAbi.abi,
       client: { public: publicClient, wallet: walletClient }
     })
