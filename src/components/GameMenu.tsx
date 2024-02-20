@@ -11,6 +11,8 @@ import {
   TabPanels,
   Tabs,
   useDisclosure,
+  Image,
+  Stack,
 } from "@chakra-ui/react";
 import { useAccount, useReadContract } from "wagmi";
 import { shopItems } from "src/utils/constants";
@@ -18,8 +20,11 @@ import { ShopPanel } from "./ShopPanel";
 import { InventoryPanel } from "./InventoryPanel";
 import fomopolyAbi from "src/abi/fomopoly";
 import { FOMOPOLY_ADDRESS_TESTNET } from "src/constants";
-import { useReducer } from "react";
+import { useReducer, useState } from "react";
 import { SettingPanel } from "./SettingPanel";
+import store from "src/assets/store.png";
+import inventory from "src/assets/inventory.png";
+import setting from "src/assets/setting.png";
 
 export enum Props {
   OddDice = 0,
@@ -59,7 +64,21 @@ const focuseTabTextStyle = {
   lineHeight: "normal",
 };
 
+const buttonStyle = {
+  right: "52px",
+  width: "60px",
+  height: "60px",
+  p: "0px",
+  bg: "clear",
+  _hover: {},
+  _active: {
+    bg: "clear",
+    transform: "scale(0.98)",
+  },
+};
+
 const GameMenu = ({ ...rest }: any) => {
+  const [selectedIndex, setSelectedIndex] = useState(0);
   const [, forceUpdate] = useReducer((x) => x + 1, 0);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { address = "" } = useAccount();
@@ -96,7 +115,35 @@ const GameMenu = ({ ...rest }: any) => {
 
   return (
     <Container {...rest}>
-      <Button onClick={onOpen}>Marketplace</Button>
+      <Stack justify="space-between" direction="column" align="center" {...rest}>
+        <Button
+          {...buttonStyle}
+          onClick={() => {
+            setSelectedIndex(0);
+            onOpen();
+          }}
+        >
+          <Image src={store}></Image>
+        </Button>
+        <Button
+          {...buttonStyle}
+          onClick={() => {
+            setSelectedIndex(1);
+            onOpen();
+          }}
+        >
+          <Image src={inventory}></Image>
+        </Button>
+        <Button
+          {...buttonStyle}
+          onClick={() => {
+            setSelectedIndex(2);
+            onOpen();
+          }}
+        >
+          <Image src={setting}></Image>
+        </Button>
+      </Stack>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent
@@ -108,7 +155,7 @@ const GameMenu = ({ ...rest }: any) => {
           bg="linear-gradient(270deg, #FFF -26.8%, #000 30.45%)"
         >
           <ModalBody m="0px" p="0px" bg="clear">
-            <Tabs variant="enclosed">
+            <Tabs defaultIndex={selectedIndex} variant="enclosed">
               <TabList color="#C0C0C0">
                 <Tab
                   isFocusable

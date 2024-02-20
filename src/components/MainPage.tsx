@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState, useContext, useCallback } from "react";
-import { Flex, Box, Button, Switch } from "@chakra-ui/react";
+import { Flex, Box, Button, Switch, Image } from "@chakra-ui/react";
 import 'src/utils/phaser'
 import { config } from 'src/utils/phaser'
 import { GlobalContext } from 'src/context/global';
@@ -15,6 +15,8 @@ import { getConnectedWalletClient, publicClient } from 'src/config/clients'
 import GameMenu from "./GameMenu";
 import { NumberType } from 'src/types'
 import getHeatMapColors from 'src/utils/getHeatMapColors'
+import avatar from 'src/assets/avatar.png'
+import dice from 'src/assets/dice.png'
 
 export default function MainPage() {
   const hasInit = useRef(false);
@@ -87,7 +89,6 @@ export default function MainPage() {
     <Box mt="75px" minH="100vh">
       <Flex mb="space.m" gap="16px">
 
-
       </Flex>
       <Box id="phaser-zone-fomopoly" position="relative" mt="75px">
         <Box
@@ -97,27 +98,49 @@ export default function MainPage() {
           color="white">
           <Switch size='lg' colorScheme='red' onChange={onHeatMapSwitchClick} />
         </Box>
-        <Button
-          position="absolute"
-          top="20px"
-          right="20px"
-          onClick={onClickMove}>Move</Button>
-        <Button
-          position="absolute"
-          top="80px"
-          right="20px"
-          onClick={onClickBuyLand}>Buy Land</Button>
-        <GameMenu
-          position="absolute"
-          width="auto"
-          maxW="container.sm"
-          zIndex="docked"
-          right="20px"
-          top="140px"
-          p="0"
-        />
       </Box>
 
+      <Button
+        position="absolute"
+        top="52px"
+        left="52px"
+        bg="clear"
+        _hover={{}}
+        _active={{ bg: "clear", transform: "scale(0.98)" }}
+        >
+          <Image src={avatar}></Image>
+      </Button>
+      <GameMenu
+        position="absolute"
+        width="auto"
+        maxW="container.sm"
+        zIndex="docked"
+        right="20px"
+        top="52px"
+        p="0"
+      />
+      <Button
+        position="absolute"
+        bottom={`${NAVBAR_HIGHT + 250}px`}
+        right="52px"
+        bg="clear"
+        onClick={onClickBuyLand}
+        _hover={{}}
+        _active={{ bg: "clear", transform: "scale(0.98)" }}
+        >
+          <Image src={dice}></Image>
+      </Button>
+      <Button
+        position="absolute"
+        bottom={`${NAVBAR_HIGHT + 52}px`}
+        right="52px"
+        bg="clear"
+        onClick={onClickMove}
+        _hover={{}}
+        _active={{ bg: "clear", transform: "scale(0.98)" }}
+        >
+          <Image src={dice}></Image>
+      </Button>
     </Box>
   </ConnectModalProvider >
 }
