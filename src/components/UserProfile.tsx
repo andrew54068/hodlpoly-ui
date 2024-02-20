@@ -85,10 +85,10 @@ const ProfileImageAndName = () => {
   const { address = "0x" } = useAccount();
   const result = useEnsName({
     address,
-    chainId: mainnet.id, 
+    chainId: mainnet.id,
   });
 
-  const displayContent = result.data || address
+  const displayContent = result.data || address;
 
   return (
     <Flex
@@ -102,7 +102,8 @@ const ProfileImageAndName = () => {
         fontSize="24px"
         fontStyle="normal"
         fontWeight="600"
-        lineHeight="16.3px"
+        lineHeight="24px"
+        wordBreak="break-word"
       >
         {displayContent == "" ? "Wallet Not Connected" : displayContent}
       </Text>
