@@ -113,10 +113,12 @@ export default class FomopolyMap extends Phaser.Scene {
   }
 
   resizeBackgroundImage() {
-    const width = this.cameras.main.width;
-    const height = this.cameras.main.height;
-    const zoom = this.cameras.main.zoom;
-    console.log('zoom :', zoom);
+    const minZoom = Math.min(
+      this.displayHeight / this.boardHeight,
+      this.boardHeight / this.displayHeight, 1)
+
+    const width = this.cameras.main.width / minZoom;
+    const height = this.cameras.main.height / minZoom;
 
     // calculate scale ratio
     const scaleX = width / (this.background?.displayWidth ?? 1);
