@@ -59,7 +59,14 @@ export default class FomopolyMap extends Phaser.Scene {
 
     this.boardWidth = (this.board.tilesSize) * BOARD_CELL_WIDTH
     this.boardHeight = (this.board.tilesSize) * BOARD_CELL_HEIGHT
-    this.cameras.main.setBounds(0, 0, this.boardWidth, this.boardHeight);
+
+    const minZoom = Math.min(
+      this.displayHeight / this.boardHeight,
+      this.boardHeight / this.displayHeight, 1)
+
+    this.cameras.main.setBounds(0, 0,
+      Math.max(this.boardWidth / minZoom, window.innerWidth / minZoom),
+      Math.max(this.boardHeight / minZoom, window.innerHeight / minZoom));
 
     const chessA = new ChessA(board, {
       startPoint,
@@ -102,13 +109,14 @@ export default class FomopolyMap extends Phaser.Scene {
 
     // for drag and scrolling
     this.input.on('pointermove', (pointer) => {
-      if (!pointer.isDown) return;
+      if (pointer.isDown) {
+        this.cameras.main.scrollX -= (pointer.x - this.dragStartX);
+        this.cameras.main.scrollY -= (pointer.y - this.dragStartY);
 
-      this.cameras.main.scrollX -= (pointer.x - this.dragStartX);
-      this.cameras.main.scrollY -= (pointer.y - this.dragStartY);
+        this.dragStartX = pointer.x;
+        this.dragStartY = pointer.y;
+      }
 
-      this.dragStartX = pointer.x;
-      this.dragStartY = pointer.y;
     }, this);
   }
 
