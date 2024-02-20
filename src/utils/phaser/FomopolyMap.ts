@@ -7,7 +7,6 @@ import {
   CHESS_SPEED_FAST,
   BOARD_CELL_HEIGHT,
   BOARD_CELL_WIDTH,
-  GAME_HEIGHT,
   CHESS_SPEED_NORMAL,
   // LAND_TAG_COLOR,
   // HEATMAP_COLORS
@@ -93,7 +92,10 @@ export default class FomopolyMap extends Phaser.Scene {
     this.input.on('wheel', (pointer, gameObjects, deltaX, deltaY) => {
       let zoom = this.cameras.main.zoom + deltaY * -0.001;
 
-      const minZoom = Math.min(this.displayHeight / this.boardHeight, this.boardHeight / this.displayHeight, 1) / (this.displayHeight / GAME_HEIGHT)
+      const minZoom = Math.min(
+        this.displayHeight / this.boardHeight,
+        this.boardHeight / this.displayHeight, 1)
+
       zoom = Phaser.Math.Clamp(zoom, minZoom, 2); // Set minimum and maximum zoom levels
       this.cameras.main.setZoom(zoom);
     });
@@ -113,10 +115,12 @@ export default class FomopolyMap extends Phaser.Scene {
   resizeBackgroundImage() {
     const width = this.cameras.main.width;
     const height = this.cameras.main.height;
+    const zoom = this.cameras.main.zoom;
+    console.log('zoom :', zoom);
 
     // calculate scale ratio
-    const scaleX = width / (this.background?.width ?? 1);
-    const scaleY = height / (this.background?.height ?? 1);
+    const scaleX = width / (this.background?.displayWidth ?? 1);
+    const scaleY = height / (this.background?.displayHeight ?? 1);
     const maxScale = Math.max(scaleX, scaleY);
 
     this.background?.setScale(maxScale);
@@ -139,7 +143,6 @@ export default class FomopolyMap extends Phaser.Scene {
       if (userDirection !== undefined && userDirection !== null) {
         this.chessA.monopoly.setFace(userDirection)
       }
-
 
       this.chessA.moveTo.once('complete', () => {
         this.chessA?.moveTo.setSpeed(CHESS_SPEED_NORMAL);

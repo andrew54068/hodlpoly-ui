@@ -6,10 +6,10 @@ import FomopolyMap from './FomopolyMap';
 export const config = {
   type: Phaser.AUTO,
   parent: 'phaser-zone-fomopoly',
-  width: 1000,
-  height: 1000,
+  width: window.innerWidth,
+  height: window.innerHeight - 75,
   scale: {
-    mode: Phaser.Scale.WIDTH_CONTROLS_HEIGHT,
+    mode: Phaser.Scale.HEIGHT_CONTROLS_WIDTH,
     autoCenter: Phaser.Scale.CENTER_BOTH,
   },
   scene: FomopolyMap,
