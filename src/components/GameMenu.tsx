@@ -25,22 +25,13 @@ import { SettingPanel } from "./SettingPanel";
 import store from "src/assets/store.png";
 import inventory from "src/assets/inventory.png";
 import setting from "src/assets/setting.png";
-
-export enum Props {
-  OddDice = 0,
-  EvenDice = 1,
-  LowDice = 2,
-  HighDice = 3,
-  TitleDeed = 4,
-  Ticket = 5, // 10 tickets for 1 lottery ticket
-  LotteryTicket = 6,
-}
+import { PropsType } from "src/types";
 
 export type ShopItem = {
   image: string;
   name: string;
   desc: string;
-  prop: Props;
+  prop: PropsType;
 };
 
 export type InventoryItem = ShopItem & {
@@ -191,7 +182,7 @@ const GameMenu = ({ ...rest }: any) => {
                     forceUpdate();
                   }}
                 />
-                <InventoryPanel items={inventoryItems} />
+                <InventoryPanel items={inventoryItems} onDismiss={onClose}/>
                 <SettingPanel />
               </TabPanels>
             </Tabs>
