@@ -67,7 +67,6 @@ export default class FomopolyMap extends Phaser.Scene {
     });
 
     this.chessA = chessA;
-
   }
 
   create() {
@@ -76,6 +75,7 @@ export default class FomopolyMap extends Phaser.Scene {
     // add background
     this.background = this.add.image(0, 0, 'background').setOrigin(0, 0);
     this.resizeBackgroundImage();
+    this.setZoomToMinValue()
 
     this.input.on('pointerdown', (pointer) => {
       // Move the chess
@@ -110,6 +110,14 @@ export default class FomopolyMap extends Phaser.Scene {
       this.dragStartX = pointer.x;
       this.dragStartY = pointer.y;
     }, this);
+  }
+
+  setZoomToMinValue() {
+    const minZoom = Math.min(
+      this.displayHeight / this.boardHeight,
+      this.boardHeight / this.displayHeight, 1)
+
+    this.cameras.main.setZoom(minZoom);
   }
 
   resizeBackgroundImage() {
