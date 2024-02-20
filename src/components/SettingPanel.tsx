@@ -1,4 +1,6 @@
-import { Button, Card, Flex, TabPanel } from "@chakra-ui/react";
+import { Button, Card, Flex, Link, TabPanel } from "@chakra-ui/react";
+import { wagmiConfig } from "src/config";
+import { disconnect } from "@wagmi/core";
 
 const normalButtonStyle = {
   color: "white",
@@ -44,7 +46,15 @@ export const SettingPanel = () => {
             _hover={hoverButtonStyle}
             _pressed={pressButtonStyle}
           >
-            Twitter
+            <Link
+              href="https://twitter.com/FreeFlowonFlow"
+              _hover={{}}
+              width="100%"
+              height="100%"
+              isExternal
+            >
+              Twitter
+            </Link>
           </Button>
         </Card>
         <Card
@@ -59,7 +69,15 @@ export const SettingPanel = () => {
             _hover={hoverButtonStyle}
             _pressed={pressButtonStyle}
           >
-            How to Play
+            <Link
+              href="https://freeflow.gitbook.io/freeflow/projects/fomopoly/game-mechanism"
+              _hover={{}}
+              width="100%"
+              height="100%"
+              isExternal
+            >
+              How to Play
+            </Link>
           </Button>
         </Card>
         <Card
@@ -73,6 +91,9 @@ export const SettingPanel = () => {
             {...normalButtonStyle}
             _hover={hoverButtonStyle}
             _pressed={pressButtonStyle}
+            onClick={() => {
+              disconnect(wagmiConfig);
+            }}
           >
             Logout
           </Button>

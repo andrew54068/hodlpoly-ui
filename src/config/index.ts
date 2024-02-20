@@ -17,4 +17,3 @@ export const wagmiConfig = createConfig({
     [goerli.id]: http(),
   },
 });
-
