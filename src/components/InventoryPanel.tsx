@@ -14,7 +14,7 @@ export const InventoryPanel = ({ items }: InventoryPanelProps) => {
   );
 
   return (
-    <TabPanel p="24px">
+    <TabPanel p="24px" position="relative" alignSelf="stretch" bg="#FFFFFF" h="448px">
       <Flex alignItems="start" justifyContent="space-between" columnGap="24px">
         <SimpleGrid columns={3} spacing="20px" m="0px">
           {items.map((item) => {
