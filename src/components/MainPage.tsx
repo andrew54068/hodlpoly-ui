@@ -86,20 +86,10 @@ export default function MainPage() {
   return <ConnectModalProvider isOpen={isConnectModalOpen} onClose={onConnectModalClose}>
     <Box mt="75px" minH="100vh">
       <Flex mb="space.m" gap="16px">
-        <Button onClick={onClickMove}>Move</Button>
-        <Button onClick={onClickBuyLand}>Buy Land</Button>
-        <GameMenu
-          position="fixed"
-          width="auto"
-          maxW="container.sm"
-          zIndex="docked"
-          float="right"
-          right="0px"
-          top={`${NAVBAR_HIGHT}px`}
-          m="2rem"
-        />
+
+
       </Flex>
-      <Box id="phaser-zone-fomopoly" position="relative">
+      <Box id="phaser-zone-fomopoly" position="relative" mt="75px">
         <Box
           position="absolute"
           top="20px"
@@ -107,6 +97,25 @@ export default function MainPage() {
           color="white">
           <Switch size='lg' colorScheme='red' onChange={onHeatMapSwitchClick} />
         </Box>
+        <Button
+          position="absolute"
+          top="20px"
+          right="20px"
+          onClick={onClickMove}>Move</Button>
+        <Button
+          position="absolute"
+          top="80px"
+          right="20px"
+          onClick={onClickBuyLand}>Buy Land</Button>
+        <GameMenu
+          position="absolute"
+          width="auto"
+          maxW="container.sm"
+          zIndex="docked"
+          right="20px"
+          top="140px"
+          p="0"
+        />
       </Box>
 
     </Box>
