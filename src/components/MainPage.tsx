@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState, useContext, useCallback } from "react";
-import { Flex, Box, Button, Switch, Image, Text } from "@chakra-ui/react";
+import { Box, Button, Switch, Image } from "@chakra-ui/react";
 import "src/utils/phaser";
 import { config } from "src/utils/phaser";
 import { GlobalContext } from "src/context/global";
@@ -15,9 +15,11 @@ import { getConnectedWalletClient, publicClient } from "src/config/clients";
 import GameMenu from "./GameMenu";
 import { NumberType } from "src/types";
 import getHeatMapColors from "src/utils/getHeatMapColors";
-import avatar from "src/assets/avatar.png";
 import dice from "src/assets/dice.png";
-import logo from "src/assets/logo.png";
+import { BalanceBoard } from "./BalanceBoard";
+import { UserProfile } from "./UserProfile";
+
+export const outterSharedMargin = 54;
 
 export default function MainPage() {
   const hasInit = useRef(false);
@@ -26,7 +28,7 @@ export default function MainPage() {
   const { isConnectModalOpen, onConnectModalClose } = useContext(GlobalContext);
   const { address = "" } = useAccount();
 
-  const { userBalance, allLandPrices, landAmount, userOwnedLands, userSteps } =
+  const { allLandPrices, landAmount, userOwnedLands, userSteps } =
     useUserFomopolyData();
   const { rollTheDice, buyLand } = useUserActions();
 
@@ -93,86 +95,65 @@ export default function MainPage() {
     >
       <Box minH="100vh" pt="75px">
         <Box id="phaser-zone-fomopoly" position="relative">
-          <Box position="absolute" bottom="20px" left="20px" color="white">
-            <Switch
-              size="lg"
-              colorScheme="red"
-              onChange={onHeatMapSwitchClick}
-            />
-          </Box>
-
-          <Button
+          <Box
             position="absolute"
-            top="52px"
-            left="52px"
-            bg="clear"
-            _hover={{}}
-            _active={{ bg: "clear", transform: "scale(0.98)" }}
-          >
-            <Image src={avatar}></Image>
-          </Button>
-          <Button
-            position="absolute"
-            top={`${NAVBAR_HIGHT + 0}px`}
-            right="52px"
-            bg="clear"
-            _hover={{}}
-            _active={{ bg: "clear", transform: "scale(0.98)" }}
-          >
-            <Box
-              width="180px"
-              borderRadius="12px"
-              border="4px solid #000"
-              background="var(--Generic-White, #FFF)"
-              boxShadow="0px 2px 6px 0px rgba(16, 24, 40, 0.06)"
-              p="12px"
-            >
-              <Flex justifyContent="space-between" alignItems="center">
-                <Image src={logo}></Image>
-                <Text
-                  color="var(--Neutral-500, #6B7280)"
-                  fontSize="18px"
-                  fontStyle="normal"
-                  fontWeight="600"
-                  lineHeight="28px"
-                >
-                  0.00
-                </Text>
-              </Flex>
-            </Box>
-          </Button>
-          <GameMenu
-            position="absolute"
-            width="auto"
-            maxW="container.sm"
-            zIndex="docked"
-            right="20px"
-            top={`${NAVBAR_HIGHT + 20}px`}
-            p="0px"
-          />
-          <Button
-            position="absolute"
-            bottom={`${NAVBAR_HIGHT + 250}px`}
-            right="52px"
-            bg="clear"
-            onClick={onClickBuyLand}
-            _hover={{}}
-            _active={{ bg: "clear", transform: "scale(0.98)" }}
-          >
-            <Image src={dice}></Image>
-          </Button>
-          <Button
-            position="absolute"
-            bottom={`${NAVBAR_HIGHT + 52}px`}
-            right="52px"
-            bg="clear"
-            onClick={onClickMove}
-            _hover={{}}
-            _active={{ bg: "clear", transform: "scale(0.98)" }}
-          >
-            <Image src={dice}></Image>
-          </Button>
+            bottom="20px"
+            left="20px"
+            color="white"
+          ></Box>
         </Box>
+      </Box>
+      <Box position="absolute" w="100%" h="100%" top="0px">
+        <UserProfile />
+
+        <BalanceBoard
+          position="absolute"
+          top={`${outterSharedMargin + NAVBAR_HIGHT}px`}
+          right={`${outterSharedMargin}px`}
+          width="180px"
+          height="52px"
+        />
+        <GameMenu
+          position="absolute"
+          width="60px"
+          height="204px"
+          right={`${outterSharedMargin}px`}
+          top={`${156 + NAVBAR_HIGHT}px`}
+          p="0px"
+          m="0px"
+        />
+        <Button
+          size="146px"
+          position="absolute"
+          bottom={`${outterSharedMargin + 146 + 30}px`}
+          right={`${outterSharedMargin}px`}
+          bg="none"
+          onClick={onClickBuyLand}
+          _hover={{}}
+          _active={{ bg: "clear", transform: "scale(0.98)" }}
+        >
+          <Image src={dice}></Image>
+        </Button>
+        <Button
+          size="146px"
+          position="absolute"
+          bottom={`${outterSharedMargin}px`}
+          right={`${outterSharedMargin}px`}
+          bg="none"
+          onClick={onClickMove}
+          _hover={{}}
+          _active={{ bg: "clear", transform: "scale(0.98)" }}
+        >
+          <Image src={dice}></Image>
+        </Button>
+        <Switch
+          position="absolute"
+          left={`${outterSharedMargin}px`}
+          bottom={`${outterSharedMargin}px`}
+          size="lg"
+          colorScheme="red"
+          onChange={onHeatMapSwitchClick}
+        />
       </Box>
     </ConnectModalProvider>
   );

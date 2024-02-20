@@ -1,7 +1,8 @@
 
-import { FOMOPOLY_PROXY_ADDRESS } from 'src/constants'
+import { FMP_PROXY_ADDRESS, FOMOPOLY_PROXY_ADDRESS } from 'src/constants'
 import { useAccount, useReadContract, useBalance } from 'wagmi'
 import fomopolyAbi from 'src/abi/fomopoly'
+import fmpAbi from 'src/abi/fmp'
 
 
 export default function useUserFomopolyData() {
@@ -38,12 +39,20 @@ export default function useUserFomopolyData() {
     args: [address]
   })
 
+  const { data: fmpBalance = BigInt(0) } = useReadContract({
+    abi: fmpAbi.abi,
+    address: FMP_PROXY_ADDRESS,
+    functionName: 'balanceOf',
+    args: [address]
+  })
+  console.log('fmpBalance :', fmpBalance.toString());
 
   return {
     allLandPrices,
     landAmount,
     userSteps,
     userOwnedLands,
-    userBalance
+    userBalance: userBalance.data?.value || BigInt(0),
+    fmpBalance
   }
 }
