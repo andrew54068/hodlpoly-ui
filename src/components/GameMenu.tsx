@@ -81,13 +81,26 @@ const GameMenu = ({ ...rest }: any) => {
       <Button onClick={onOpen}>Marketplace</Button>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent width="564px" height="531px" p="16px" maxW="564px">
-          <ModalBody m="0px" p="0px">
+        <ModalContent
+          width="564px"
+          height="531px"
+          p="16px"
+          maxW="564px"
+          borderRadius="0px"
+          bg="linear-gradient(270deg, #FFF -26.8%, #000 30.45%)"
+        >
+          <ModalBody m="0px" p="0px" bg="clear">
             <Tabs variant="enclosed">
-              <TabList>
-                <Tab>Shop</Tab>
-                <Tab>Inventory</Tab>
-                <Tab>Setting</Tab>
+              <TabList color="#C0C0C0">
+                <Tab isFocusable _focus={{ bg: "#FFFFFF" }}>
+                  Shop
+                </Tab>
+                <Tab isFocusable _focus={{ bg: "#FFFFFF" }}>
+                  Inventory
+                </Tab>
+                <Tab isFocusable _focus={{ bg: "#FFFFFF" }}>
+                  Setting
+                </Tab>
               </TabList>
               <TabPanels>
                 <ShopPanel
@@ -101,6 +114,7 @@ const GameMenu = ({ ...rest }: any) => {
             </Tabs>
           </ModalBody>
           <ModalCloseButton
+            color="white"
             position="absolute"
             top="10px"
             right="0px"

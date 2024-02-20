@@ -52,7 +52,7 @@ export const ShopPanel = ({ items, onUpdateAmount }: ShopPanelProps) => {
   };
 
   return (
-    <TabPanel p="24px">
+    <TabPanel p="24px" bg="#FFFFFF">
       <Flex alignItems="start" justifyContent="space-between" columnGap="24px">
         <SimpleGrid columns={3} spacing="20px" m="0px">
           {items.map((item) => {
