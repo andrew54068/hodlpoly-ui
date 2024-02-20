@@ -1,6 +1,5 @@
 import {
   Button,
-  Container,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -13,6 +12,7 @@ import {
   useDisclosure,
   Image,
   Stack,
+  Box,
 } from "@chakra-ui/react";
 import { useAccount, useReadContract } from "wagmi";
 import { shopItems } from "src/utils/constants";
@@ -65,7 +65,6 @@ const focuseTabTextStyle = {
 };
 
 const buttonStyle = {
-  right: "52px",
   width: "60px",
   height: "60px",
   p: "0px",
@@ -114,8 +113,8 @@ const GameMenu = ({ ...rest }: any) => {
   }
 
   return (
-    <Container {...rest}>
-      <Stack justify="space-between" direction="column" align="center" {...rest}>
+    <Box {...rest}>
+      <Stack justify="space-between" direction="column" align="center">
         <Button
           {...buttonStyle}
           onClick={() => {
@@ -206,7 +205,7 @@ const GameMenu = ({ ...rest }: any) => {
           />
         </ModalContent>
       </Modal>
-    </Container>
+    </Box>
   );
 };
 
