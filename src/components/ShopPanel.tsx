@@ -7,7 +7,7 @@ import { SelectedPropCard } from "./SelectedPropCard";
 import { useAccount, useReadContract } from "wagmi";
 import { getConnectedWalletClient, publicClient } from "src/config/clients";
 import { getContract } from "viem";
-import { FOMOPOLY_ADDRESS_TESTNET } from "src/constants";
+import { FOMOPOLY_PROXY_ADDRESS } from "src/constants";
 
 interface ShopPanelProps {
   items: ShopItem[];
@@ -23,7 +23,7 @@ export const ShopPanel = ({ items, onUpdateAmount }: ShopPanelProps) => {
 
     if (!walletClient) return;
     const contract = getContract({
-      address: FOMOPOLY_ADDRESS_TESTNET,
+      address: FOMOPOLY_PROXY_ADDRESS,
       abi: fomopolyAbi.abi,
       client: { public: publicClient, wallet: walletClient },
     });
@@ -33,7 +33,7 @@ export const ShopPanel = ({ items, onUpdateAmount }: ShopPanelProps) => {
 
   const { data: allPropsPrices = [] } = useReadContract({
     abi: fomopolyAbi.abi,
-    address: FOMOPOLY_ADDRESS_TESTNET,
+    address: FOMOPOLY_PROXY_ADDRESS,
     functionName: "getPropPricesETH",
     args: [],
   });

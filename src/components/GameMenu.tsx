@@ -19,7 +19,7 @@ import { shopItems } from "src/utils/constants";
 import { ShopPanel } from "./ShopPanel";
 import { InventoryPanel } from "./InventoryPanel";
 import fomopolyAbi from "src/abi/fomopoly";
-import { FOMOPOLY_ADDRESS_TESTNET } from "src/constants";
+import { FOMOPOLY_PROXY_ADDRESS } from "src/constants";
 import { useReducer, useState } from "react";
 import { SettingPanel } from "./SettingPanel";
 import store from "src/assets/store.png";
@@ -85,7 +85,7 @@ const GameMenu = ({ ...rest }: any) => {
 
   const { data: props } = useReadContract({
     abi: fomopolyAbi.abi,
-    address: FOMOPOLY_ADDRESS_TESTNET,
+    address: FOMOPOLY_PROXY_ADDRESS,
     functionName: "getPlayerProps",
     args: [address],
   });
