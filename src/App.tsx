@@ -3,7 +3,6 @@ import theme from "./theme";
 import { useEffect } from "react";
 
 import { ChakraProvider, Box } from "@chakra-ui/react";
-import "./App.css";
 import Navbar from "./components/Navbar";
 import NotFound from "src/components/NotFound";
 import MainPage from "src/components/MainPage";
