@@ -1,12 +1,14 @@
 import { useDisclosure } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { GlobalContext } from "./global";
+import { SelectingLandPurpose } from "src/types";
 
 
 export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
   const [account, setAccount] = useState<string | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
   const [chainId, setChainId] = useState<string | null>(null);
+  const [selectingLandPurpose, setSelectingLandPurpose] = useState<SelectingLandPurpose | null>(null);
   const { isOpen: isConnectModalOpen, onOpen: onConnectModalOpen, onClose: onConnectModalClose } = useDisclosure()
 
   return (
@@ -20,7 +22,9 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
         setChainId,
         isConnectModalOpen,
         onConnectModalOpen,
-        onConnectModalClose
+        onConnectModalClose,
+        selectingLandPurpose,
+        setSelectingLandPurpose
       }}
     >
       {children}

@@ -1,4 +1,5 @@
 import { createContext } from "react";
+import { SelectingLandPurpose } from "src/types";
 
 export const GlobalContext = createContext<{
   account: string | null;
@@ -10,6 +11,8 @@ export const GlobalContext = createContext<{
   isConnectModalOpen: boolean,
   onConnectModalOpen: () => void,
   onConnectModalClose: () => void,
+  selectingLandPurpose: SelectingLandPurpose | null,
+  setSelectingLandPurpose: (selectingLandPurpose: SelectingLandPurpose | null) => void,
 }>({
   account: null,
   setAccount: () => undefined,
@@ -20,4 +23,6 @@ export const GlobalContext = createContext<{
   isConnectModalOpen: false,
   onConnectModalOpen: () => undefined,
   onConnectModalClose: () => undefined,
+  selectingLandPurpose: null,
+  setSelectingLandPurpose: () => undefined,
 });
