@@ -8,6 +8,7 @@ import { useAccount, useReadContract } from "wagmi";
 import { getConnectedWalletClient, publicClient } from "src/config/clients";
 import { getContract } from "viem";
 import { FOMOPOLY_PROXY_ADDRESS } from "src/constants";
+import { logClickBuyProps } from "src/services/Amplitude/log";
 
 interface ShopPanelProps {
   items: ShopItem[];
@@ -48,7 +49,8 @@ export const ShopPanel = ({ items, onUpdateAmount }: ShopPanelProps) => {
       value: propPrice,
     });
     console.log("hash :", hash);
-    onUpdateAmount()
+    logClickBuyProps();
+    onUpdateAmount();
   };
 
   return (
