@@ -14,13 +14,10 @@ import {
   Stack,
   Box,
 } from "@chakra-ui/react";
-import { useAccount, useReadContract } from "wagmi";
 import { shopItems } from "src/utils/constants";
 import { ShopPanel } from "./ShopPanel";
 import { InventoryPanel } from "./InventoryPanel";
-import fomopolyAbi from "src/abi/fomopoly";
 import useUserFomopolyData from "src/hooks/useUserFomopolyData";
-import { FOMOPOLY_PROXY_ADDRESS } from "src/constants";
 import { useReducer, useState } from "react";
 import { SettingPanel } from "./SettingPanel";
 import store from "src/assets/store.png";
