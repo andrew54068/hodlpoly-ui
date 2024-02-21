@@ -1,14 +1,28 @@
 import { HamburgerIcon } from "@chakra-ui/icons";
-import { Divider, Box, ListItem as ChakraListItem, Collapse, Flex, IconButton, List } from "@chakra-ui/react";
+import {
+  Divider,
+  Box,
+  ListItem as ChakraListItem,
+  Collapse,
+  Flex,
+  IconButton,
+  List,
+} from "@chakra-ui/react";
 import Button from "src/components/Button";
 import useClickAway from "src/hooks/useClickAway";
 import { useState, useContext } from "react";
-import { useAccount, useDisconnect } from 'wagmi'
+import { useAccount, useDisconnect } from "wagmi";
 import { Link } from "react-router-dom";
 import formatAddress from "src/utils/formatAddress";
-import { useMediaQuery, MenuButton, MenuItem, MenuList, Menu } from "@chakra-ui/react";
+import {
+  useMediaQuery,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Menu,
+} from "@chakra-ui/react";
 import LogoImg from "src/assets/react.svg?react";
-import { GlobalContext } from 'src/context/global';
+import { GlobalContext } from "src/context/global";
 import { NAVBAR_HIGHT } from "src/utils/constants";
 
 const ListItem = ({ children, ...rest }: any) => (
@@ -27,17 +41,13 @@ const ListItem = ({ children, ...rest }: any) => (
   </ChakraListItem>
 );
 
-
-
-
 export default function Navbar() {
-  const { onConnectModalOpen } = useContext(GlobalContext)
+  const { onConnectModalOpen } = useContext(GlobalContext);
 
   const [showDropdown, setShowDropdown] = useState(false);
   const [isMobile] = useMediaQuery("(max-width: 768px)");
-  const { address } = useAccount()
-  const { disconnect } = useDisconnect()
-
+  const { address } = useAccount();
+  const { disconnect } = useDisconnect();
 
   const ref = useClickAway(() => setShowDropdown(false));
   const toggleDropdown = () => {
@@ -49,7 +59,7 @@ export default function Navbar() {
   };
 
   const onClickConnect = () => {
-    onConnectModalOpen()
+    onConnectModalOpen();
   };
 
   return (
@@ -67,42 +77,51 @@ export default function Navbar() {
       boxShadow="0 0 10px 0 rgba(0, 0, 0, 0.05)"
     >
       <Flex justify="space-between" alignItems="center" width="100%">
-        <Box fontSize="size.heading.4" pl="space.l" >
+        <Box fontSize="size.heading.4" pl="space.l">
           <Link to="/mint">
             <LogoImg />
           </Link>
         </Box>
 
-        {
-          isMobile ? <Flex alignItems="center">
-            <IconButton onClick={toggleDropdown} aria-label="menu-button" icon={<HamburgerIcon />} variant="outline" />
-          </Flex> : <Flex alignItems="center">
-
-
+        {isMobile ? (
+          <Flex alignItems="center">
+            <IconButton
+              onClick={toggleDropdown}
+              aria-label="menu-button"
+              icon={<HamburgerIcon />}
+              variant="outline"
+            />
+          </Flex>
+        ) : (
+          <Flex alignItems="center">
             <Box h="44px" mx="16px">
-              <Divider orientation='vertical' bg="white" w="1px" />
+              <Divider orientation="vertical" bg="white" w="1px" />
             </Box>
             <Box>
-              {
-                !address ? <Button onClick={onClickConnect}>
-                  Connect
-                </Button> : <Box>
+              {!address ? (
+                <Button onClick={onClickConnect}>Connect</Button>
+              ) : (
+                <Box>
                   <Menu>
                     <>
-                      <MenuButton>
-                        {formatAddress(address)}
-                      </MenuButton>
-                      <MenuList color="#00001E" >
-                        <MenuItem onClick={onClickCopyAccount}> Copy Address </MenuItem>
-                        <MenuItem onClick={() => disconnect()}> Disconnect </MenuItem>
+                      <MenuButton>{formatAddress(address)}</MenuButton>
+                      <MenuList color="#00001E">
+                        <MenuItem onClick={onClickCopyAccount}>
+                          {" "}
+                          Copy Address{" "}
+                        </MenuItem>
+                        <MenuItem onClick={() => disconnect()}>
+                          {" "}
+                          Disconnect{" "}
+                        </MenuItem>
                       </MenuList>
                     </>
                   </Menu>
                 </Box>
-              }
+              )}
             </Box>
           </Flex>
-        }
+        )}
       </Flex>
       {/* Dropdown menu on mobile */}
       <Collapse
@@ -126,14 +145,10 @@ export default function Navbar() {
         >
           <List fontWeight={500}>
             <ListItem>
-              <Button onClick={onClickConnect}>
-                Connect
-              </Button>
+              {!address && <Button onClick={onClickConnect}>Connect</Button>}
             </ListItem>
             <Link to="/">
-              <ListItem>
-                Main
-              </ListItem>
+              <ListItem>Main</ListItem>
             </Link>
 
             <ListItem onClick={onClickConnect}>
@@ -142,7 +157,12 @@ export default function Navbar() {
                   {address ? `${formatAddress(address)} ` : "Connect Wallet"}
                 </Box>
                 {address && (
-                  <Button color="white" onClick={onClickCopyAccount} w="auto" variant="outlineDark" >
+                  <Button
+                    color="white"
+                    onClick={onClickCopyAccount}
+                    w="auto"
+                    variant="outlineDark"
+                  >
                     Copy Address
                   </Button>
                 )}
@@ -161,6 +181,6 @@ export default function Navbar() {
           </List>
         </Box>
       </Collapse>
-    </Flex >
+    </Flex>
   );
 }
