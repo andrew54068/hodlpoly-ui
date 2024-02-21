@@ -1,15 +1,27 @@
 import { useCallback } from 'react'
 import { getConnectedWalletClient, publicClient } from 'src/config/clients'
 import { FOMOPOLY_PROXY_ADDRESS } from 'src/constants'
-import { useAccount } from 'wagmi'
+import { useAccount, useSwitchChain } from 'wagmi'
+import { goerli } from 'wagmi/chains'
 import fomopolyAbi from 'src/abi/fomopoly'
 import { getContract } from 'viem'
 import { NumberType } from 'src/types'
 import useUserFomopolyData from './useUserFomopolyData'
 
+
+const CHAIN_ID = goerli.id
 export default function useUserActions() {
-  const { address = '0x0' } = useAccount()
   const { userSteps, allLandPrices } = useUserFomopolyData()
+  const { address = '0x0', chainId } = useAccount()
+
+  const { switchChain } = useSwitchChain()
+  const checkChain = async () => {
+    if (chainId !== CHAIN_ID) {
+      await switchChain({ chainId: CHAIN_ID })
+    }
+  }
+
+
 
   const getContractClient = useCallback(async () => {
     const walletClient = await getConnectedWalletClient({ address })
@@ -27,6 +39,7 @@ export default function useUserActions() {
 
   const rollTheDice = async (moveType: NumberType) => {
     const contract = await getContractClient()
+    await checkChain()
     if (!contract) return
 
     const [positionBeforeMove] = await contract.read.getPlayer([address])
@@ -46,6 +59,7 @@ export default function useUserActions() {
 
   const buyLand = async () => {
     const contract = await getContractClient()
+    await checkChain()
     if (!contract || !address) return
 
     // @todo: check if the user has owned the land
