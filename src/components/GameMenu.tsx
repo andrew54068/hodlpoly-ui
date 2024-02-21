@@ -19,6 +19,7 @@ import { shopItems } from "src/utils/constants";
 import { ShopPanel } from "./ShopPanel";
 import { InventoryPanel } from "./InventoryPanel";
 import fomopolyAbi from "src/abi/fomopoly";
+import useUserFomopolyData from "src/hooks/useUserFomopolyData";
 import { FOMOPOLY_PROXY_ADDRESS } from "src/constants";
 import { useReducer, useState } from "react";
 import { SettingPanel } from "./SettingPanel";
@@ -71,20 +72,15 @@ const GameMenu = ({ ...rest }: any) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [, forceUpdate] = useReducer((x) => x + 1, 0);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { address = "" } = useAccount();
 
-  const { data: props } = useReadContract({
-    abi: fomopolyAbi.abi,
-    address: FOMOPOLY_PROXY_ADDRESS,
-    functionName: "getPlayerProps",
-    args: [address],
-  });
+  const { userProps, refetchUserProps } = useUserFomopolyData();
 
   let inventoryItems: InventoryItem[] = [];
-  if (props) {
-    console.log(typeof props);
+  if (userProps) {
+    console.log(typeof userProps);
+
     const [oddDice, evenDice, lowDice, highDice, titleDeed, , lotteryTicket] =
-      props.map((value) => Number(value));
+      userProps.map((value) => Number(value));
     const reorderedAmount = [
       titleDeed,
       highDice,
@@ -103,6 +99,9 @@ const GameMenu = ({ ...rest }: any) => {
       .filter((value) => value.amount != 0);
   }
 
+  const onTabChange = () => {
+    refetchUserProps();
+  };
   return (
     <Box {...rest}>
       <Stack justify="space-between" direction="column" align="center">
@@ -145,7 +144,11 @@ const GameMenu = ({ ...rest }: any) => {
           bg="linear-gradient(270deg, #FFF -26.8%, #000 30.45%)"
         >
           <ModalBody m="0px" p="0px" bg="none">
-            <Tabs defaultIndex={selectedIndex} variant="enclosed">
+            <Tabs
+              defaultIndex={selectedIndex}
+              variant="enclosed"
+              onChange={onTabChange}
+            >
               <TabList color="#C0C0C0">
                 <Tab
                   isFocusable
@@ -182,7 +185,7 @@ const GameMenu = ({ ...rest }: any) => {
                     forceUpdate();
                   }}
                 />
-                <InventoryPanel items={inventoryItems} onDismiss={onClose}/>
+                <InventoryPanel items={inventoryItems} onDismiss={onClose} />
                 <SettingPanel />
               </TabPanels>
             </Tabs>
