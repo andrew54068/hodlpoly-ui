@@ -4,7 +4,7 @@ import logo from "src/assets/logo.png";
 import { formatEther } from "viem";
 
 export const BalanceBoard = ({ ...rest }: any) => {
-  const { fmpBalance } = useUserFomopolyData();
+  const { playerClaimableReward } = useUserFomopolyData();
 
   return (
     <Box
@@ -24,7 +24,7 @@ export const BalanceBoard = ({ ...rest }: any) => {
           fontWeight="600"
           lineHeight="28px"
         >
-          {formatEther(fmpBalance)}
+          {formatEther(playerClaimableReward)}
         </Text>
       </Flex>
     </Box>
