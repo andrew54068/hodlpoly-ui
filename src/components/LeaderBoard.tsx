@@ -78,10 +78,10 @@ const RankCard = ({ rank, name, value }: RankCardProps) => {
 };
 
 export const LeaderBoard = ({ ...rest }: any) => {
-  const { landAmount, pool } = useUserFomopolyData();
+  const { systemPool } = useUserFomopolyData();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const prizeAmount: bigint = BigInt(landAmount ?? 0) * (pool[1] ?? BigInt(0));
+  const prizeAmount: bigint = BigInt(systemPool ?? 0);
 
   return (
     <Box

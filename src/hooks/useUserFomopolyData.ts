@@ -18,6 +18,13 @@ export default function useUserFomopolyData() {
     chainId: CHAIN_ID
   })
 
+  const { data: [systemPool] = [] } = useReadContract({
+    abi: fomopolyAbi.abi,
+    address: FOMOPOLY_PROXY_ADDRESS,
+    functionName: 'getSystemPool',
+    chainId: CHAIN_ID
+  })
+
   const { data: [userSteps] = [] } = useReadContract({
     abi: fomopolyAbi.abi,
     address: FOMOPOLY_PROXY_ADDRESS,
@@ -44,13 +51,6 @@ export default function useUserFomopolyData() {
     chainId: CHAIN_ID
   })
 
-  const { data: pool = [] } = useReadContract({
-    abi: fomopolyAbi.abi,
-    address: FOMOPOLY_PROXY_ADDRESS,
-    functionName: 'getPool',
-    chainId: CHAIN_ID
-  })
-
   const { data: fmpBalance = BigInt(0) } = useReadContract({
     abi: fmpAbi.abi,
     address: FMP_PROXY_ADDRESS,
@@ -62,11 +62,11 @@ export default function useUserFomopolyData() {
 
   return {
     allLandPrices,
+    systemPool,
     landAmount,
     userSteps,
     userOwnedLands,
     userBalance: userBalance.data?.value || BigInt(0),
     fmpBalance,
-    pool
   }
 }

@@ -13,11 +13,9 @@ import {
   Box,
 } from "@chakra-ui/react";
 import useUserFomopolyData from "src/hooks/useUserFomopolyData";
-import { NAVBAR_HIGHT } from "src/utils/constants";
 import avatar from "src/assets/avatar.png";
 import avatarSmall from "src/assets/avatar-small.png";
 import { formatEther } from "viem";
-import { outterSharedMargin } from "./MainPage";
 import { useAccount, useEnsName } from "wagmi";
 import { mainnet } from "wagmi/chains";
 
