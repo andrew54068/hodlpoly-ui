@@ -35,7 +35,13 @@ export default function useUserFomopolyData() {
 
 
   // @todo: show land price on the map 
-  const { data: allLandPrices = [] }: { data?: bigint[] } = useReadContract({
+  const {
+    data: allLandPrices = [],
+    refetch: refetchAllLandPrices
+  }: {
+    data?: bigint[],
+    refetch: () => void
+  } = useReadContract({
     abi: fomopolyAbi.abi,
     address: FOMOPOLY_PROXY_ADDRESS,
     functionName: 'getAllLandPrice',
@@ -71,6 +77,7 @@ export default function useUserFomopolyData() {
 
   return {
     allLandPrices,
+    refetchAllLandPrices,
     systemPool,
     landAmount,
     userSteps,
