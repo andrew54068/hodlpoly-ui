@@ -1,4 +1,3 @@
-
 import {
   Box,
   Modal,
@@ -7,10 +6,10 @@ import {
   ModalHeader,
   ModalCloseButton,
   ModalBody,
-} from '@chakra-ui/react'
-import Button from 'src/components/Button'
+} from "@chakra-ui/react";
+import Button from "src/components/Button";
 import { useConnect } from "wagmi";
-
+import { logConnectSuccessfully } from "src/services/Amplitude/log";
 
 export const WalletOptions = ({ onClose }) => {
   const { connectors, connect } = useConnect();
@@ -22,22 +21,21 @@ export const WalletOptions = ({ onClose }) => {
           onClick={async () => {
             onClose();
             await connect({ connector });
+            logConnectSuccessfully();
           }}
         >
-          {connector.name === 'Injected' ? 'Metamask' : connector.name}
+          {connector.name === "Injected" ? "Metamask" : connector.name}
         </Button>
       ))}
     </Box>
   );
 };
 
-
-
 export const ConnectModalProvider = ({ children, isOpen, onClose }) => {
   return (
     <>
       {children}
-      <Modal isOpen={isOpen} onClose={onClose} >
+      <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Connect Wallet</ModalHeader>
@@ -46,7 +44,7 @@ export const ConnectModalProvider = ({ children, isOpen, onClose }) => {
             <WalletOptions onClose={onClose} />
           </ModalBody>
         </ModalContent>
-      </ Modal>
+      </Modal>
     </>
   );
 };

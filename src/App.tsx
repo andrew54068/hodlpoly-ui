@@ -7,33 +7,33 @@ import Navbar from "./components/Navbar";
 import NotFound from "src/components/NotFound";
 import MainPage from "src/components/MainPage";
 import { GlobalProvider } from "./context/globalContextProvider";
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import 'src/types'
-import { WagmiProvider } from 'wagmi'
-import { wagmiConfig } from 'src/config'
-import 'src/config/clients';
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import "src/types";
+import { WagmiProvider } from "wagmi";
+import { wagmiConfig } from "src/config";
+import "src/config/clients";
+import { logPageView } from "src/services/Amplitude/log";
 
-
-
-const queryClient = new QueryClient()
+const queryClient = new QueryClient();
 
 function App() {
-
   const { pathname } = useLocation();
   const isLanding = pathname === "/";
 
-
   useEffect(() => {
+    logPageView(pathname);
   }, [pathname]);
 
   return (
     <GlobalProvider>
       <WagmiProvider config={wagmiConfig}>
-
         <QueryClientProvider client={queryClient}>
-
           <ChakraProvider theme={theme}>
-            <Box margin="0 auto" width="100%" bgColor={isLanding ? "white" : "#EEF1F5"}>
+            <Box
+              margin="0 auto"
+              width="100%"
+              bgColor={isLanding ? "white" : "#EEF1F5"}
+            >
               <Navbar />
               <Box margin="0 auto" maxW={isLanding ? "100%" : `520px`}>
                 <Routes>
@@ -43,12 +43,10 @@ function App() {
               </Box>
             </Box>
           </ChakraProvider>
-
         </QueryClientProvider>
       </WagmiProvider>
-    </GlobalProvider >
+    </GlobalProvider>
   );
 }
 
-
-export default App
+export default App;

@@ -24,6 +24,7 @@ import {
 import LogoImg from "src/assets/react.svg?react";
 import { GlobalContext } from "src/context/global";
 import { NAVBAR_HIGHT } from "src/utils/constants";
+import { logClickConnectButton } from "src/services/Amplitude/log";
 
 const ListItem = ({ children, ...rest }: any) => (
   <ChakraListItem
@@ -59,6 +60,7 @@ export default function Navbar() {
   };
 
   const onClickConnect = () => {
+    logClickConnectButton();
     onConnectModalOpen();
   };
 
