@@ -28,8 +28,13 @@ export default function MainPage() {
     setSelectingLandPurpose,
   } = useContext(GlobalContext);
 
-  const { allLandPrices, landAmount, userOwnedLands, userSteps } =
-    useUserFomopolyData();
+  const {
+    allLandPrices,
+    refetchAllLandPrices,
+    landAmount,
+    userOwnedLands,
+    userSteps,
+  } = useUserFomopolyData();
   const { rollTheDice, buyLand } = useUserActions();
 
   useEffect(() => {
@@ -64,6 +69,7 @@ export default function MainPage() {
       setIsHeatMapMode((prev) => !prev);
       window.fomopolyMap.setHeatMapMode(!isHeatMapMode, heatMapSteps);
     }
+    refetchAllLandPrices();
   };
 
   const onClickMove = async () => {
