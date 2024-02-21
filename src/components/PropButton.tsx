@@ -23,7 +23,7 @@ export const PropButton = ({
   return (
     <Button
       {...rest}
-      bg="clear"
+      bg="none"
       m="0px"
       p="0px"
       w="100px"

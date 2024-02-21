@@ -59,10 +59,10 @@ const buttonStyle = {
   width: "60px",
   height: "60px",
   p: "0px",
-  bg: "clear",
+  bg: "none",
   _hover: {},
   _active: {
-    bg: "clear",
+    bg: "none",
     transform: "scale(0.98)",
   },
 };
@@ -144,7 +144,7 @@ const GameMenu = ({ ...rest }: any) => {
           borderRadius="0px"
           bg="linear-gradient(270deg, #FFF -26.8%, #000 30.45%)"
         >
-          <ModalBody m="0px" p="0px" bg="clear">
+          <ModalBody m="0px" p="0px" bg="none">
             <Tabs defaultIndex={selectedIndex} variant="enclosed">
               <TabList color="#C0C0C0">
                 <Tab

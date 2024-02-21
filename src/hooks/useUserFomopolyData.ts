@@ -39,6 +39,12 @@ export default function useUserFomopolyData() {
     args: [address]
   })
 
+  const { data: pool = [] } = useReadContract({
+    abi: fomopolyAbi.abi,
+    address: FOMOPOLY_PROXY_ADDRESS,
+    functionName: 'getPool'
+  })
+
   const { data: fmpBalance = BigInt(0) } = useReadContract({
     abi: fmpAbi.abi,
     address: FMP_PROXY_ADDRESS,
@@ -53,6 +59,7 @@ export default function useUserFomopolyData() {
     userSteps,
     userOwnedLands,
     userBalance: userBalance.data?.value || BigInt(0),
-    fmpBalance
+    fmpBalance,
+    pool
   }
 }
