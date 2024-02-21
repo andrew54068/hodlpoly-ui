@@ -208,9 +208,10 @@ export const LeaderBoard = ({ ...rest }: any) => {
                 fontWeight="500"
                 lineHeight="16px"
               >
-                You can protect your land 1 time wen someone step on you land.
-                You can protect your land 1 time wen someone step on you land.
-                You can protect your land 1 time wen someone step on you land
+                The leaderboard showcases your opportunity to claim the prize
+                pool. In Season 0, certain actions earn extra tickets, which can
+                also be bought in the Fomopoly store. Dive into Fomopoly and
+                compete to win big!
               </Text>
               <Flex direction="column" gap="12px">
                 <RankCard rank="#0001" name="Jonathan" value="1000000000" />
