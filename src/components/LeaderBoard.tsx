@@ -114,7 +114,7 @@ export const LeaderBoard = ({ ...rest }: any) => {
             letterSpacing="-0.4px"
             margin="10px 0px"
             p="10px 0px"
-            width="100px"
+            width="150px"
           >
             {"$" + formatEther(prizeAmount)}
           </Box>
