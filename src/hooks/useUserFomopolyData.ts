@@ -18,14 +18,14 @@ export default function useUserFomopolyData() {
     chainId: CHAIN_ID
   })
 
-  const { data: [systemPool] = [] } = useReadContract({
+  const { data: [systemPool, accRewardPerShare] = [] } = useReadContract({
     abi: fomopolyAbi.abi,
     address: FOMOPOLY_PROXY_ADDRESS,
     functionName: 'getSystemPool',
     chainId: CHAIN_ID
   })
 
-  const { data: [userSteps] = [] } = useReadContract({
+  const { data: [userSteps, userLandAmount, rewardDebt] = [] } = useReadContract({
     abi: fomopolyAbi.abi,
     address: FOMOPOLY_PROXY_ADDRESS,
     functionName: 'getPlayer',
@@ -67,6 +67,8 @@ export default function useUserFomopolyData() {
     chainId: CHAIN_ID
   });
 
+  const playerClaimableReward = BigInt(userLandAmount ?? 0) * (accRewardPerShare ?? BigInt(0)) - (rewardDebt ?? BigInt(0))
+
   return {
     allLandPrices,
     systemPool,
@@ -76,6 +78,7 @@ export default function useUserFomopolyData() {
     userBalance: userBalance.data?.value || BigInt(0),
     fmpBalance,
     userProps,
-    refetchUserProps
+    refetchUserProps,
+    playerClaimableReward
   }
 }
