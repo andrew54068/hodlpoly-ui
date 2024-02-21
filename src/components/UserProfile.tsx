@@ -146,15 +146,7 @@ const BalanceCard = ({ balance, symbol }: BalanceCardProps) => {
           _pressed={pressDepositButtonStyle}
           _active={activeDepositButtonStyle}
         >
-          Deposite
-        </Button>
-        <Button
-          {...normalWithdrawButtonStyle}
-          _hover={hoverWithdrawButtonStyle}
-          _pressed={pressWithdrawButtonStyle}
-          _active={activeWithdrawButtonStyle}
-        >
-          Deposite
+          Deposit
         </Button>
       </Flex>
     </Flex>
