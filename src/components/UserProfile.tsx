@@ -1,5 +1,4 @@
 import {
-  Container,
   Flex,
   Text,
   Image,
@@ -11,6 +10,7 @@ import {
   ModalContent,
   useDisclosure,
   ModalHeader,
+  Box,
 } from "@chakra-ui/react";
 import useUserFomopolyData from "src/hooks/useUserFomopolyData";
 import { NAVBAR_HIGHT } from "src/utils/constants";
@@ -166,15 +166,12 @@ export const UserProfile = ({ ...rest }: any) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <Container {...rest}>
+    <Box {...rest}>
       <Button
         size="96px"
-        position="absolute"
-        top={`${outterSharedMargin + NAVBAR_HIGHT}px`}
-        left={`${outterSharedMargin}px`}
-        bg="clear"
+        bg="none"
         _hover={{}}
-        _active={{ bg: "clear", transform: "scale(0.98)" }}
+        _active={{ bg: "none", transform: "scale(0.98)" }}
         onClick={onOpen}
       >
         <Image src={avatar}></Image>
@@ -192,7 +189,7 @@ export const UserProfile = ({ ...rest }: any) => {
           <ModalHeader>
             <ModalCloseButton color="white" m="10px" />
           </ModalHeader>
-          <ModalBody m="0px" p="0px" bg="clear">
+          <ModalBody m="0px" p="0px" bg="none">
             <Flex
               direction="column"
               justifyContent="center"
@@ -208,6 +205,6 @@ export const UserProfile = ({ ...rest }: any) => {
           </ModalBody>
         </ModalContent>
       </Modal>
-    </Container>
+    </Box>
   );
 };

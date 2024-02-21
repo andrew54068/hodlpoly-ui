@@ -13,6 +13,7 @@ import getHeatMapColors from "src/utils/getHeatMapColors";
 import dice from "src/assets/dice.png";
 import { BalanceBoard } from "./BalanceBoard";
 import { UserProfile } from "./UserProfile";
+import { LeaderBoard } from "./LeaderBoard";
 
 export const outterSharedMargin = 54;
 
@@ -108,16 +109,23 @@ export default function MainPage() {
         </Flex>
       ) : (
         <Box position="absolute" w="100%" h="100%" top="0px">
-          {!isHeatMapMode && <UserProfile />}
-
           {!isHeatMapMode && (
-            <BalanceBoard
+            <Flex
               position="absolute"
+              w="100%"
               top={`${outterSharedMargin + NAVBAR_HIGHT}px`}
-              right={`${outterSharedMargin}px`}
-              width="180px"
-              height="52px"
-            />
+              justifyContent="space-between"
+              alignItems="start"
+              p="0px 52px"
+            >
+              <UserProfile />
+              <LeaderBoard
+                width="700px"
+                height="52px"
+                justifyContent="center"
+              />
+              <BalanceBoard width="180px" height="52px" />
+            </Flex>
           )}
           {!isHeatMapMode && (
             <GameMenu
@@ -139,7 +147,7 @@ export default function MainPage() {
               bg="none"
               onClick={onClickBuyLand}
               _hover={{}}
-              _active={{ bg: "clear", transform: "scale(0.98)" }}
+              _active={{ bg: "none", transform: "scale(0.98)" }}
             >
               <Image src={dice}></Image>
             </Button>
@@ -153,7 +161,7 @@ export default function MainPage() {
               bg="none"
               onClick={onClickMove}
               _hover={{}}
-              _active={{ bg: "clear", transform: "scale(0.98)" }}
+              _active={{ bg: "none", transform: "scale(0.98)" }}
             >
               <Image src={dice}></Image>
             </Button>
