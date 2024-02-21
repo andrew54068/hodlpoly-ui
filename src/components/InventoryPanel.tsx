@@ -7,6 +7,7 @@ import useUserActions from "src/hooks/useUserActions";
 import { getNumberType } from "src/utils/getNumberType";
 import { PropsType, SelectingLandPurpose } from "src/types";
 import { GlobalContext } from "src/context/global";
+import { logClickUseProps } from "src/services/Amplitude/log";
 
 interface InventoryPanelProps {
   items: InventoryItem[];
@@ -17,7 +18,7 @@ export const InventoryPanel = ({ items, onDismiss }: InventoryPanelProps) => {
   const [selectedItem, setSelectedItem] = useState<ShopItem | undefined>(
     items[0]
   );
-  const { rollTheDice } = useUserActions()
+  const { rollTheDice } = useUserActions();
   const { setSelectingLandPurpose } = useContext(GlobalContext);
 
   return (
@@ -40,17 +41,19 @@ export const InventoryPanel = ({ items, onDismiss }: InventoryPanelProps) => {
             actionTitle="Use"
             item={selectedItem}
             onClickActionItem={(item: ShopItem) => {
-              const numberType = getNumberType(item.prop)
+              const numberType = getNumberType(item.prop);
+              logClickUseProps({ numberType: numberType || 0 });
               if (numberType) {
-                rollTheDice(numberType)
+                rollTheDice(numberType);
               } else if (item.prop == PropsType.TitleDeed) {
                 console.log(`here`);
-                setSelectingLandPurpose(SelectingLandPurpose.ProtectLand)
+                setSelectingLandPurpose(SelectingLandPurpose.ProtectLand);
               } else if (item.prop == PropsType.WorldWideTravel) {
                 console.log(`here2`);
-                setSelectingLandPurpose(SelectingLandPurpose.WorldWideTravel)
+                setSelectingLandPurpose(SelectingLandPurpose.WorldWideTravel);
               }
-              onDismiss()
+
+              onDismiss();
             }}
           />
         ) : (

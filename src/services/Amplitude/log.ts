@@ -41,3 +41,11 @@ export const logClickRollTheDice = () => {
 export const logClickBuyLand = () => {
   logCore("click_buy_land");
 };
+
+export const logClickBuyProps = () => {
+  logCore("click_buy_props");
+}
+
+export const logClickUseProps = ({ numberType }: { numberType: number }) => {
+  logCore("click_use_props", { numberType });
+}
