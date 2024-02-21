@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState, useContext } from "react";
-import { Box, Button, Switch, Image, Flex } from "@chakra-ui/react";
+import { Box, Button, Switch, Image, Flex, Text } from "@chakra-ui/react";
 import "src/utils/phaser";
 import { config } from "src/utils/phaser";
 import { GlobalContext } from "src/context/global";
@@ -140,30 +140,86 @@ export default function MainPage() {
           )}
           {!isHeatMapMode && (
             <Button
-              size="146px"
+              width="146px"
+              height="146px"
               position="absolute"
               bottom={`${outterSharedMargin + 146 + 30}px`}
               right={`${outterSharedMargin}px`}
-              bg="none"
               onClick={onClickBuyLand}
-              _hover={{}}
-              _active={{ bg: "none", transform: "scale(0.98)" }}
+              _hover={{
+                background:
+                  "0px 25px 60px -15px rgba(3, 3, 3, 0.20), 0px 25px 60px -15px rgba(3, 3, 3, 0.12), 0px 0px 7px 0px #222",
+                boxShadow:
+                  "0px 25px 60px -15px rgba(16, 24, 40, 0.20), 0px 25px 60px -15px rgba(16, 24, 40, 0.12), 0px 0px 7px 0px #222",
+                linearGradient: "(270deg, #FFF -26.8%, #000 30.45%)",
+              }}
+              _active={{
+                background: "linear-gradient(270deg, #FFF -26.8%, #000 30.45%)",
+                boxShadow:
+                  "0px 25px 60px -15px rgba(16, 24, 40, 0.20), 0px 25px 60px -15px rgba(16, 24, 40, 0.12), -6px 1px 0px 0px rgba(0, 0, 0, 0.40) inset",
+                transform: "scale(0.98)",
+              }}
+              boxShadow="0px 25px 60px -15px rgba(16, 24, 40, 0.20), 0px 25px 60px -15px rgba(16, 24, 40, 0.12)"
+              background="linear-gradient(270deg, #FFF -26.8%, #000 30.45%)"
+              borderRadius="16.22px"
             >
-              <Image src={dice}></Image>
+              <Flex direction="column" alignItems="center">
+                <Image src={dice}></Image>
+                <Text
+                  color="#FFFFFF"
+                  textAlign="center"
+                  fontFamily="Inter"
+                  fontSize="26px"
+                  fontStyle="normal"
+                  fontWeight="500"
+                  lineHeight="35.689px"
+                  letterSpacing="-0.72px"
+                >
+                  Buy Land!
+                </Text>
+              </Flex>
             </Button>
           )}
           {!isHeatMapMode && (
             <Button
-              size="146px"
+              width="146px"
+              height="146px"
               position="absolute"
               bottom={`${outterSharedMargin}px`}
               right={`${outterSharedMargin}px`}
-              bg="none"
               onClick={onClickMove}
-              _hover={{}}
-              _active={{ bg: "none", transform: "scale(0.98)" }}
+              _hover={{
+                background:
+                  "0px 25px 60px -15px rgba(3, 3, 3, 0.20), 0px 25px 60px -15px rgba(3, 3, 3, 0.12), 0px 0px 7px 0px #222",
+                boxShadow:
+                  "0px 25px 60px -15px rgba(16, 24, 40, 0.20), 0px 25px 60px -15px rgba(16, 24, 40, 0.12), 0px 0px 7px 0px #222",
+                linearGradient: "(270deg, #FFF -26.8%, #000 30.45%)",
+              }}
+              _active={{
+                background: "linear-gradient(270deg, #FFF -26.8%, #000 30.45%)",
+                boxShadow:
+                  "0px 25px 60px -15px rgba(16, 24, 40, 0.20), 0px 25px 60px -15px rgba(16, 24, 40, 0.12), -6px 1px 0px 0px rgba(0, 0, 0, 0.40) inset",
+                transform: "scale(0.98)",
+              }}
+              boxShadow="0px 25px 60px -15px rgba(16, 24, 40, 0.20), 0px 25px 60px -15px rgba(16, 24, 40, 0.12)"
+              background="linear-gradient(270deg, #FFF -26.8%, #000 30.45%)"
+              borderRadius="16.22px"
             >
-              <Image src={dice}></Image>
+              <Flex direction="column" alignItems="center">
+                <Image src={dice}></Image>
+                <Text
+                  color="#FFFFFF"
+                  textAlign="center"
+                  fontFamily="Inter"
+                  fontSize="36px"
+                  fontStyle="normal"
+                  fontWeight="500"
+                  lineHeight="35.689px"
+                  letterSpacing="-0.72px"
+                >
+                  GO!
+                </Text>
+              </Flex>
             </Button>
           )}
           <Switch

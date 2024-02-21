@@ -51,36 +51,6 @@ const activeDepositButtonStyle = {
     "0px 2px 6px 0px rgba(16, 24, 40, 0.06), -3px 1px 0px 0px rgba(0, 0, 0, 0.40) inset",
 };
 
-const normalWithdrawButtonStyle = {
-  color: "var(--Generic-Black, #000)",
-  padding: "10px",
-  width: "100%",
-  hight: "100%",
-  borderRadius: "8px",
-  border: "1px solid #000",
-  boxShadow: "0px 2px 6px 0px rgba(16, 24, 40, 0.06)",
-};
-
-const hoverWithdrawButtonStyle = {
-  borderRadius: "8px",
-  border: "1px solid #000",
-  boxShadow: "0px 0px 9px 0px #504D4D",
-};
-
-const pressWithdrawButtonStyle = {
-  borderRadius: "8px",
-  border: "1px solid #000",
-  boxShadow:
-    "0px 2px 6px 0px rgba(16, 24, 40, 0.06), -3px 1px 0px 0px rgba(0, 0, 0, 0.40) inset",
-};
-
-const activeWithdrawButtonStyle = {
-  borderRadius: "8px",
-  border: "1px solid #000",
-  boxShadow:
-    "0px 2px 6px 0px rgba(16, 24, 40, 0.06), -3px 1px 0px 0px rgba(0, 0, 0, 0.40) inset",
-};
-
 const ProfileImageAndName = () => {
   const { address = "0x" } = useAccount();
   const result = useEnsName({
