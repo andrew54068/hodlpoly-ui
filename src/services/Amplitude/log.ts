@@ -33,3 +33,11 @@ export const logClickConnectButton = () => {
 export const logConnectSuccessfully = () => {
   logCore("connect_successfully");
 };
+
+export const logClickRollTheDice = () => {
+  logCore("click_roll_the_dice");
+};
+
+export const logClickBuyLand = () => {
+  logCore("click_buy_land");
+};

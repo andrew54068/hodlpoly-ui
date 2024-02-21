@@ -7,6 +7,7 @@ import fomopolyAbi from 'src/abi/fomopoly'
 import { getContract } from 'viem'
 import { NumberType } from 'src/types'
 import useUserFomopolyData from './useUserFomopolyData'
+import { logClickRollTheDice, logClickBuyLand } from 'src/services/Amplitude/log'
 
 
 const CHAIN_ID = goerli.id
@@ -54,6 +55,7 @@ export default function useUserActions() {
       window.fomopolyMap.triggerMoveForward(steps);
     }
 
+    logClickRollTheDice()
     return hash
   }
 
@@ -62,11 +64,11 @@ export default function useUserActions() {
     await checkChain()
     if (!contract || !address) return
 
-    // @todo: check if the user has owned the land
     const landPrice = allLandPrices[userSteps]
 
     const hash = await contract.write.buyLand([], { value: landPrice })
     // @todo: update user land status after tx ended
+    logClickBuyLand()
     return hash
   }
 
