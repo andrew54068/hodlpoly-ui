@@ -24,3 +24,12 @@ export const logPageView = (page: string) => {
     });
   }
 };
+
+
+export const logClickConnectButton = () => {
+  logCore("click_connect_button");
+};
+
+export const logConnectSuccessfully = () => {
+  logCore("connect_successfully");
+};
