@@ -58,7 +58,14 @@ export default function useUserFomopolyData() {
     args: [address],
     chainId: CHAIN_ID
   })
-  console.log('fmpBalance :', fmpBalance.toString());
+
+  const { data: userProps, refetch: refetchUserProps } = useReadContract({
+    abi: fomopolyAbi.abi,
+    address: FOMOPOLY_PROXY_ADDRESS,
+    functionName: "getPlayerProps",
+    args: [address],
+    chainId: CHAIN_ID
+  });
 
   return {
     allLandPrices,
@@ -68,5 +75,7 @@ export default function useUserFomopolyData() {
     userOwnedLands,
     userBalance: userBalance.data?.value || BigInt(0),
     fmpBalance,
+    userProps,
+    refetchUserProps
   }
 }
