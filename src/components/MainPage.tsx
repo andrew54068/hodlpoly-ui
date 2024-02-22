@@ -78,7 +78,7 @@ export default function MainPage() {
           />
         </Box>
       </Box>
-      //@todo: selection mode
+      {/* //@todo: selection mode */}
       {shouldHideOptions && (
         <Flex
           position="absolute"
