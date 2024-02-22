@@ -33,20 +33,21 @@ export default function MainPage() {
     refetchAllLandPrices,
     landAmount,
     userOwnedLands,
+    refetchUserOwnedLands,
     userSteps,
   } = useUserFomopolyData();
   const { rollTheDice, buyLand } = useUserActions();
 
   useEffect(() => {
     const phaserContainer = document.getElementById("phaser-zone-fomopoly");
-    if (!hasInit.current && phaserContainer && !window.fomopolyMap) {
+    if (phaserContainer && !window.fomopolyMap) {
       console.log("init phaser");
       const game = new Phaser.Game(config);
       console.log("game :", game);
       window.fomopolyMap = game.scene.keys.fomopolyMap;
       if (landAmount > 0) window.fomopolyMap.setLandAmount(landAmount);
     }
-    hasInit.current = true;
+    // hasInit.current = true;
   }, [hasInit, landAmount]);
 
   useEffect(() => {
@@ -79,6 +80,7 @@ export default function MainPage() {
   const onClickBuyLand = async () => {
     const hash = await buyLand();
     console.log("hash :", hash);
+    refetchUserOwnedLands();
   };
 
   const shouldHideOptions = selectingLandPurpose != null;
