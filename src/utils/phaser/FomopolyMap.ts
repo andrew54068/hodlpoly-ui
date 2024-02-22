@@ -1,7 +1,7 @@
 import Phaser from 'phaser'
 import Board from './Board'
-import ChessA from './ChessA'
-import Grass from 'src/assets/grass.png'
+import ChessImage from './ChessImage'
+import Avatar from 'src/assets/avatar.svg'
 import Background from 'src/assets/background.svg'
 import {
   CHESS_SPEED_FAST,
@@ -28,7 +28,7 @@ export default class FomopolyMap extends Phaser.Scene {
   // actual game area
   boardWidth: number = 0;
   boardHeight: number = 0;
-  chessA?: ChessA;
+  chessImage?: ChessImage;
   board?: Board;
   pathXY?: { x: number, y: number }[];
 
@@ -39,7 +39,7 @@ export default class FomopolyMap extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('grass', Grass);
+    this.load.image('avatar', Avatar);
     this.load.image('background', Background);
   }
 
@@ -67,17 +67,17 @@ export default class FomopolyMap extends Phaser.Scene {
     this.cameras.main.setBounds(0, 0,
       Math.max(this.boardWidth / minZoom, window.innerWidth / minZoom),
       Math.max(this.boardHeight / minZoom, window.innerHeight / minZoom));
-
-    const chessA = new ChessA(board, {
+    const chessImage = new ChessImage(board, {
       startPoint,
       endPoint
     });
 
-    this.chessA = chessA;
+    board.addChess(chessImage, startPoint.x, startPoint.y, 1)
+    this.chessImage = chessImage;
   }
 
   create() {
-    this.add.text(10, 30, 'Roll the dice to move forward.')
+    // this.add.text(10, 30, 'Roll the dice to move forward.')
 
     // add background
     this.background = this.add.image(0, 0, 'background').setOrigin(0, 0);
@@ -145,25 +145,25 @@ export default class FomopolyMap extends Phaser.Scene {
   }
 
   triggerMoveForward(movingPoints) {
-    if (this.chessA) {
-      this.chessA.moveForward(movingPoints);
+    if (this.chessImage) {
+      this.chessImage.moveForward(movingPoints);
     }
   }
 
   setUserPositionBySteps(totalSteps: number) {
-    if (this.chessA) {
-      this.chessA.moveTo.setSpeed(CHESS_SPEED_FAST);
+    if (this.chessImage) {
+      this.chessImage.moveTo.setSpeed(CHESS_SPEED_FAST);
       const userPosition = this.pathXY?.[totalSteps] ?? { x: 0, y: 0 }
       const nextPosition = this.pathXY?.[totalSteps + 1] ?? { x: 0, y: 0 }
       const userDirection = this.board?.getNeighborTileDirection(userPosition, nextPosition);
-      this.chessA.moveTo.moveTo(userPosition.x, userPosition.y);
+      this.chessImage.moveTo.moveTo(userPosition.x, userPosition.y);
 
       if (userDirection !== undefined && userDirection !== null) {
-        this.chessA.monopoly.setFace(userDirection)
+        this.chessImage.monopoly.setFace(userDirection)
       }
 
-      this.chessA.moveTo.once('complete', () => {
-        this.chessA?.moveTo.setSpeed(CHESS_SPEED_NORMAL);
+      this.chessImage.moveTo.once('complete', () => {
+        this.chessImage?.moveTo.setSpeed(CHESS_SPEED_NORMAL);
       })
     }
   }
