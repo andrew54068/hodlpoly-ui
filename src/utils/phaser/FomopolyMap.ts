@@ -52,11 +52,13 @@ export default class FomopolyMap extends Phaser.Scene {
     const board = new Board(this, tilePath, pathXY);
     this.board = board;
     this.pathXY = pathXY
-    this.displayWidth = this.scale.displaySize.width;
-    this.displayHeight = this.scale.displaySize.height;
+
 
     this.boardWidth = (this.board.tilesSize) * BOARD_CELL_WIDTH
     this.boardHeight = (this.board.tilesSize) * BOARD_CELL_HEIGHT
+
+    this.displayWidth = this.scale.displaySize.width;
+    this.displayHeight = this.scale.displaySize.height;
 
     const minZoom = Math.min(
       this.displayHeight / this.boardHeight,
@@ -72,6 +74,7 @@ export default class FomopolyMap extends Phaser.Scene {
     });
 
     this.chessA = chessA;
+    this.setZoomToMinValue()
   }
 
   create() {
@@ -80,7 +83,7 @@ export default class FomopolyMap extends Phaser.Scene {
     // add background
     this.background = this.add.image(0, 0, 'background').setOrigin(0, 0);
     this.resizeBackgroundImage();
-    this.setZoomToMinValue()
+
 
     this.input.on('pointerdown', (pointer) => {
       // Move the chess
@@ -122,6 +125,9 @@ export default class FomopolyMap extends Phaser.Scene {
     const minZoom = Math.min(
       this.displayHeight / this.boardHeight,
       this.boardHeight / this.displayHeight, 1)
+    console.log('this.boardHeight :', this.boardHeight);
+    console.log('this.displayHeight :', this.displayHeight);
+    console.log('minZoom :', minZoom);
 
     this.cameras.main.setZoom(minZoom);
   }
