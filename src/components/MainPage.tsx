@@ -33,7 +33,6 @@ export default function MainPage() {
     refetchAllLandPrices,
     landAmount,
     userOwnedLands,
-    refetchUserOwnedLands,
     userSteps,
   } = useUserFomopolyData();
   const { rollTheDice, buyLand } = useUserActions();
@@ -80,7 +79,6 @@ export default function MainPage() {
   const onClickBuyLand = async () => {
     const hash = await buyLand();
     console.log("hash :", hash);
-    refetchUserOwnedLands();
   };
 
   const shouldHideOptions = selectingLandPurpose != null;
