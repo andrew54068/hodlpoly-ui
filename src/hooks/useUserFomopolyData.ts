@@ -49,10 +49,7 @@ export default function useUserFomopolyData() {
     chainId: CHAIN_ID
   })
 
-  const {
-    data: userOwnedLands = [],
-    refetch: refetchUserOwnedLands
-  } = useReadContract({
+  const { data: userOwnedLands = [] } = useReadContract({
     abi: fomopolyAbi.abi,
     address: FOMOPOLY_PROXY_ADDRESS,
     functionName: 'getPlayerOwnedLandIDs',
@@ -85,7 +82,6 @@ export default function useUserFomopolyData() {
     landAmount,
     userSteps,
     userOwnedLands,
-    refetchUserOwnedLands,
     userBalance: userBalance.data?.value || BigInt(0),
     fmpBalance,
     userProps,
