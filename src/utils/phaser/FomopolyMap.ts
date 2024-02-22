@@ -1,7 +1,6 @@
 import Phaser from 'phaser'
 import Board from './Board'
 import ChessA from './ChessA'
-import Grass from 'src/assets/grass.png'
 import Background from 'src/assets/background.svg'
 import {
   CHESS_SPEED_FAST,
@@ -39,7 +38,6 @@ export default class FomopolyMap extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('grass', Grass);
     this.load.image('background', Background);
   }
 
