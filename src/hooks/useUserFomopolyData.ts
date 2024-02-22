@@ -9,7 +9,7 @@ const CHAIN_ID = goerli.id
 
 export default function useUserFomopolyData() {
   const { address = '0x0' } = useAccount()
-  const userBalance = useBalance({ address })
+  const userBalance = useBalance({ address, chainId: CHAIN_ID })
 
   const { data: landAmount } = useReadContract({
     abi: fomopolyAbi.abi,
