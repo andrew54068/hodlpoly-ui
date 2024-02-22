@@ -5,6 +5,7 @@ import { useCallback, useState } from "react";
 import { PropButton } from "./PropButton";
 import { SelectedPropCard } from "./SelectedPropCard";
 import { useAccount, useReadContract } from "wagmi";
+import { goerli } from "viem/chains";
 import { getConnectedWalletClient, publicClient } from "src/config/clients";
 import { getContract } from "viem";
 import { FOMOPOLY_PROXY_ADDRESS } from "src/constants";
@@ -37,6 +38,7 @@ export const ShopPanel = ({ items, onUpdateAmount }: ShopPanelProps) => {
     address: FOMOPOLY_PROXY_ADDRESS,
     functionName: "getPropPricesETH",
     args: [],
+    chainId: goerli.id,
   });
 
   const onClickBuyProp = async (item: ShopItem) => {
