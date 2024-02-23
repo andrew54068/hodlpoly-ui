@@ -76,6 +76,16 @@ export default function useUserFomopolyData() {
     chainId: CHAIN_ID
   });
 
+  const { data: allPropsPrices = [] } = useReadContract({
+    abi: fomopolyAbi.abi,
+    address: FOMOPOLY_PROXY_ADDRESS,
+    functionName: "getPropPricesETH",
+    args: [],
+    chainId: CHAIN_ID,
+  });
+
+
+
   const playerClaimableReward = BigInt(userLandAmount ?? 0) * (accRewardPerShare ?? BigInt(0)) - (rewardDebt ?? BigInt(0))
 
   return {
@@ -90,6 +100,7 @@ export default function useUserFomopolyData() {
     fmpBalance,
     userProps,
     refetchUserProps,
-    playerClaimableReward
+    playerClaimableReward,
+    allPropsPrices
   }
 }

@@ -46,6 +46,7 @@ export default function GameUtils({
             <LeaderBoard
               mx="16px"
               maxWidth="700px"
+              minWidth="300px"
               height="52px"
               justifyContent="center"
             />
