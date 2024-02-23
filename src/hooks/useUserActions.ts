@@ -12,7 +12,7 @@ import { logClickRollTheDice, logClickBuyLand } from 'src/services/Amplitude/log
 
 const CHAIN_ID = goerli.id
 export default function useUserActions() {
-  const { userSteps, allLandPrices } = useUserFomopolyData()
+  const { userSteps, allLandPrices, allPropsPrices } = useUserFomopolyData()
   const { address = '0x0', chainId } = useAccount()
 
   const { switchChain } = useSwitchChain()
@@ -72,7 +72,20 @@ export default function useUserActions() {
     return hash
   }
 
+  const buyProp = async (prop: number) => {
+    const contract = await getContractClient();
+    await checkChain()
+    if (!contract) return;
+    const propPrice = allPropsPrices[prop];
 
-  return { rollTheDice, buyLand, getContractClient }
+    const hash = await contract.write.buyProps([prop], {
+      value: propPrice,
+    });
+
+    return hash
+  }
+
+
+  return { rollTheDice, buyLand, buyProp, getContractClient }
 
 } 
