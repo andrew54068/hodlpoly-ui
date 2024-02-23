@@ -18,6 +18,7 @@ import useUserFomopolyData from "src/hooks/useUserFomopolyData";
 import currencyDollar from "src/assets/currency-dollar.png";
 import ticketBig from "src/assets/ticket-big.png";
 import users from "src/assets/users.png";
+import { fixDecimal } from "src/utils/fixDecimal";
 
 interface RankCardProps {
   rank: string;
@@ -116,7 +117,7 @@ export const LeaderBoard = ({ ...rest }: any) => {
             p="10px 0px"
             width="150px"
           >
-            {"$" + formatEther(prizeAmount)}
+            {"$" + fixDecimal(Number(formatEther(prizeAmount)), 8)}
           </Box>
         </Marquee>
       </Button>

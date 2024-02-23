@@ -11,9 +11,9 @@ import { COLORMAP, HEATMAP_COLORS, BOARD_CELL_HEIGHT, BOARD_CELL_WIDTH } from '.
 //   return out;
 // }
 
-const getQuadGrid = function (scene, tileLength) {
+const getQuadGrid = function (scene) {
   const grid = scene.rexBoard.add.quadGrid({
-    x: (window.innerWidth) - (tileLength * BOARD_CELL_WIDTH / 2) || 100,
+    x: (window.innerWidth / 2) || 100,
     y: 50,
     cellWidth: BOARD_CELL_WIDTH,
     cellHeight: BOARD_CELL_HEIGHT,
@@ -47,7 +47,7 @@ export default class Board extends RexBoard {
     // create board
     const config = {
       // grid: getHexagonGrid(scene),
-      grid: getQuadGrid(scene, tiles.length),
+      grid: getQuadGrid(scene),
       width: tiles[0].length,
       height: tiles.length,
 

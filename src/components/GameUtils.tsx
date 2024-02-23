@@ -37,13 +37,18 @@ export default function GameUtils({
           <Flex
             position="absolute"
             w="100%"
-            top={`${outterSharedMargin + NAVBAR_HIGHT}px`}
+            top={`${outterSharedMargin}px`}
             justifyContent="space-between"
-            alignItems="start"
+            alignItems="center"
             p="0px 52px"
           >
-            <UserProfile />
-            <LeaderBoard width="700px" height="52px" justifyContent="center" />
+            <UserProfile minWidth="96px" />
+            <LeaderBoard
+              mx="16px"
+              maxWidth="700px"
+              height="52px"
+              justifyContent="center"
+            />
             <BalanceBoard width="180px" height="52px" />
           </Flex>
 
