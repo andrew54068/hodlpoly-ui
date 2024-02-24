@@ -1,5 +1,12 @@
 import { Board as RexBoard } from 'phaser3-rex-plugins/plugins/board-components.js';
-import { COLORMAP, HEATMAP_COLORS, BOARD_CELL_HEIGHT, BOARD_CELL_WIDTH } from './constants';
+import {
+  COLORMAP,
+  HEATMAP_COLORS,
+  BOARD_CELL_HEIGHT,
+  BOARD_CELL_WIDTH,
+  HIGHLIGHT_BORDER_COLOR
+} from './constants';
+
 
 // const createTileMap = function (tilesMap, out: string[] = []) {
 //   if (out === undefined) {
@@ -41,6 +48,7 @@ export default class Board extends RexBoard {
   pathXY?: { x: number, y: number }[];
   tilesSize: number = 0;
   heatMapShapes: any[] = [];
+  prevHighlightGraphics?: Phaser.GameObjects.Graphics[] = undefined;
 
   constructor(scene, tiles, pathXY) {
 
@@ -59,7 +67,7 @@ export default class Board extends RexBoard {
     this.tilesSize = tiles.length;
   }
 
-  createBorderRectangle(scene, x, y, width, height, borderColor, borderWidth) {
+  createBorderRectangle(scene, x, y, width, height, borderColor, borderWidth): Phaser.GameObjects.Graphics {
     const graphics = scene.add.graphics();
 
     graphics.lineStyle(borderWidth, borderColor);
@@ -68,6 +76,7 @@ export default class Board extends RexBoard {
     graphics.strokeRect(x - width / 2, y - height / 2, width, height);
 
     graphics.setDepth(1);
+    return graphics
   }
 
 
@@ -98,6 +107,46 @@ export default class Board extends RexBoard {
     return sprite;
   }
 
+  hightLightTile(
+    tileX,
+    tileY) {
+    if (this.prevHighlightGraphics?.length) {
+      this.prevHighlightGraphics.forEach(graphic => graphic.destroy());
+      this.prevHighlightGraphics = []
+    }
+    const scene = this.scene;
+    const hightLightBorderWidth = 2;
+    const worldXY = this.tileXYToWorldXY(tileX, tileY, true);
+
+    const prevLandTag = this.createBorderRectangle(
+      scene,
+      worldXY.x,
+      (worldXY.y - BOARD_CELL_HEIGHT / 2 + BOARD_CELL_HEIGHT / 8),
+      BOARD_CELL_WIDTH,
+      BOARD_CELL_HEIGHT / 4,
+      HIGHLIGHT_BORDER_COLOR,
+      hightLightBorderWidth
+    )
+
+    const prevMainRectangle = this.createBorderRectangle(
+      scene,
+      worldXY.x,
+      worldXY.y,
+      BOARD_CELL_WIDTH,
+      BOARD_CELL_HEIGHT,
+      HIGHLIGHT_BORDER_COLOR,
+      hightLightBorderWidth
+    )
+    if (this.prevHighlightGraphics) {
+      this.prevHighlightGraphics.push(
+        prevLandTag,
+        prevMainRectangle
+      )
+    } else {
+      this.prevHighlightGraphics = [prevLandTag, prevMainRectangle];
+    }
+  }
+
 
   createPath(tiles) {
     // tiles : 2d array
@@ -111,12 +160,10 @@ export default class Board extends RexBoard {
         }
 
         cost = parseFloat(symbol);
-        this.scene.rexBoard.add.shape(this, tileX, tileY, 0, COLORMAP[cost])
+        const tileRectangle = this.scene.rexBoard.add.shape(this, tileX, tileY, 0, COLORMAP[cost])
           .setStrokeStyle(2, 0x000000, 1)
           .setData('cost', cost)
           .setDepth(1);
-
-
 
         // add land tag
         const worldXY = this.tileXYToWorldXY(tileX, tileY, true);
@@ -132,6 +179,13 @@ export default class Board extends RexBoard {
           '0x000000',
           2
         );
+
+        tileRectangle.setInteractive()
+        tileRectangle.on('pointerdown', (data,) => {
+
+          const tileXY = this.worldXYToTileXY(data.worldX, data.worldY);
+          this.hightLightTile(tileXY.x, tileXY.y);
+        })
 
         // add image to grid
         // const worldXY = this.tileXYToWorldXY(tileX, tileY);

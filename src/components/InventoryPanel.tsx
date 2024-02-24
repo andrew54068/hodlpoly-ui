@@ -20,6 +20,12 @@ export const InventoryPanel = ({ items, onDismiss }: InventoryPanelProps) => {
   );
   const { rollTheDice } = useUserActions();
   const { setSelectingLandPurpose } = useContext(GlobalContext);
+  const openPhaserSelectionMode = (purpose: SelectingLandPurpose) => {
+    setSelectingLandPurpose(purpose);
+    if (window.fomopolyMap) {
+      window.fomopolyMap.setSelectionMode(true);
+    }
+  };
 
   return (
     <TabPanel p="24px" bg="#FFFFFF" h="448px">
@@ -46,11 +52,9 @@ export const InventoryPanel = ({ items, onDismiss }: InventoryPanelProps) => {
               if (numberType) {
                 rollTheDice(numberType);
               } else if (item.prop == PropsType.TitleDeed) {
-                console.log(`here`);
-                setSelectingLandPurpose(SelectingLandPurpose.ProtectLand);
+                openPhaserSelectionMode(SelectingLandPurpose.ProtectLand);
               } else if (item.prop == PropsType.WorldWideTravel) {
-                console.log(`here2`);
-                setSelectingLandPurpose(SelectingLandPurpose.WorldWideTravel);
+                openPhaserSelectionMode(SelectingLandPurpose.WorldWideTravel);
               }
 
               onDismiss();
