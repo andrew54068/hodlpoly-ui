@@ -18,6 +18,7 @@ import generateTilePath from 'src/utils/phaser/generateTilePath'
 export default class FomopolyMap extends Phaser.Scene {
   background?: Phaser.GameObjects.Image;
   isHeatMapMode: boolean = false;
+  isSelectionMode: boolean = false;
   landAmount: number = 1;
   dragStartX: number = 0;
   dragStartY: number = 0;
@@ -75,15 +76,14 @@ export default class FomopolyMap extends Phaser.Scene {
 
     this.chessA = chessA;
     this.setZoomToMinValue()
+    this.resizeBackgroundImage();
   }
 
   create() {
-    this.add.text(10, 30, 'Roll the dice to move forward.')
+    // this.add.text(10, 30, 'Roll the dice to move forward.')
 
     // add background
     this.background = this.add.image(0, 0, 'background').setOrigin(0, 0);
-    this.resizeBackgroundImage();
-
 
     this.input.on('pointerdown', (pointer) => {
       // Move the chess
@@ -125,9 +125,6 @@ export default class FomopolyMap extends Phaser.Scene {
     const minZoom = Math.min(
       this.displayHeight / this.boardHeight,
       this.boardHeight / this.displayHeight, 1)
-    console.log('this.boardHeight :', this.boardHeight);
-    console.log('this.displayHeight :', this.displayHeight);
-    console.log('minZoom :', minZoom);
 
     this.cameras.main.setZoom(minZoom);
   }
@@ -200,5 +197,9 @@ export default class FomopolyMap extends Phaser.Scene {
     } else if (this.board) {
       this.board.closeHeatMapMode()
     }
+  }
+
+  setSelectionMode(open) {
+    this.isSelectionMode = open;
   }
 }
