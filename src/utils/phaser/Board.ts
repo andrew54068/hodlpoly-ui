@@ -53,9 +53,6 @@ export default class Board extends RexBoard {
   prevHighlightGraphics?: Phaser.GameObjects.Graphics[] = undefined;
 
   constructor(scene, tiles, pathXY) {
-    console.log('scene :', scene.boardWidth);
-
-    console.log(' :ggggrid', getQuadGrid(scene, tiles.length));
     // create board
     const config = {
       // grid: getHexagonGrid(scene),

@@ -76,14 +76,13 @@ export default class FomopolyMap extends Phaser.Scene {
 
     this.chessA = chessA;
     this.setZoomToMinValue()
+    // add background
+    this.background = this.add.image(0, 0, 'background').setOrigin(0, 0);
     this.resizeBackgroundImage();
   }
 
   create() {
     // this.add.text(10, 30, 'Roll the dice to move forward.')
-
-    // add background
-    this.background = this.add.image(0, 0, 'background').setOrigin(0, 0);
 
     this.input.on('pointerdown', (pointer) => {
       // Move the chess
@@ -127,6 +126,7 @@ export default class FomopolyMap extends Phaser.Scene {
       this.boardHeight / this.displayHeight, 1)
 
     this.cameras.main.setZoom(minZoom);
+    return minZoom
   }
 
   resizeBackgroundImage() {
