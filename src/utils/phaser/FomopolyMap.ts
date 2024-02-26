@@ -45,12 +45,13 @@ export default class FomopolyMap extends Phaser.Scene {
   createBoard() {
     const {
       matrix: tilePath,
+      matrixWithId: tilePathWithId,
       startPoint,
       endPoint,
       pathXY
     } = generateTilePath(this.landAmount)
 
-    const board = new Board(this, tilePath, pathXY);
+    const board = new Board(this, tilePath, pathXY, tilePathWithId);
     this.board = board;
     this.pathXY = pathXY
 
@@ -201,5 +202,16 @@ export default class FomopolyMap extends Phaser.Scene {
 
   setSelectionMode(open) {
     this.isSelectionMode = open;
+  }
+
+  getSelectedTileId() {
+    return Number(this.board?.selectedTileId) ?? -1;
+  }
+
+  closeSelectionMode() {
+    this.isSelectionMode = false;
+    if (this.board) {
+      this.board.closeSelectionMode()
+    }
   }
 }

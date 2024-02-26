@@ -59,6 +59,21 @@ export default function MainPage() {
     }
   };
 
+  const onCancelLandSelection = () => {
+    setSelectingLandPurpose(null);
+    if (window.fomopolyMap) {
+      window.fomopolyMap.closeSelectionMode();
+    }
+  };
+
+  const onConfirmLandSelection = () => {
+    if (window.fomopolyMap) {
+      window.fomopolyMap;
+      const selectedTileId = window.fomopolyMap.board.selectedTileId;
+      console.log("selectedTileId :", selectedTileId);
+    }
+  };
+
   const shouldHideOptions = selectingLandPurpose != null;
 
   return (
@@ -79,17 +94,22 @@ export default function MainPage() {
       {/* //@todo: selection mode */}
       {shouldHideOptions && (
         <Flex
+          p="40px"
           position="absolute"
           width="100%"
+          gap="12px"
+          pointerEvents="none"
           justifyContent="center"
+          onMouseDown={(e) => {
+            e.stopPropagation();
+          }}
           bottom={`${outterSharedMargin}px`}
         >
-          <Button
-            onClick={() => {
-              setSelectingLandPurpose(null);
-            }}
-          >
+          <Button pointerEvents="auto" onClick={onCancelLandSelection}>
             Cancel
+          </Button>
+          <Button pointerEvents="auto" onClick={onConfirmLandSelection}>
+            Confirm
           </Button>
         </Flex>
       )}
