@@ -1,4 +1,5 @@
 import { Board as RexBoard } from 'phaser3-rex-plugins/plugins/board-components.js';
+import FomopolyMap from './FomopolyMap';
 import {
   COLORMAP,
   HEATMAP_COLORS,
@@ -49,10 +50,12 @@ const getQuadGrid = function (scene, tileLength) {
 export default class Board extends RexBoard {
   pathXY?: { x: number, y: number }[];
   tilesSize: number = 0;
+  tilePathWithId: string[][] = [];
   heatMapShapes: any[] = [];
   prevHighlightGraphics?: Phaser.GameObjects.Graphics[] = undefined;
+  selectedTileId = '';
 
-  constructor(scene, tiles, pathXY) {
+  constructor(scene, tiles, pathXY, tilePathWithId) {
     // create board
     const config = {
       // grid: getHexagonGrid(scene),
@@ -63,8 +66,10 @@ export default class Board extends RexBoard {
       // wrap: true
     }
     super(scene, config);
+    this.scene = scene;
     this.createPath(tiles);
     this.pathXY = pathXY;
+    this.tilePathWithId = tilePathWithId
     this.tilesSize = tiles.length;
   }
 
@@ -108,7 +113,7 @@ export default class Board extends RexBoard {
     return sprite;
   }
 
-  hightLightTile(
+  highLightTile(
     tileX,
     tileY) {
     if (this.prevHighlightGraphics?.length) {
@@ -118,6 +123,7 @@ export default class Board extends RexBoard {
     const scene = this.scene;
     const hightLightBorderWidth = 2;
     const worldXY = this.tileXYToWorldXY(tileX, tileY, true);
+
 
     const prevLandTag = this.createBorderRectangle(
       scene,
@@ -183,9 +189,12 @@ export default class Board extends RexBoard {
 
         tileRectangle.setInteractive()
         tileRectangle.on('pointerdown', (data,) => {
+          if ((this.scene as FomopolyMap).isSelectionMode) {
+            const tileXY = this.worldXYToTileXY(data.worldX, data.worldY);
 
-          const tileXY = this.worldXYToTileXY(data.worldX, data.worldY);
-          this.hightLightTile(tileXY.x, tileXY.y);
+            this.highLightTile(tileXY.x, tileXY.y);
+            this.selectedTileId = this.tilePathWithId[tileX][tileY]
+          }
         })
 
         // add image to grid
@@ -244,5 +253,10 @@ export default class Board extends RexBoard {
 
   closeHeatMapMode() {
     this.heatMapShapes.forEach(shape => shape.destroy());
+  }
+
+  closeSelectionMode() {
+    this.prevHighlightGraphics?.forEach(graphic => graphic.destroy());
+    this.selectedTileId = '';
   }
 }
