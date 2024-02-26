@@ -18,9 +18,11 @@ import {
 //   return out;
 // }
 
-const getQuadGrid = function (scene) {
+const getQuadGrid = function (scene, tileLength) {
+
   const grid = scene.rexBoard.add.quadGrid({
-    x: (window.innerWidth / 2) || 100,
+    // some how there's a BOARD_CELL_WIDTH / 2 offset
+    x: (window.innerWidth - (tileLength * BOARD_CELL_WIDTH) / 2) / 2 + BOARD_CELL_WIDTH / 2,
     y: 50,
     cellWidth: BOARD_CELL_WIDTH,
     cellHeight: BOARD_CELL_HEIGHT,
@@ -51,11 +53,13 @@ export default class Board extends RexBoard {
   prevHighlightGraphics?: Phaser.GameObjects.Graphics[] = undefined;
 
   constructor(scene, tiles, pathXY) {
+    console.log('scene :', scene.boardWidth);
 
+    console.log(' :ggggrid', getQuadGrid(scene, tiles.length));
     // create board
     const config = {
       // grid: getHexagonGrid(scene),
-      grid: getQuadGrid(scene),
+      grid: getQuadGrid(scene, tiles.length),
       width: tiles[0].length,
       height: tiles.length,
 
