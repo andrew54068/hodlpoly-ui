@@ -70,6 +70,8 @@ export default function MainPage() {
     if (window.fomopolyMap) {
       window.fomopolyMap;
       const selectedTileId = window.fomopolyMap.board.selectedTileId;
+      //@todo : send tx with selectedTileId
+
       console.log("selectedTileId :", selectedTileId);
     }
   };
