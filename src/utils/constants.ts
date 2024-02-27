@@ -6,6 +6,7 @@ import lowDice from "src/assets/lowDice.png";
 import oddDice from "src/assets/oddDice.png";
 import evenDice from "src/assets/evenDice.png";
 import ticket from "src/assets/ticket.png";
+import worldWideTraveler from 'src/assets/worldWideTraveler.png'
 
 export const NAVBAR_HIGHT = 75
 
@@ -16,11 +17,7 @@ export const shopItems: ShopItem[] = [
         desc: "Increases the price of a specified owned land by 200%, reducing the likelihood of other players purchasing it.",
         prop: PropsType.TitleDeed
     },
-    // {
-    //     image: WorldWideTraveler,
-    //     name: "World Wide Traveler",
-    //     desc: "Instantly travel to a specified land on the board.",
-    // },
+
     {
         image: highDice,
         name: "Special Dice / High",
@@ -50,5 +47,11 @@ export const shopItems: ShopItem[] = [
         name: "Ticket",
         desc: "Ticket to treasure! Increase your chance with every ticket for the prize pool.",
         prop: PropsType.Ticket
+    },
+    {
+        image: worldWideTraveler,
+        name: "WorldWide Traveler",
+        desc: "Instantly travel to a specified land on the board.",
+        prop: PropsType.WorldWideTravel
     },
 ];

@@ -7,10 +7,13 @@ import GameUtils from "./GameUtils";
 import getHeatMapColors from "src/utils/getHeatMapColors";
 import { ConnectModalProvider } from "src/components/WalletConnectModal";
 import useUserFomopolyData from "src/hooks/useUserFomopolyData";
+import useUserActions from "src/hooks/useUserActions";
+import { SelectingLandPurpose } from "src/types";
 
 export const outterSharedMargin = 54;
 
 export default function MainPage() {
+  const { worldWideTravel } = useUserActions();
   const [isHeatMapMode, setIsHeatMapMode] = useState(false);
   const hasInit = useRef(false);
 
@@ -66,13 +69,18 @@ export default function MainPage() {
     }
   };
 
-  const onConfirmLandSelection = () => {
+  const onConfirmLandSelection = async () => {
     if (window.fomopolyMap) {
       window.fomopolyMap;
       const selectedTileId = window.fomopolyMap.board.selectedTileId;
-      //@todo : send tx with selectedTileId
-
       console.log("selectedTileId :", selectedTileId);
+
+      if (selectingLandPurpose === SelectingLandPurpose.WorldWideTravel) {
+        await worldWideTravel(selectedTileId);
+      }
+
+      window.fomopolyMap.closeSelectionMode();
+      setSelectingLandPurpose(null);
     }
   };
 

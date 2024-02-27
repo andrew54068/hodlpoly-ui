@@ -85,7 +85,19 @@ export default function useUserActions() {
     return hash
   }
 
+  const worldWideTravel = async (position: number) => {
+    const contract = await getContractClient();
+    await checkChain()
+    if (!contract) return;
 
-  return { rollTheDice, buyLand, buyProp, getContractClient }
+    const hash = await contract.write.worldWideTravel([position]);
+    await publicClient.waitForTransactionReceipt({ hash });
+
+    return hash
+  }
+
+
+
+  return { rollTheDice, buyLand, buyProp, getContractClient, worldWideTravel }
 
 } 
