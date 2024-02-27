@@ -76,8 +76,16 @@ const GameMenu = ({ ...rest }: any) => {
   if (userProps) {
     console.log(typeof userProps);
 
-    const [oddDice, evenDice, lowDice, highDice, titleDeed, , lotteryTicket] =
-      userProps.map((value) => Number(value));
+    const [
+      oddDice,
+      evenDice,
+      lowDice,
+      highDice,
+      titleDeed,
+      ,
+      lotteryTicket,
+      worldWideTravel,
+    ] = userProps.map((value) => Number(value));
     const reorderedAmount = [
       titleDeed,
       highDice,
@@ -85,6 +93,7 @@ const GameMenu = ({ ...rest }: any) => {
       oddDice,
       evenDice,
       lotteryTicket,
+      worldWideTravel,
     ];
     inventoryItems = shopItems
       .map((value, index) => {
