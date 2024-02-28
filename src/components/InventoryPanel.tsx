@@ -19,11 +19,25 @@ export const InventoryPanel = ({ items, onDismiss }: InventoryPanelProps) => {
     items[0]
   );
   const { rollTheDice } = useUserActions();
-  const { setSelectingLandPurpose } = useContext(GlobalContext);
+  const { setSelectingLandPurpose, setIsWaitingForMoving } =
+    useContext(GlobalContext);
   const openPhaserSelectionMode = (purpose: SelectingLandPurpose) => {
     setSelectingLandPurpose(purpose);
     if (window.fomopolyMap) {
       window.fomopolyMap.setSelectionMode(true);
+    }
+  };
+
+  const onRollingDice = async (numberType: number) => {
+    try {
+      setIsWaitingForMoving(true);
+      onDismiss();
+      await rollTheDice(numberType);
+      setIsWaitingForMoving(false);
+    } catch (e) {
+      console.error(e);
+      onDismiss();
+      setIsWaitingForMoving(false);
     }
   };
 
@@ -46,11 +60,11 @@ export const InventoryPanel = ({ items, onDismiss }: InventoryPanelProps) => {
           <SelectedPropCard
             actionTitle="Use"
             item={selectedItem}
-            onClickActionItem={(item: ShopItem) => {
+            onClickActionItem={async (item: ShopItem) => {
               const numberType = getNumberType(item.prop);
               logClickUseProps({ numberType: numberType || 0 });
               if (numberType) {
-                rollTheDice(numberType);
+                await onRollingDice(numberType);
               } else if (item.prop == PropsType.TitleDeed) {
                 openPhaserSelectionMode(SelectingLandPurpose.ProtectLand);
               } else if (item.prop == PropsType.WorldWideTravel) {
