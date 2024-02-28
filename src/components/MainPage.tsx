@@ -9,6 +9,8 @@ import { ConnectModalProvider } from "src/components/WalletConnectModal";
 import useUserFomopolyData from "src/hooks/useUserFomopolyData";
 import useUserActions from "src/hooks/useUserActions";
 import { SelectingLandPurpose } from "src/types";
+import PendingDiceModal from 'src/components/PendingDiceModal'
+
 
 export const outterSharedMargin = 54;
 
@@ -22,6 +24,8 @@ export default function MainPage() {
     onConnectModalClose,
     selectingLandPurpose,
     setSelectingLandPurpose,
+    isWaitingForMoving,
+    setIsWaitingForMoving
   } = useContext(GlobalContext);
 
   const { allLandPrices, landAmount, userOwnedLands, userSteps } =
@@ -94,6 +98,7 @@ export default function MainPage() {
       <Box minH="100vsh" pt="75px">
         <Box id="phaser-zone-fomopoly" position="relative">
           <GameUtils
+            setIsWaitingForMoving={setIsWaitingForMoving}
             isHeatMapMode={isHeatMapMode}
             hideAllOptions={shouldHideOptions}
             outterSharedMargin={outterSharedMargin}
@@ -123,6 +128,10 @@ export default function MainPage() {
           </Button>
         </Flex>
       )}
+
+      <PendingDiceModal isOpen={isWaitingForMoving} onClose={()=>setIsWaitingForMoving(false)}/>
+        
+
     </ConnectModalProvider>
   );
 }
