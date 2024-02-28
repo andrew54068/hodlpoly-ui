@@ -13,7 +13,7 @@ export default function GameUtils({
   onHeatMapSwitchClick,
   isHeatMapMode,
   hideAllOptions,
-  setIsWaitingForMoving
+  setIsWaitingForMoving,
 }: {
   outterSharedMargin: number;
   onHeatMapSwitchClick: () => void;
@@ -24,9 +24,14 @@ export default function GameUtils({
   const { rollTheDice, buyLand } = useUserActions();
 
   const onClickMove = async () => {
-    setIsWaitingForMoving(true);
-    await rollTheDice(NumberType.Any);
-    setIsWaitingForMoving(false);
+    try {
+      setIsWaitingForMoving(true);
+      await rollTheDice(NumberType.Any);
+      setIsWaitingForMoving(false);
+    } catch (e) {
+      console.error(e);
+      setIsWaitingForMoving(false);
+    }
   };
 
   const onClickBuyLand = async () => {
