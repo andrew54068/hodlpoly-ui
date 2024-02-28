@@ -8,6 +8,7 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
   const [account, setAccount] = useState<string | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
   const [chainId, setChainId] = useState<string | null>(null);
+  const [isWaitingForMoving, setIsWaitingForMoving] = useState< boolean>(false);
   const [selectingLandPurpose, setSelectingLandPurpose] = useState<SelectingLandPurpose | null>(null);
   const { isOpen: isConnectModalOpen, onOpen: onConnectModalOpen, onClose: onConnectModalClose } = useDisclosure()
 
@@ -24,7 +25,9 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
         onConnectModalOpen,
         onConnectModalClose,
         selectingLandPurpose,
-        setSelectingLandPurpose
+        setSelectingLandPurpose,
+        isWaitingForMoving,
+        setIsWaitingForMoving
       }}
     >
       {children}
