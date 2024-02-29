@@ -15,10 +15,11 @@ export default function useUserActions() {
   const { userSteps, allLandPrices, allPropsPrices } = useUserFomopolyData()
   const { address = '0x0', chainId } = useAccount()
 
-  const { switchChain } = useSwitchChain()
+  const { switchChainAsync } = useSwitchChain()
   const checkChain = async () => {
+    console.log('checkChain :', checkChain);
     if (chainId !== CHAIN_ID) {
-      await switchChain({ chainId: CHAIN_ID })
+      await switchChainAsync({ chainId: CHAIN_ID })
     }
   }
 
@@ -97,7 +98,17 @@ export default function useUserActions() {
   }
 
 
+  const claimReward = async () => {
+    const contract = await getContractClient();
+    await checkChain()
+    if (!contract) return;
+    console.log('after checking')
+    const hash = await contract.write.claimReward();
+    // await publicClient.waitForTransactionReceipt({ hash });
 
-  return { rollTheDice, buyLand, buyProp, getContractClient, worldWideTravel }
+    return hash
+  }
+
+  return { rollTheDice, buyLand, buyProp, getContractClient, worldWideTravel, claimReward }
 
 } 
