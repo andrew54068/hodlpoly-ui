@@ -84,6 +84,13 @@ export default function useUserFomopolyData() {
     chainId: CHAIN_ID,
   });
 
+  const { data: [userPendingReward, userTotalRevenue] = [] } = useReadContract({
+    abi: fomopolyAbi.abi,
+    address: FOMOPOLY_PROXY_ADDRESS,
+    functionName: "getPendingReward",
+    args: [address],
+    chainId: CHAIN_ID,
+  });
 
 
   const playerClaimableReward = BigInt(userLandAmount ?? 0) * (accRewardPerShare ?? BigInt(0)) - (rewardDebt ?? BigInt(0))
@@ -102,6 +109,8 @@ export default function useUserFomopolyData() {
     userProps,
     refetchUserProps,
     playerClaimableReward,
-    allPropsPrices
+    allPropsPrices,
+    userPendingReward,
+    userTotalRevenue
   }
 }

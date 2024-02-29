@@ -9,6 +9,7 @@ import ticket from "src/assets/ticket.png";
 import worldWideTraveler from 'src/assets/worldWideTraveler.png'
 
 export const NAVBAR_HIGHT = 75
+export const MAX_DISPLAY_ETHER_DIGITS = 8
 
 export const shopItems: ShopItem[] = [
     {

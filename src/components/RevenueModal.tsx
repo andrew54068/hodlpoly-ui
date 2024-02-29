@@ -8,26 +8,31 @@ import {
   Text,
   Box,
 } from "@chakra-ui/react";
+import { MAX_DISPLAY_ETHER_DIGITS } from "src/utils/constants";
 import Button from "src/components/Button";
+import useUserFomopolyData from "src/hooks/useUserFomopolyData";
+import { formatEther } from "viem";
 
 interface RewardModalProps {
   isOpen: boolean;
   onClose: () => void;
-  revenueETH: string;
-  claimableBalanceETH: string;
 }
 
-const RevenueModal: React.FC<RewardModalProps> = ({
-  isOpen,
-  onClose,
-  revenueETH,
-  claimableBalanceETH,
-}) => {
+const RevenueModal: React.FC<RewardModalProps> = ({ isOpen, onClose }) => {
+  const { userPendingReward, userTotalRevenue } = useUserFomopolyData();
   // Function to handle the claim reward logic
   const handleClaimReward = () => {
     // Implement claim logic here
     console.log("Claiming reward...");
   };
+
+  const formattedReward = parseFloat(formatEther(userPendingReward)).toFixed(
+    MAX_DISPLAY_ETHER_DIGITS
+  );
+
+  const formattedTotalRevenue = parseFloat(
+    formatEther(userTotalRevenue)
+  ).toFixed(MAX_DISPLAY_ETHER_DIGITS);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -59,7 +64,7 @@ const RevenueModal: React.FC<RewardModalProps> = ({
                 lineHeight="16.3px"
                 color="primary"
               >
-                {revenueETH} ETH
+                {formattedTotalRevenue} ETH
               </Text>
             </Box>
 
@@ -73,7 +78,7 @@ const RevenueModal: React.FC<RewardModalProps> = ({
                 lineHeight="16.3px"
                 color="primary"
               >
-                {revenueETH} ETH
+                {formattedReward} ETH
               </Text>
               <Button
                 onClick={handleClaimReward}
