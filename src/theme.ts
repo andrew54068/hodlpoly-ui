@@ -25,6 +25,10 @@ const theme = extendTheme(
   merge(boTheme, {
     semanticTokens: {
       colors: {
+        "primary": "#FCFC54",
+        "black": "#000000",
+        "gray.oliver": "#9EA889",
+
         "network.hint": IS_PROD ? "transparent" : "status.warning.light",
         "network.hint.text": IS_PROD ? "transparent" : "status.warning.dark",
       },
