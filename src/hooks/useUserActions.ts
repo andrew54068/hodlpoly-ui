@@ -17,7 +17,6 @@ export default function useUserActions() {
 
   const { switchChainAsync } = useSwitchChain()
   const checkChain = async () => {
-    console.log('checkChain :', checkChain);
     if (chainId !== CHAIN_ID) {
       await switchChainAsync({ chainId: CHAIN_ID })
     }
@@ -57,7 +56,7 @@ export default function useUserActions() {
     }
 
     logClickRollTheDice()
-    return hash
+    return { hash, steps }
   }
 
   const buyLand = async () => {

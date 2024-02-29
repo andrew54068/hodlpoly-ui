@@ -3,14 +3,14 @@ import { Box, Button, Flex } from "@chakra-ui/react";
 import "src/utils/phaser";
 import { config } from "src/utils/phaser";
 import { GlobalContext } from "src/context/global";
+import MoveContext from "src/context/move";
 import GameUtils from "./GameUtils";
 import getHeatMapColors from "src/utils/getHeatMapColors";
 import { ConnectModalProvider } from "src/components/WalletConnectModal";
 import useUserFomopolyData from "src/hooks/useUserFomopolyData";
 import useUserActions from "src/hooks/useUserActions";
 import { SelectingLandPurpose } from "src/types";
-import PendingDiceModal from 'src/components/PendingDiceModal'
-
+import PendingDiceModal from "src/components/PendingDiceModal";
 
 export const outterSharedMargin = 54;
 
@@ -24,9 +24,13 @@ export default function MainPage() {
     onConnectModalClose,
     selectingLandPurpose,
     setSelectingLandPurpose,
-    isWaitingForMoving,
-    setIsWaitingForMoving
   } = useContext(GlobalContext);
+  const {
+    isWaitingForMoving,
+    setIsWaitingForMoving,
+    currentMoveSteps,
+    setCurrentMoveSteps,
+  } = useContext(MoveContext);
 
   const { allLandPrices, landAmount, userOwnedLands, userSteps } =
     useUserFomopolyData();
@@ -98,6 +102,7 @@ export default function MainPage() {
       <Box minH="100vsh" pt="75px">
         <Box id="phaser-zone-fomopoly" position="relative">
           <GameUtils
+            setCurrentMoveSteps={setCurrentMoveSteps}
             setIsWaitingForMoving={setIsWaitingForMoving}
             isHeatMapMode={isHeatMapMode}
             hideAllOptions={shouldHideOptions}
@@ -129,9 +134,13 @@ export default function MainPage() {
         </Flex>
       )}
 
-      <PendingDiceModal isOpen={isWaitingForMoving} onClose={()=>setIsWaitingForMoving(false)}/>
-        
-
+      <PendingDiceModal
+        result={currentMoveSteps}
+        setIsWaitingForMoving={setIsWaitingForMoving}
+        setCurrentMoveSteps={setCurrentMoveSteps}
+        isOpen={isWaitingForMoving}
+        onClose={() => setIsWaitingForMoving(false)}
+      />
     </ConnectModalProvider>
   );
 }

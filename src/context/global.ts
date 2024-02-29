@@ -13,8 +13,7 @@ export const GlobalContext = createContext<{
   onConnectModalClose: () => void,
   selectingLandPurpose: SelectingLandPurpose | null,
   setSelectingLandPurpose: (selectingLandPurpose: SelectingLandPurpose | null) => void,
-  isWaitingForMoving: boolean,
-  setIsWaitingForMoving: (isWaitingForMoving: boolean) => void,
+
 
 }>({
   account: null,
@@ -28,6 +27,4 @@ export const GlobalContext = createContext<{
   onConnectModalClose: () => undefined,
   selectingLandPurpose: null,
   setSelectingLandPurpose: () => undefined,
-  isWaitingForMoving: false,
-  setIsWaitingForMoving: () => undefined,
 });
