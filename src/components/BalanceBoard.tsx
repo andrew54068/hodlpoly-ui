@@ -2,6 +2,7 @@ import { useDisclosure, Box, Flex, Image, Text } from "@chakra-ui/react";
 import useUserFomopolyData from "src/hooks/useUserFomopolyData";
 import logo from "src/assets/logo.png";
 import { formatEther } from "viem";
+import { MAX_DISPLAY_ETHER_DIGITS } from "src/utils/constants";
 import RevenueModal from "./RevenueModal";
 
 export const BalanceBoard = ({ ...rest }: any) => {
@@ -9,7 +10,7 @@ export const BalanceBoard = ({ ...rest }: any) => {
   const { playerClaimableReward } = useUserFomopolyData();
   const formattedReward = parseFloat(
     formatEther(playerClaimableReward)
-  ).toFixed(8);
+  ).toFixed(MAX_DISPLAY_ETHER_DIGITS);
   return (
     <Box
       borderRadius="12px"
@@ -38,12 +39,7 @@ export const BalanceBoard = ({ ...rest }: any) => {
           {formattedReward}
         </Text>
       </Flex>
-      <RevenueModal
-        isOpen={isOpen}
-        onClose={onClose}
-        revenueETH="0.12345"
-        claimableBalanceETH="0.652123"
-      />
+      <RevenueModal isOpen={isOpen} onClose={onClose} />
     </Box>
   );
 };
