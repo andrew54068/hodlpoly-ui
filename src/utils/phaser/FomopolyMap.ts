@@ -76,9 +76,10 @@ export default class FomopolyMap extends Phaser.Scene {
     });
 
     this.chessA = chessA;
+    this.background = this.add.image(0, 0, 'background').setOrigin(0, 0);
     this.setZoomToMinValue()
     // add background
-    this.background = this.add.image(0, 0, 'background').setOrigin(0, 0);
+
     this.resizeBackgroundImage();
   }
 
