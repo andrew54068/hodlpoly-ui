@@ -11,6 +11,7 @@ import {
 import { MAX_DISPLAY_ETHER_DIGITS } from "src/utils/constants";
 import Button from "src/components/Button";
 import useUserFomopolyData from "src/hooks/useUserFomopolyData";
+import useUserActions from "src/hooks/useUserActions";
 import { formatEther } from "viem";
 
 interface RewardModalProps {
@@ -20,10 +21,13 @@ interface RewardModalProps {
 
 const RevenueModal: React.FC<RewardModalProps> = ({ isOpen, onClose }) => {
   const { userPendingReward, userTotalRevenue } = useUserFomopolyData();
+  const { claimReward } = useUserActions();
+
   // Function to handle the claim reward logic
-  const handleClaimReward = () => {
+  const handleClaimReward = async () => {
     // Implement claim logic here
     console.log("Claiming reward...");
+    await claimReward();
   };
 
   const formattedReward = parseFloat(formatEther(userPendingReward)).toFixed(
