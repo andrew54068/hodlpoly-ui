@@ -6,6 +6,7 @@ import { SelectedPropCard } from "./SelectedPropCard";
 import useUserActions from "src/hooks/useUserActions";
 import { getNumberType } from "src/utils/getNumberType";
 import { PropsType, SelectingLandPurpose } from "src/types";
+import MoveContext from "src/context/move";
 import { GlobalContext } from "src/context/global";
 import { logClickUseProps } from "src/services/Amplitude/log";
 
@@ -19,8 +20,9 @@ export const InventoryPanel = ({ items, onDismiss }: InventoryPanelProps) => {
     items[0]
   );
   const { rollTheDice } = useUserActions();
-  const { setSelectingLandPurpose, setIsWaitingForMoving } =
-    useContext(GlobalContext);
+  const { setSelectingLandPurpose } = useContext(GlobalContext);
+  const { setIsWaitingForMoving, setCurrentMoveSteps } =
+    useContext(MoveContext);
   const openPhaserSelectionMode = (purpose: SelectingLandPurpose) => {
     setSelectingLandPurpose(purpose);
     if (window.fomopolyMap) {
@@ -32,8 +34,8 @@ export const InventoryPanel = ({ items, onDismiss }: InventoryPanelProps) => {
     try {
       setIsWaitingForMoving(true);
       onDismiss();
-      await rollTheDice(numberType);
-      setIsWaitingForMoving(false);
+      const { steps = 0 } = (await rollTheDice(numberType)) || {};
+      setCurrentMoveSteps(steps);
     } catch (e) {
       console.error(e);
       onDismiss();

@@ -1,16 +1,22 @@
 import { useDisclosure } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { GlobalContext } from "./global";
+import MoveContext from "./move";
 import { SelectingLandPurpose } from "src/types";
-
 
 export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
   const [account, setAccount] = useState<string | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
   const [chainId, setChainId] = useState<string | null>(null);
-  const [isWaitingForMoving, setIsWaitingForMoving] = useState< boolean>(false);
-  const [selectingLandPurpose, setSelectingLandPurpose] = useState<SelectingLandPurpose | null>(null);
-  const { isOpen: isConnectModalOpen, onOpen: onConnectModalOpen, onClose: onConnectModalClose } = useDisclosure()
+  const [currentMoveSteps, setCurrentMoveSteps] = useState<number>(0);
+  const [isWaitingForMoving, setIsWaitingForMoving] = useState<boolean>(false);
+  const [selectingLandPurpose, setSelectingLandPurpose] =
+    useState<SelectingLandPurpose | null>(null);
+  const {
+    isOpen: isConnectModalOpen,
+    onOpen: onConnectModalOpen,
+    onClose: onConnectModalClose,
+  } = useDisclosure();
 
   return (
     <GlobalContext.Provider
@@ -26,11 +32,18 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
         onConnectModalClose,
         selectingLandPurpose,
         setSelectingLandPurpose,
-        isWaitingForMoving,
-        setIsWaitingForMoving
       }}
     >
-      {children}
+      <MoveContext.Provider
+        value={{
+          setCurrentMoveSteps,
+          currentMoveSteps,
+          isWaitingForMoving,
+          setIsWaitingForMoving,
+        }}
+      >
+        {children}
+      </MoveContext.Provider>
     </GlobalContext.Provider>
   );
 };
