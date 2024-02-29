@@ -1,4 +1,10 @@
-import { Flex, Box, ButtonProps, Button as ChakraButton, Spinner } from "@chakra-ui/react";
+import {
+  Flex,
+  Box,
+  ButtonProps,
+  Button as ChakraButton,
+  Spinner,
+} from "@chakra-ui/react";
 import { MouseEventHandler, forwardRef } from "react";
 
 interface CustomButtonProps extends ButtonProps {
@@ -23,8 +29,15 @@ const Button = forwardRef<HTMLButtonElement, CustomButtonProps>(
         boxShadow="0px 0px 20px 0px rgba(35, 37, 40, 0.05)"
         {...rest}
       >
-        <Flex px="space.s" alignItems="center" justifyContent="space-between" width="100%">
-          <Box as="span">{isLoading ? <Spinner size="sm" /> : children}</Box>
+        <Flex
+          px="space.s"
+          alignItems="center"
+          justifyContent="center"
+          width="100%"
+        >
+          <Box as="span" textAlign="center">
+            {isLoading ? <Spinner size="sm" /> : children}
+          </Box>
         </Flex>
       </ChakraButton>
     );

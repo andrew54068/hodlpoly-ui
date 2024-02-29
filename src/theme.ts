@@ -26,9 +26,10 @@ const theme = extendTheme(
     semanticTokens: {
       colors: {
         "primary": "#FCFC54",
-        "black": "#000000",
+        "background.dark": "#11140C",
+        "text.black": "#23271A",
         "gray.oliver": "#9EA889",
-
+        "gray.oliver.dark": "#25291B",
         "network.hint": IS_PROD ? "transparent" : "status.warning.light",
         "network.hint.text": IS_PROD ? "transparent" : "status.warning.dark",
       },
@@ -83,23 +84,28 @@ const theme = extendTheme(
         },
         variants: {
           primary: {
-            width: "100%",
-            height: "54px",
-            py: "space.m",
-            bg: "white",
-            borderRadius: "168px",
+            width: "full",
+            height: "36px",
+            paddingY: "10px",
+            paddingX: "16px",
+            marginTop: "24px",
+            fontWeight: "500",
+            fontSize: "14px",
+            lineHeight: "16px",
+            backgroundColor: "primary",
+            borderRadius: "8px",
             color: "#2A1136",
             _hover: {
-              bg: { md: "white" },
+              bg: { md: "primary" },
               _disabled: { bg: "#DBDBDB" },
             },
             _active: {
-              bg: "white",
+              bg: "yourActiveColor", // replace with your theme color variable
             },
             _disabled: {
               bg: "#DBDBDB",
               opacity: 1,
-              color: "rgba(42,17 ,54, 0.5)",
+              color: "rgba(42, 17, 54, 0.5)",
             },
           },
           secondary: {
