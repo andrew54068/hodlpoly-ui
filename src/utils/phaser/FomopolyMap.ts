@@ -74,7 +74,6 @@ export default class FomopolyMap extends Phaser.Scene {
     this.chessA = chessA;
     // this.background = this.add.image(0, 0, 'background').setOrigin(0, 0);
     const minZoom = this.setZoomToMinValue()
-    console.log('minZoom :', minZoom);
 
     const boundWidth = window.innerWidth / minZoom
     const boundHeight = window.innerHeight / minZoom
