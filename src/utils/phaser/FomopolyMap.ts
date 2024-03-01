@@ -62,13 +62,9 @@ export default class FomopolyMap extends Phaser.Scene {
     this.displayWidth = this.scale.displaySize.width;
     this.displayHeight = this.scale.displaySize.height;
 
-    const minZoom = Math.min(
-      this.displayHeight / this.boardHeight,
-      this.boardHeight / this.displayHeight, 1)
 
-    this.cameras.main.setBounds(0, 0,
-      Math.max(this.boardWidth / minZoom, window.innerWidth / minZoom),
-      Math.max(this.boardHeight / minZoom, window.innerHeight / minZoom));
+
+
 
     const chessA = new ChessA(board, {
       startPoint,
@@ -76,15 +72,23 @@ export default class FomopolyMap extends Phaser.Scene {
     });
 
     this.chessA = chessA;
-    this.background = this.add.image(0, 0, 'background').setOrigin(0, 0);
-    this.setZoomToMinValue()
-    // add background
+    // this.background = this.add.image(0, 0, 'background').setOrigin(0, 0);
+    const minZoom = this.setZoomToMinValue()
+    console.log('minZoom :', minZoom);
 
-    this.resizeBackgroundImage();
+    const boundWidth = window.innerWidth / minZoom
+    const boundHeight = window.innerHeight / minZoom
+    this.cameras.main.setBounds(0, 0,
+      boundWidth,
+      boundHeight
+    );
+
+    this.createGradientBackground(boundWidth, boundHeight);
   }
 
   create() {
     // this.add.text(10, 30, 'Roll the dice to move forward.')
+
 
     this.input.on('pointerdown', (pointer) => {
       // Move the chess
@@ -120,6 +124,8 @@ export default class FomopolyMap extends Phaser.Scene {
       }
 
     }, this);
+
+
   }
 
   setZoomToMinValue() {
@@ -131,21 +137,40 @@ export default class FomopolyMap extends Phaser.Scene {
     return minZoom
   }
 
-  resizeBackgroundImage() {
-    const minZoom = Math.min(
-      this.displayHeight / this.boardHeight,
-      this.boardHeight / this.displayHeight, 1)
+  private createGradientBackground(width, height): void {
+    console.log('height :', height);
+    console.log('width :', width);
 
-    const width = this.cameras.main.width / minZoom;
-    const height = this.cameras.main.height / minZoom;
+    // 创建Canvas纹理
+    // const textureKey = 'gradientBackground';
+    // const canvasTexture = this.textures.createCanvas(textureKey, width, height)?.getContext();
 
-    // calculate scale ratio
-    const scaleX = width / (this.background?.displayWidth ?? 1);
-    const scaleY = height / (this.background?.displayHeight ?? 1);
-    const maxScale = Math.max(scaleX, scaleY);
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = width;
+    canvas.height = height;
 
-    this.background?.setScale(maxScale);
+    if (ctx) {
+      // 使用Canvas API创建渐变
+      const grd = ctx.createLinearGradient(0, 0, 0, height);
+      grd.addColorStop(0, 'black');
+      grd.addColorStop(0.2, 'rgba(110,110,110, 0.57)');
+      grd.addColorStop(0.5, 'rgba(110,110,110, 0.57)');
+      grd.addColorStop(1, 'black');
+
+      // 应用渐变并绘制矩形
+      ctx.fillStyle = grd;
+      ctx.fillRect(0, 0, width, height);
+    }
+
+    const textureKey = 'gradientTextureForBackground' + Date.now(); // generate a unique key
+    this.textures.addCanvas(textureKey, canvas);
+
+    const sprite = this.add.sprite(0, 0, textureKey);
+    sprite.setOrigin(0, 0); //set origin to the center of the sprite
+    sprite.setDepth(0);
   }
+
 
   triggerMoveForward(movingPoints) {
     if (this.chessA) {
