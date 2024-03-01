@@ -15,7 +15,6 @@ import {
 import { formatEther } from "viem";
 import Marquee from "react-fast-marquee";
 import useUserFomopolyData from "src/hooks/useUserFomopolyData";
-import currencyDollar from "src/assets/currency-dollar.png";
 import ticketSmall from "src/assets/ticket.svg";
 import ticketBig from "src/assets/ticket-big.png";
 import users from "src/assets/users.png";
