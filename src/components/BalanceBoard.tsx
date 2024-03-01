@@ -14,8 +14,8 @@ export const BalanceBoard = ({ ...rest }: any) => {
   return (
     <Box
       borderRadius="12px"
-      border="4px solid #000"
-      background="var(--Generic-White, #FFF)"
+      border="4px solid #FCFC54"
+      background="black"
       boxShadow="0px 2px 6px 0px rgba(16, 24, 40, 0.06)"
       p="8px"
       cursor={"pointer"}
@@ -30,7 +30,7 @@ export const BalanceBoard = ({ ...rest }: any) => {
       >
         <Image src={logo}></Image>
         <Text
-          color="var(--Neutral-500, #6B7280)"
+          color="var(--Neutral-500, #9EA889)"
           fontSize="18px"
           fontStyle="normal"
           fontWeight="600"

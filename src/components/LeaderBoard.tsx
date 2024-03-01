@@ -16,6 +16,7 @@ import { formatEther } from "viem";
 import Marquee from "react-fast-marquee";
 import useUserFomopolyData from "src/hooks/useUserFomopolyData";
 import currencyDollar from "src/assets/currency-dollar.png";
+import ticketSmall from "src/assets/ticket.svg";
 import ticketBig from "src/assets/ticket-big.png";
 import users from "src/assets/users.png";
 import { fixDecimal } from "src/utils/fixDecimal";
@@ -85,12 +86,7 @@ export const LeaderBoard = ({ ...rest }: any) => {
   const prizeAmount: bigint = BigInt(systemPool ?? 0);
 
   return (
-    <Box
-      borderRadius="12px"
-      background="linear-gradient(270deg, #FFF -26.8%, #000 30.45%)"
-      p="10px"
-      {...rest}
-    >
+    <Box borderRadius="12px" background="gray.oliver" p="10px" {...rest}>
       <Button
         bg="none"
         width="100%"
@@ -104,10 +100,10 @@ export const LeaderBoard = ({ ...rest }: any) => {
         _active={{ bg: "none", transform: "scale(0.98)" }}
         onClick={onOpen}
       >
-        <Image src={currencyDollar}></Image>
+        <Image src={ticketSmall}></Image>
         <Marquee autoFill>
           <Box
-            color="var(--Neutral-50, #F9FAFB)"
+            color="primary"
             fontSize="20px"
             fontStyle="normal"
             fontWeight="700"
