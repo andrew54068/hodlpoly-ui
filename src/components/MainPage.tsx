@@ -25,6 +25,7 @@ export default function MainPage() {
     selectingLandPurpose,
     setSelectingLandPurpose,
   } = useContext(GlobalContext);
+
   const {
     isWaitingForMoving,
     setIsWaitingForMoving,

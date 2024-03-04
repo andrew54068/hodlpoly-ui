@@ -44,6 +44,7 @@ export default function useUserActions() {
     if (!contract) return
 
     const [positionBeforeMove] = await contract.read.getPlayer([address])
+    console.log('positionBeforeMove :', positionBeforeMove);
 
     const hash = await contract.write.move([moveType])
     await publicClient.waitForTransactionReceipt({ hash })
@@ -56,7 +57,7 @@ export default function useUserActions() {
     }
 
     logClickRollTheDice()
-    return { hash, steps }
+    return { hash, steps, latestPosition: positionAfterMove }
   }
 
   const buyLand = async () => {
