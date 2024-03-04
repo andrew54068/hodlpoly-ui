@@ -1,0 +1,120 @@
+import {
+  Flex,
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalCloseButton,
+  Text,
+  Box,
+} from "@chakra-ui/react";
+import Button from "src/components/Button";
+
+// format number to  a 4 digit string
+const formatLandId = (num: number) => {
+  return num.toString().padStart(4, "0");
+};
+
+const BuyLandModal = ({
+  isOpen,
+  onClose,
+  landId,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  landId: number;
+}) => {
+  // todo: get land price
+  return (
+    <>
+      <Modal isOpen={isOpen} onClose={onClose} isCentered>
+        <ModalContent
+          minWidth="564px"
+          padding="16px"
+          backgroundColor="gray.oliver.dark"
+          color="gray.oliver"
+          borderRadius={0}
+        >
+          <ModalHeader minHeight="40px" />
+          <ModalCloseButton top="16px" />
+          <ModalBody p={0}>
+            <Box
+              borderColor="gray.oliver"
+              border="1px"
+              borderWidth="2px"
+              padding="24px"
+            >
+              <Flex gap="24px" mb="40px">
+                <Box
+                  borderWidth="2px"
+                  padding={0}
+                  borderColor="gray.oliver"
+                  width="100px"
+                  height="120px"
+                  position="relative"
+                >
+                  <Flex
+                    borderWidth="2px 0 0 0 "
+                    padding={0}
+                    fontSize="13.7px"
+                    fontWeight={600}
+                    borderColor="gray.oliver"
+                    color="gray.oliver"
+                    width="98px"
+                    height="82px"
+                    position="absolute"
+                    bottom={0}
+                    left={0}
+                    justifyContent="center"
+                    alignItems="center"
+                  >
+                    {`${formatLandId(landId)}`}
+                  </Flex>
+                </Box>
+                <Flex flexDirection="column">
+                  <Box mb="28px">
+                    <Text
+                      color="gray.oliver"
+                      fontSize="16px"
+                      mb="12px"
+                      lineHeight="16.3px"
+                    >
+                      Land Price
+                    </Text>
+                    <Text fontSize="24px" color="primary" lineHeight="16.3px">
+                      0.01 ETH
+                    </Text>
+                  </Box>
+                  <Box>
+                    <Text
+                      color="gray.oliver"
+                      fontSize="16px"
+                      mb="12px"
+                      lineHeight="16.3px"
+                    >
+                      Volume
+                    </Text>
+                    <Text fontSize="24px" color="primary" lineHeight="16.3px">
+                      003
+                    </Text>
+                  </Box>
+                </Flex>
+              </Flex>
+              <Button
+                backgroundColor="primary"
+                _hover={{ bg: "#e3e162" }}
+                size="lg"
+                width="full"
+                onClick={onClose}
+              >
+                Buy
+              </Button>
+            </Box>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+    </>
+  );
+};
+
+export default BuyLandModal;

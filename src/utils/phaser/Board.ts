@@ -1,7 +1,6 @@
 import { Board as RexBoard } from 'phaser3-rex-plugins/plugins/board-components.js';
 import FomopolyMap from './FomopolyMap';
 import {
-  COLORMAP,
   HEATMAP_COLORS,
   BOARD_CELL_HEIGHT,
   BOARD_CELL_WIDTH,
