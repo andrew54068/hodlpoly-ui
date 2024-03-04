@@ -27,6 +27,7 @@ const Button = forwardRef<HTMLButtonElement, CustomButtonProps>(
         onClick={handleClick}
         cursor={isLoading ? "not-allowed" : "pointer"}
         boxShadow="0px 0px 20px 0px rgba(35, 37, 40, 0.05)"
+        mt="0"
         {...rest}
       >
         <Flex

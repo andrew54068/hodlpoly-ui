@@ -5,7 +5,8 @@ import {
   HEATMAP_COLORS,
   BOARD_CELL_HEIGHT,
   BOARD_CELL_WIDTH,
-  HIGHLIGHT_BORDER_COLOR
+  HIGHLIGHT_BORDER_COLOR,
+  TILE_BOARDER_COLOR
 } from './constants';
 
 
@@ -86,64 +87,111 @@ export default class Board extends RexBoard {
   }
 
 
-  createGradientRectangle(scene, x, y, width, height) {
+  createLandTagRectangle(scene, x, y) {
+
+    const width = BOARD_CELL_WIDTH;
+    const landTagHeight = BOARD_CELL_HEIGHT / 4
+    const landHighLightHeight = BOARD_CELL_HEIGHT * 3 / 4
     // create a canvas
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    canvas.width = width;
-    canvas.height = height;
-    if (!ctx) return;
+    const landTagCanvas = document.createElement('canvas');
+    const landHighLightCanvas = document.createElement('canvas');
 
-    const grd = ctx.createLinearGradient(0, 0, width, 0);
-    grd?.addColorStop(0, "black");
-    grd?.addColorStop(0.7, "black");
-    grd?.addColorStop(1, "gray");
+    const ctx = landTagCanvas.getContext('2d');
+    landTagCanvas.width = width;
+    landTagCanvas.height = landTagHeight;
 
-    ctx.fillStyle = grd;
-    ctx.fillRect(0, 0, width, height);
+    const landHighLightCtx = landHighLightCanvas.getContext('2d');
+    landHighLightCanvas.width = width;
+    landHighLightCanvas.height = landHighLightHeight;
+
+    if (!ctx || !landHighLightCtx) return;
+
+
+    ctx.fillStyle = `#FCFC54`;
+    ctx.fillRect(0, 0, width, landTagHeight);
+
+    landHighLightCtx.fillStyle = `#9EA889`;
+    landHighLightCtx.fillRect(0, 0, width, landHighLightHeight);
 
     // transform the canvas into a texture
-    const textureKey = 'gradientTexture' + Date.now(); // generate a unique key
-    scene.textures.addCanvas(textureKey, canvas);
+    const landTagKey = 'landTagTexture' + Date.now();
+    const landTagHighlightKey = 'landTagHighLight' + Date.now();
 
-    const sprite = scene.add.sprite(x, y, textureKey);
-    sprite.setOrigin(0.5, 0.5); //set origin to the center of the sprite
-    sprite.setDepth(1);
+    scene.textures.addCanvas(landTagKey, landTagCanvas);
+    scene.textures.addCanvas(landTagHighlightKey, landHighLightCanvas);
 
-    return sprite;
+    // 0,0 is at the left top of the canvas
+    const landTagSprite = scene.add.sprite(
+      (x - BOARD_CELL_WIDTH / 2),
+      (y - BOARD_CELL_HEIGHT / 2),
+      landTagKey);
+    const landHighLightSprite = scene.add.sprite(
+      (x - BOARD_CELL_WIDTH / 2),
+      (y - BOARD_CELL_HEIGHT / 2 + landTagHeight),
+      landTagHighlightKey);
+
+    // 0,0 is at the center of the board tile
+    landTagSprite.setOrigin(0, 0);
+    landTagSprite.setDepth(1);
+
+    landHighLightSprite.setOrigin(0, 0);
+    landHighLightSprite.setDepth(1);
+
+
+    return {
+      landTagSprite,
+      landHighLightSprite
+    };
   }
 
-  highLightTile(
-    tileX,
-    tileY) {
-    if (this.prevHighlightGraphics?.length) {
-      this.prevHighlightGraphics.forEach(graphic => graphic.destroy());
-      this.prevHighlightGraphics = []
-    }
+  highlightTile(tileX, tileY) {
     const scene = this.scene;
-    const hightLightBorderWidth = 2;
+    const highlightBorderWidth = 2;
     const worldXY = this.tileXYToWorldXY(tileX, tileY, true);
 
 
-    const prevLandTag = this.createBorderRectangle(
+    const landTag = this.createBorderRectangle(
       scene,
       worldXY.x,
       (worldXY.y - BOARD_CELL_HEIGHT / 2 + BOARD_CELL_HEIGHT / 8),
       BOARD_CELL_WIDTH,
       BOARD_CELL_HEIGHT / 4,
       HIGHLIGHT_BORDER_COLOR,
-      hightLightBorderWidth
-    )
+      highlightBorderWidth
+    ).setDepth(2);
 
-    const prevMainRectangle = this.createBorderRectangle(
+    const mainREctangle = this.createBorderRectangle(
       scene,
       worldXY.x,
       worldXY.y,
       BOARD_CELL_WIDTH,
       BOARD_CELL_HEIGHT,
       HIGHLIGHT_BORDER_COLOR,
-      hightLightBorderWidth
-    )
+      highlightBorderWidth
+    ).setDepth(2);
+
+
+
+    return {
+      landTag,
+      mainREctangle
+    }
+  }
+
+  highLightTileForSelection(
+    tileX,
+    tileY
+  ) {
+    if (this.prevHighlightGraphics?.length) {
+      this.prevHighlightGraphics.forEach(graphic => graphic.destroy());
+      this.prevHighlightGraphics = []
+    }
+
+    const {
+      landTag: prevLandTag,
+      mainREctangle: prevMainRectangle
+    } = this.highlightTile(tileX, tileY);
+
     if (this.prevHighlightGraphics) {
       this.prevHighlightGraphics.push(
         prevLandTag,
@@ -167,8 +215,8 @@ export default class Board extends RexBoard {
         }
 
         cost = parseFloat(symbol);
-        const tileRectangle = this.scene.rexBoard.add.shape(this, tileX, tileY, 0, COLORMAP[cost])
-          .setStrokeStyle(2, 0x000000, 1)
+        const tileRectangle = this.scene.rexBoard.add.shape(this, tileX, tileY, 0)
+          .setStrokeStyle(2, TILE_BOARDER_COLOR, 1)
           .setData('cost', cost)
           .setDepth(1);
 
@@ -183,7 +231,7 @@ export default class Board extends RexBoard {
           worldXY.y - BOARD_CELL_HEIGHT / 2 + landTagHeight / 2,
           landTagWidth,
           landTagHeight,
-          '0x000000',
+          `${TILE_BOARDER_COLOR}`,
           2
         );
 
@@ -192,7 +240,7 @@ export default class Board extends RexBoard {
           if ((this.scene as FomopolyMap).isSelectionMode) {
             const tileXY = this.worldXYToTileXY(data.worldX, data.worldY);
 
-            this.highLightTile(tileXY.x, tileXY.y);
+            this.highLightTileForSelection(tileXY.x, tileXY.y);
             this.selectedTileId = this.tilePathWithId[tileX][tileY]
           }
         })
@@ -207,15 +255,16 @@ export default class Board extends RexBoard {
     return this;
   }
 
-  addLandTagToTile(tileX, tileY, width = BOARD_CELL_WIDTH, height = BOARD_CELL_HEIGHT / 4) {
+  addLandTagToTile(tileX, tileY) {
     // get word position of the tile
     const worldXY = this.tileXYToWorldXY(tileX, tileY, true);
+    this.highlightTile(tileX, tileY);
 
 
-    this.createGradientRectangle(
+    this.createLandTagRectangle(
       this.scene,
       worldXY.x,
-      worldXY.y - BOARD_CELL_HEIGHT / 2 + height / 2, width, height
+      worldXY.y
     );
   }
 
