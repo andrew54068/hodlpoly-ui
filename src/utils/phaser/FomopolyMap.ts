@@ -130,19 +130,13 @@ export default class FomopolyMap extends Phaser.Scene {
   setZoomToMinValue() {
     const minZoom = Math.min(
       this.displayHeight / this.boardHeight,
-      this.boardHeight / this.displayHeight, 1)
+      this.boardHeight / this.displayHeight, 1) * 0.9
 
     this.cameras.main.setZoom(minZoom);
     return minZoom
   }
 
   private createGradientBackground(width, height): void {
-    console.log('height :', height);
-    console.log('width :', width);
-
-    // 创建Canvas纹理
-    // const textureKey = 'gradientBackground';
-    // const canvasTexture = this.textures.createCanvas(textureKey, width, height)?.getContext();
 
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
@@ -150,14 +144,12 @@ export default class FomopolyMap extends Phaser.Scene {
     canvas.height = height;
 
     if (ctx) {
-      // 使用Canvas API创建渐变
       const grd = ctx.createLinearGradient(0, 0, 0, height);
       grd.addColorStop(0, 'black');
       grd.addColorStop(0.2, 'rgba(110,110,110, 0.57)');
       grd.addColorStop(0.5, 'rgba(110,110,110, 0.57)');
       grd.addColorStop(1, 'black');
 
-      // 应用渐变并绘制矩形
       ctx.fillStyle = grd;
       ctx.fillRect(0, 0, width, height);
     }

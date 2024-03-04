@@ -21,7 +21,7 @@ import {
   MenuList,
   Menu,
 } from "@chakra-ui/react";
-import LogoImg from "src/assets/react.svg?react";
+import LogoImg from "src/assets/FomopolyLogo.svg?react";
 import { GlobalContext } from "src/context/global";
 import { NAVBAR_HIGHT } from "src/utils/constants";
 import { logClickConnectButton } from "src/services/Amplitude/log";
@@ -81,7 +81,11 @@ export default function Navbar() {
       <Flex justify="space-between" alignItems="center" width="100%">
         <Box fontSize="size.heading.4" pl="space.l">
           <Link to="/mint">
-            <LogoImg />
+            <LogoImg
+              style={{
+                width: "240px",
+              }}
+            />
           </Link>
         </Box>
 
@@ -99,7 +103,7 @@ export default function Navbar() {
             <Box h="44px" mx="16px">
               <Divider orientation="vertical" bg="white" w="1px" />
             </Box>
-            <Box>
+            <Flex alignItems="center">
               {!address ? (
                 <Button onClick={onClickConnect}>Connect</Button>
               ) : (
@@ -121,7 +125,7 @@ export default function Navbar() {
                   </Menu>
                 </Box>
               )}
-            </Box>
+            </Flex>
           </Flex>
         )}
       </Flex>
