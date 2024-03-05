@@ -1,11 +1,11 @@
 
 import { FMP_PROXY_ADDRESS, FOMOPOLY_PROXY_ADDRESS } from 'src/constants'
 import { useAccount, useReadContract, useBalance } from 'wagmi'
-import { goerli } from 'wagmi/chains'
+import { blastSepolia } from 'wagmi/chains'
 import fomopolyAbi from 'src/abi/fomopoly'
 import fmpAbi from 'src/abi/fmp'
 
-const CHAIN_ID = goerli.id
+const CHAIN_ID = blastSepolia.id
 
 export default function useUserFomopolyData() {
   const { address = '0x0' } = useAccount()

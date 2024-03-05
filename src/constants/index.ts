@@ -1,3 +1,3 @@
 const isMainnet = import.meta.env.VITE_NETWORK === 'mainnet'
-export const FOMOPOLY_PROXY_ADDRESS = isMainnet ? '0x' : '0xD2f84B732D73Ab6df566E3BC34BbA5bA3b519d17';
-export const FMP_PROXY_ADDRESS = isMainnet ? '0x' : '0x64C593bA68A03750DeCee015066e104236BF9346'
+export const FOMOPOLY_PROXY_ADDRESS = isMainnet ? '0x' : '0x3f4D8B1124Ea549c8E9caD85E7E663084BD86F80';
+export const FMP_PROXY_ADDRESS = isMainnet ? '0x' : '0xe17D8598CEa98F2f5281998d58033bd615fbc07C'

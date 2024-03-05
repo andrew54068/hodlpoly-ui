@@ -2,15 +2,14 @@ import { useCallback } from 'react'
 import { getConnectedWalletClient, publicClient } from 'src/config/clients'
 import { FOMOPOLY_PROXY_ADDRESS } from 'src/constants'
 import { useAccount, useSwitchChain } from 'wagmi'
-import { goerli } from 'wagmi/chains'
+import { blastSepolia } from 'wagmi/chains'
 import fomopolyAbi from 'src/abi/fomopoly'
 import { getContract } from 'viem'
 import { NumberType } from 'src/types'
 import useUserFomopolyData from './useUserFomopolyData'
 import { logClickRollTheDice, logClickBuyLand } from 'src/services/Amplitude/log'
 
-
-const CHAIN_ID = goerli.id
+const CHAIN_ID = blastSepolia.id
 export default function useUserActions() {
   const { userSteps, allLandPrices, allPropsPrices } = useUserFomopolyData()
   const { address = '0x0', chainId } = useAccount()
