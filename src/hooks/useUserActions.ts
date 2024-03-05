@@ -44,7 +44,6 @@ export default function useUserActions() {
     if (!contract) return
 
     const [positionBeforeMove] = await contract.read.getPlayer([address])
-    console.log('positionBeforeMove :', positionBeforeMove);
 
     const hash = await contract.write.move([moveType])
     await publicClient.waitForTransactionReceipt({ hash })
