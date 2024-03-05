@@ -1,21 +1,21 @@
 import { createConfig } from 'wagmi'
-import { goerli, mainnet } from 'wagmi/chains'
+import { blastSepolia, mainnet } from 'wagmi/chains'
 import { http } from "wagmi";
 import { injected } from "wagmi/connectors";
 import { blocto } from "@blocto/wagmi-connector";
 
-const appId = import.meta.env.VITE_APP_BLOCTO_APP_ID;
+// const appId = import.meta.env.VITE_APP_BLOCTO_APP_ID;
 
 export const walletConnectProjectId = '7a453bf7754ad57224095646ba5f2b93'
-export const supportChains = [goerli]
+export const supportChains = [blastSepolia]
 
 export const wagmiConfig = createConfig({
-  chains: [goerli, mainnet],
+  chains: [blastSepolia, mainnet],
   multiInjectedProviderDiscovery: false,
-  connectors: [blocto({ appId }), injected()],
+  connectors: [injected()],
   ssr: true,
   transports: {
-    [goerli.id]: http(),
+    [blastSepolia.id]: http(),
     [mainnet.id]: http(),
   },
 });
