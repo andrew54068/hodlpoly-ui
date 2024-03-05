@@ -8,23 +8,31 @@ import {
   Text,
   Box,
 } from "@chakra-ui/react";
+import { MAX_DISPLAY_ETHER_DIGITS } from "src/utils/constants";
+import { formatEther } from "viem";
 import Button from "src/components/Button";
+import useUserFomopolyData from "src/hooks/useUserFomopolyData";
 
 // format number to  a 4 digit string
 const formatLandId = (num: number) => {
+  if (typeof num !== "number") return "0000";
   return num.toString().padStart(4, "0");
 };
 
 const BuyLandModal = ({
   isOpen,
   onClose,
-  landId,
 }: {
   isOpen: boolean;
   onClose: () => void;
-  landId: number;
 }) => {
-  // todo: get land price
+  // todo: get land trading volume
+  const { userSteps, allLandPrices } = useUserFomopolyData();
+  const landPrice = allLandPrices?.[userSteps] ?? 0;
+
+  const formattedLandPrice = parseFloat(formatEther(landPrice)).toFixed(
+    MAX_DISPLAY_ETHER_DIGITS
+  );
   return (
     <>
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
@@ -68,7 +76,7 @@ const BuyLandModal = ({
                     justifyContent="center"
                     alignItems="center"
                   >
-                    {`${formatLandId(landId)}`}
+                    {`${formatLandId(userSteps)}`}
                   </Flex>
                 </Box>
                 <Flex flexDirection="column">
@@ -82,7 +90,7 @@ const BuyLandModal = ({
                       Land Price
                     </Text>
                     <Text fontSize="24px" color="primary" lineHeight="16.3px">
-                      0.01 ETH
+                      {formattedLandPrice ?? 0} ETH
                     </Text>
                   </Box>
                   <Box>

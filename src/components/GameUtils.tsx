@@ -6,7 +6,6 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useState } from "react";
 import dice from "src/assets/dice.png";
 import GameMenu from "./GameMenu";
 import { NAVBAR_HIGHT } from "src/utils/constants";
@@ -16,6 +15,7 @@ import { LeaderBoard } from "./LeaderBoard";
 import useUserActions from "src/hooks/useUserActions";
 import { NumberType } from "src/types";
 import BuyLandModal from "src/components/BuyLandModal";
+import useUserFomopolyData from "src/hooks/useUserFomopolyData";
 
 export default function GameUtils({
   outterSharedMargin,
@@ -32,7 +32,7 @@ export default function GameUtils({
   setIsWaitingForMoving: (isWaiting: boolean) => void;
   setCurrentMoveSteps: (steps: number) => void;
 }) {
-  const [latestUserSteps, setLatestSteps] = useState(0);
+  const { refetchPlayer, refetchAllLandPrices } = useUserFomopolyData();
   const { rollTheDice, buyLand } = useUserActions();
   const {
     isOpen: isBuyLandModalOpen,
@@ -43,11 +43,10 @@ export default function GameUtils({
   const onClickMove = async () => {
     try {
       setIsWaitingForMoving(true);
-      const { steps = 0, latestPosition } =
-        (await rollTheDice(NumberType.Any)) || {};
+      const { steps = 0 } = (await rollTheDice(NumberType.Any)) || {};
       setCurrentMoveSteps(steps);
-      setLatestSteps(latestPosition);
-
+      refetchPlayer();
+      refetchAllLandPrices();
       setTimeout(() => {
         onBuyLandModalOpen();
       }, 3000);
@@ -190,11 +189,7 @@ export default function GameUtils({
         />
       )}
 
-      <BuyLandModal
-        isOpen={isBuyLandModalOpen}
-        onClose={onBuyLandModalClose}
-        landId={latestUserSteps}
-      />
+      <BuyLandModal isOpen={isBuyLandModalOpen} onClose={onBuyLandModalClose} />
     </>
   );
 }
