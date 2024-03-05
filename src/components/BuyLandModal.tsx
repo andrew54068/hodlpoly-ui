@@ -12,6 +12,7 @@ import { MAX_DISPLAY_ETHER_DIGITS } from "src/utils/constants";
 import { formatEther } from "viem";
 import Button from "src/components/Button";
 import useUserFomopolyData from "src/hooks/useUserFomopolyData";
+import useUserActions from "src/hooks/useUserActions";
 
 // format number to  a 4 digit string
 const formatLandId = (num: number) => {
@@ -28,11 +29,21 @@ const BuyLandModal = ({
 }) => {
   // todo: get land trading volume
   const { userSteps, allLandPrices } = useUserFomopolyData();
+  const { buyLand } = useUserActions();
   const landPrice = allLandPrices?.[userSteps] ?? 0;
 
   const formattedLandPrice = parseFloat(formatEther(landPrice)).toFixed(
     MAX_DISPLAY_ETHER_DIGITS
   );
+
+  const onClickBuy = async () => {
+    try {
+      await buyLand();
+      onClose();
+    } catch (e) {
+      console.error(e);
+    }
+  };
   return (
     <>
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
@@ -113,7 +124,7 @@ const BuyLandModal = ({
                 _hover={{ bg: "#e3e162" }}
                 size="lg"
                 width="full"
-                onClick={onClose}
+                onClick={onClickBuy}
               >
                 Buy
               </Button>
