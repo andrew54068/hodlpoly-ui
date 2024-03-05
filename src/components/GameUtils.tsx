@@ -1,4 +1,11 @@
-import { Button, Switch, Image, Flex, Text } from "@chakra-ui/react";
+import {
+  Button,
+  Switch,
+  Image,
+  Flex,
+  Text,
+  useDisclosure,
+} from "@chakra-ui/react";
 import dice from "src/assets/dice.png";
 import GameMenu from "./GameMenu";
 import { NAVBAR_HIGHT } from "src/utils/constants";
@@ -7,6 +14,8 @@ import { UserProfile } from "./UserProfile";
 import { LeaderBoard } from "./LeaderBoard";
 import useUserActions from "src/hooks/useUserActions";
 import { NumberType } from "src/types";
+import BuyLandModal from "src/components/BuyLandModal";
+import useUserFomopolyData from "src/hooks/useUserFomopolyData";
 
 export default function GameUtils({
   outterSharedMargin,
@@ -23,13 +32,24 @@ export default function GameUtils({
   setIsWaitingForMoving: (isWaiting: boolean) => void;
   setCurrentMoveSteps: (steps: number) => void;
 }) {
+  const { refetchPlayer, refetchAllLandPrices } = useUserFomopolyData();
   const { rollTheDice, buyLand } = useUserActions();
+  const {
+    isOpen: isBuyLandModalOpen,
+    onOpen: onBuyLandModalOpen,
+    onClose: onBuyLandModalClose,
+  } = useDisclosure();
 
   const onClickMove = async () => {
     try {
       setIsWaitingForMoving(true);
       const { steps = 0 } = (await rollTheDice(NumberType.Any)) || {};
       setCurrentMoveSteps(steps);
+      refetchPlayer();
+      refetchAllLandPrices();
+      setTimeout(() => {
+        onBuyLandModalOpen();
+      }, 3000);
     } catch (e) {
       console.error(e);
       setIsWaitingForMoving(false);
@@ -168,6 +188,8 @@ export default function GameUtils({
           onChange={onHeatMapSwitchClick}
         />
       )}
+
+      <BuyLandModal isOpen={isBuyLandModalOpen} onClose={onBuyLandModalClose} />
     </>
   );
 }

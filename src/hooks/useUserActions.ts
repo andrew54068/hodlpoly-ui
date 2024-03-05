@@ -56,7 +56,7 @@ export default function useUserActions() {
     }
 
     logClickRollTheDice()
-    return { hash, steps }
+    return { hash, steps, latestPosition: positionAfterMove }
   }
 
   const buyLand = async () => {
