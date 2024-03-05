@@ -6,6 +6,7 @@ import { blocto } from "@blocto/wagmi-connector";
 
 const appId = import.meta.env.VITE_APP_BLOCTO_APP_ID;
 
+export const BLAST_RPC_URL = 'https://blast-sepolia.blockpi.network/v1/rpc/public'
 export const walletConnectProjectId = '7a453bf7754ad57224095646ba5f2b93'
 export const supportChains = [blastSepolia]
 
@@ -15,7 +16,7 @@ export const wagmiConfig = createConfig({
   connectors: [blocto(appId), injected()],
   ssr: true,
   transports: {
-    [blastSepolia.id]: http(),
+    [blastSepolia.id]: http(BLAST_RPC_URL),
     [mainnet.id]: http(),
   },
 });
