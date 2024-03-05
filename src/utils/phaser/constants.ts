@@ -25,9 +25,9 @@ export const CHESS_SPEED_NORMAL = 400;
 export const CHESS_SPEED_FAST = 1000000000;
 
 export const HEATMAP_COLORS = [
-  0xFEE2E2,
-  0xFCA5A5,
-  0xEF4444,
-  0xB91C1C,
-  0x7F1D1D
+  0x92E370,
+  0x2DC08B,
+  0x009893,
+  0x006F80,
+  0x2F4858,
 ]
