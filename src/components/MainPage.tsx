@@ -4,6 +4,7 @@ import "src/utils/phaser";
 import { config } from "src/utils/phaser";
 import { GlobalContext } from "src/context/global";
 import MoveContext from "src/context/move";
+import LoginContext from "src/context/login";
 import GameUtils from "./GameUtils";
 import getHeatMapColors from "src/utils/getHeatMapColors";
 import { ConnectModalProvider } from "src/components/WalletConnectModal";
@@ -11,6 +12,7 @@ import useUserFomopolyData from "src/hooks/useUserFomopolyData";
 import useUserActions from "src/hooks/useUserActions";
 import { SelectingLandPurpose } from "src/types";
 import PendingDiceModal from "src/components/PendingDiceModal";
+import LoginModal from "src/components/LoginModal";
 
 export const outterSharedMargin = 54;
 
@@ -32,6 +34,8 @@ export default function MainPage() {
     currentMoveSteps,
     setCurrentMoveSteps,
   } = useContext(MoveContext);
+  const { isLoginModalOpen, onLoginModalOpen, onLoginModalClose } =
+    useContext(LoginContext);
 
   const { allLandPrices, landAmount, userOwnedLands, userSteps } =
     useUserFomopolyData();
@@ -142,6 +146,7 @@ export default function MainPage() {
         isOpen={isWaitingForMoving}
         onClose={() => setIsWaitingForMoving(false)}
       />
+      <LoginModal isOpen={true} onClose={onLoginModalClose} />
     </ConnectModalProvider>
   );
 }
