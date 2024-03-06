@@ -2,6 +2,7 @@ import { useDisclosure } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { GlobalContext } from "./global";
 import MoveContext from "./move";
+import LoginContext from "./login";
 import { SelectingLandPurpose } from "src/types";
 
 export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
@@ -16,6 +17,11 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
     isOpen: isConnectModalOpen,
     onOpen: onConnectModalOpen,
     onClose: onConnectModalClose,
+  } = useDisclosure();
+  const {
+    isOpen: isLoginModalOpen,
+    onOpen: onLoginModalOpen,
+    onClose: onLoginModalClose,
   } = useDisclosure();
 
   return (
@@ -34,16 +40,24 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
         setSelectingLandPurpose,
       }}
     >
-      <MoveContext.Provider
+      <LoginContext.Provider
         value={{
-          setCurrentMoveSteps,
-          currentMoveSteps,
-          isWaitingForMoving,
-          setIsWaitingForMoving,
+          isLoginModalOpen,
+          onLoginModalOpen,
+          onLoginModalClose,
         }}
       >
-        {children}
-      </MoveContext.Provider>
+        <MoveContext.Provider
+          value={{
+            setCurrentMoveSteps,
+            currentMoveSteps,
+            isWaitingForMoving,
+            setIsWaitingForMoving,
+          }}
+        >
+          {children}
+        </MoveContext.Provider>
+      </LoginContext.Provider>
     </GlobalContext.Provider>
   );
 };

@@ -38,6 +38,7 @@ function App() {
               <Box margin="0 auto" maxW={isLanding ? "100%" : `520px`}>
                 <Routes>
                   <Route path="/" element={<MainPage />} />
+                  <Route path="/login" element={<MainPage />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </Box>
