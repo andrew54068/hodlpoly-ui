@@ -7,7 +7,7 @@ export const config = {
   type: Phaser.AUTO,
   parent: 'phaser-zone-fomopoly',
   width: window.innerWidth,
-  height: window.innerHeight - 75,
+  height: window.innerHeight,
   scale: {
     mode: Phaser.Scale.HEIGHT_CONTROLS_WIDTH,
     autoCenter: Phaser.Scale.CENTER_BOTH,

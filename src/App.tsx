@@ -3,7 +3,6 @@ import theme from "./theme";
 import { useEffect } from "react";
 
 import { ChakraProvider, Box } from "@chakra-ui/react";
-import Navbar from "./components/Navbar";
 import NotFound from "src/components/NotFound";
 import MainPage from "src/components/MainPage";
 import { GlobalProvider } from "./context/globalContextProvider";
@@ -34,7 +33,6 @@ function App() {
               width="100%"
               bgColor={isLanding ? "white" : "#EEF1F5"}
             >
-              <Navbar />
               <Box margin="0 auto" maxW={isLanding ? "100%" : `520px`}>
                 <Routes>
                   <Route path="/" element={<MainPage />} />

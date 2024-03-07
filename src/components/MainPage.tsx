@@ -95,7 +95,7 @@ export default function MainPage() {
 
   return (
     <>
-      <Box minH="100vsh" pt="75px">
+      <Box minH="100vh">
         <Box id="phaser-zone-fomopoly" position="relative">
           <GameUtils
             setCurrentMoveSteps={setCurrentMoveSteps}
