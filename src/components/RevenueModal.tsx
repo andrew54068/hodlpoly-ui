@@ -9,7 +9,7 @@ import {
   Box,
 } from "@chakra-ui/react";
 import { MAX_DISPLAY_ETHER_DIGITS } from "src/utils/constants";
-import Button from "src/components/Button";
+import Button from "src/components/Buttons/Button";
 import useUserFomopolyData from "src/hooks/useUserFomopolyData";
 import useUserActions from "src/hooks/useUserActions";
 import { formatEther } from "viem";

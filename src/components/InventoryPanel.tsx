@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { Center, Flex, SimpleGrid, TabPanel } from "@chakra-ui/react";
 import { InventoryItem, ShopItem } from "./GameMenu";
-import { PropButton } from "./PropButton";
+import { PropButton } from "./Buttons/PropButton";
 import { SelectedPropCard } from "./SelectedPropCard";
 import useUserActions from "src/hooks/useUserActions";
 import { getNumberType } from "src/utils/getNumberType";

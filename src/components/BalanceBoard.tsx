@@ -15,7 +15,7 @@ export const BalanceBoard = ({ ...rest }: any) => {
     <Box
       borderRadius="12px"
       border="4px solid #FCFC54"
-      background="black"
+      background="none"
       boxShadow="0px 2px 6px 0px rgba(16, 24, 40, 0.06)"
       p="8px"
       cursor={"pointer"}

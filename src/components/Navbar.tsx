@@ -8,7 +8,7 @@ import {
   IconButton,
   List,
 } from "@chakra-ui/react";
-import Button from "src/components/Button";
+import Button from "src/components/Buttons/Button";
 import useClickAway from "src/hooks/useClickAway";
 import { useState, useContext } from "react";
 import { useAccount, useDisconnect } from "wagmi";

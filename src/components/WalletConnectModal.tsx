@@ -7,7 +7,7 @@ import {
   ModalCloseButton,
   ModalBody,
 } from "@chakra-ui/react";
-import Button from "src/components/Button";
+import Button from "src/components/Buttons/Button";
 import { useConnect } from "wagmi";
 import { logConnectSuccessfully } from "src/services/Amplitude/log";
 
