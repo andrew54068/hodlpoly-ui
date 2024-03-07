@@ -12,7 +12,7 @@ import { ShopItem } from "./GameMenu";
 
 interface SelectedPropCardProps extends CardProps {
   item: ShopItem;
-  actionTitle: 'Buy' | 'Use';
+  actionTitle: "Buy" | "Use";
   onClickActionItem: (item: ShopItem) => void;
 }
 
@@ -22,16 +22,16 @@ export const SelectedPropCard = ({
   onClickActionItem,
   ...rest
 }: SelectedPropCardProps) => {
-
   return (
     <Card
-      border="2px"
+      border="2px solid #000"
       borderRadius="unset"
-      bg="#E5E7EB"
+      bg="gray.oliver"
       w="120px"
       h="400px"
       m="0px"
       p="0px"
+      gap="16px"
       {...rest}
     >
       <CardBody p="12px">
@@ -39,24 +39,37 @@ export const SelectedPropCard = ({
           direction="column"
           alignItems="center"
           justifyContent="start"
-          rowGap="10px"
+          rowGap="16px"
         >
           <Image src={item.image}></Image>
           <Text
-            width="76px"
-            fontSize="13px"
-            lineHeight="16px"
-            fontWeight="600"
-            align="center"
+            color="generic.black"
+            textAlign="center"
+            fontFamily="Inter"
+            fontSize="16px"
+            fontStyle="normal"
+            fontWeight="700"
+            lineHeight="16.3px"
           >
             {item.name}
           </Text>
-          <Divider />
-          <Text>{item.desc}</Text>
+          <Divider borderColor="generic.black" />
+          <Text
+            color="generic.black"
+            textAlign="center"
+            fontFamily="Inter"
+            fontSize="10px"
+            fontStyle="normal"
+            fontWeight="400"
+            lineHeight="14px"
+          >
+            {item.desc}
+          </Text>
           <Button
             p="10px 16px"
-            color="#FFFFFF"
-            background="linear-gradient(270deg, #FFF -26.8%, #000 30.45%)"
+            color="generic.black"
+            background="primary"
+            alignSelf="stretch"
             onClick={() => {
               onClickActionItem(item);
             }}

@@ -15,8 +15,8 @@ import {
 import { formatEther } from "viem";
 import Marquee from "react-fast-marquee";
 import useUserFomopolyData from "src/hooks/useUserFomopolyData";
-import ticketSmall from "src/assets/ticket.svg";
-import ticketBig from "src/assets/ticket-big.png";
+import smallTicket from "src/assets/leaderBoard/small-ticket.svg";
+import bigTicket from "src/assets/leaderBoard/big-ticket.svg";
 import users from "src/assets/users.png";
 import { fixDecimal } from "src/utils/fixDecimal";
 import useCheckLogin from "src/hooks/useCheckLogin";
@@ -104,7 +104,7 @@ export const LeaderBoard = ({ ...rest }: any) => {
           onOpen();
         }}
       >
-        <Image src={ticketSmall}></Image>
+        <Image src={smallTicket}></Image>
         <Marquee autoFill>
           <Box
             color="primary"
@@ -149,7 +149,7 @@ export const LeaderBoard = ({ ...rest }: any) => {
                 justifyContent="space-between"
               >
                 <Flex alignItems="center" gap="12px">
-                  <Image src={ticketBig}></Image>
+                  <Image src={bigTicket}></Image>
                   <Text
                     color="var(--Generic-Black, #000)"
                     fontFamily="Inter"

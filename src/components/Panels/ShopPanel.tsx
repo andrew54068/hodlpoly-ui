@@ -1,10 +1,11 @@
-import { Flex, SimpleGrid, TabPanel } from "@chakra-ui/react";
-import { ShopItem } from "./GameMenu";
+import { Flex, SimpleGrid } from "@chakra-ui/react";
+import { ShopItem } from "../GameMenu";
 import { useState } from "react";
-import { PropButton } from "./Buttons/PropButton";
-import { SelectedPropCard } from "./SelectedPropCard";
+import { PropButton } from "../Buttons/PropButton";
+import { SelectedPropCard } from "../SelectedPropCard";
 import useUserAction from "src/hooks/useUserActions";
 import { logClickBuyProps } from "src/services/Amplitude/log";
+import { FMPanel } from "./FMPanel";
 
 interface ShopPanelProps {
   items: ShopItem[];
@@ -23,7 +24,7 @@ export const ShopPanel = ({ items, onUpdateAmount }: ShopPanelProps) => {
   };
 
   return (
-    <TabPanel p="24px" bg="#FFFFFF">
+    <FMPanel>
       <Flex alignItems="start" justifyContent="space-between" columnGap="24px">
         <SimpleGrid columns={3} spacing="20px" m="0px">
           {items.map((item) => {
@@ -42,6 +43,6 @@ export const ShopPanel = ({ items, onUpdateAmount }: ShopPanelProps) => {
           onClickActionItem={onClickBuyProp}
         />
       </Flex>
-    </TabPanel>
+    </FMPanel>
   );
 };

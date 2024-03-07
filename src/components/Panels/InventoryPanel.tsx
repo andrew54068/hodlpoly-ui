@@ -1,14 +1,15 @@
 import { useContext, useState } from "react";
-import { Center, Flex, SimpleGrid, TabPanel } from "@chakra-ui/react";
-import { InventoryItem, ShopItem } from "./GameMenu";
-import { PropButton } from "./Buttons/PropButton";
-import { SelectedPropCard } from "./SelectedPropCard";
+import { Center, Flex, SimpleGrid } from "@chakra-ui/react";
+import { InventoryItem, ShopItem } from "../GameMenu";
+import { PropButton } from "../Buttons/PropButton";
+import { SelectedPropCard } from "../SelectedPropCard";
 import useUserActions from "src/hooks/useUserActions";
 import { getNumberType } from "src/utils/getNumberType";
 import { PropsType, SelectingLandPurpose } from "src/types";
 import MoveContext from "src/context/move";
 import { GlobalContext } from "src/context/global";
 import { logClickUseProps } from "src/services/Amplitude/log";
+import { FMPanel } from "./FMPanel";
 
 interface InventoryPanelProps {
   items: InventoryItem[];
@@ -44,20 +45,27 @@ export const InventoryPanel = ({ items, onDismiss }: InventoryPanelProps) => {
   };
 
   return (
-    <TabPanel p="24px" bg="#FFFFFF" h="448px">
-      <Flex alignItems="start" justifyContent="space-between" columnGap="24px">
-        <SimpleGrid columns={3} spacing="20px" m="0px">
-          {items.map((item) => {
-            return (
-              <PropButton
-                key={item.name}
-                amount={item.amount}
-                item={item}
-                onClickItem={setSelectedItem}
-              />
-            );
-          })}
-        </SimpleGrid>
+    <FMPanel h="auto">
+      <Flex
+        minH="60px"
+        alignItems="start"
+        justifyContent="space-between"
+        columnGap="24px"
+      >
+        {items.length > 0 && (
+          <SimpleGrid columns={3} spacing="20px" m="0px">
+            {items.map((item) => {
+              return (
+                <PropButton
+                  key={item.name}
+                  amount={item.amount}
+                  item={item}
+                  onClickItem={setSelectedItem}
+                />
+              );
+            })}
+          </SimpleGrid>
+        )}
         {selectedItem ? (
           <SelectedPropCard
             actionTitle="Use"
@@ -77,11 +85,11 @@ export const InventoryPanel = ({ items, onDismiss }: InventoryPanelProps) => {
             }}
           />
         ) : (
-          <Center display="block" position="absolute">
+          <Center color="primary" m="auto">
             You don't have any props yet!
           </Center>
         )}
       </Flex>
-    </TabPanel>
+    </FMPanel>
   );
 };
