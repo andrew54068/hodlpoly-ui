@@ -7,7 +7,6 @@ import MoveContext from "src/context/move";
 import LoginContext from "src/context/login";
 import GameUtils from "./GameUtils";
 import getHeatMapColors from "src/utils/getHeatMapColors";
-import { ConnectModalProvider } from "src/components/WalletConnectModal";
 import useUserFomopolyData from "src/hooks/useUserFomopolyData";
 import useUserActions from "src/hooks/useUserActions";
 import { SelectingLandPurpose } from "src/types";
