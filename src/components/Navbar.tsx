@@ -23,7 +23,6 @@ import {
   Menu,
 } from "@chakra-ui/react";
 import LogoImg from "src/assets/FomopolyLogo.svg?react";
-import { GlobalContext } from "src/context/global";
 import { NAVBAR_HIGHT } from "src/utils/constants";
 import { logClickConnectButton } from "src/services/Amplitude/log";
 
