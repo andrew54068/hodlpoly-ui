@@ -21,12 +21,8 @@ export default function MainPage() {
   const [isHeatMapMode, setIsHeatMapMode] = useState(false);
   const hasInit = useRef(false);
 
-  const {
-    isConnectModalOpen,
-    onConnectModalClose,
-    selectingLandPurpose,
-    setSelectingLandPurpose,
-  } = useContext(GlobalContext);
+  const { selectingLandPurpose, setSelectingLandPurpose } =
+    useContext(GlobalContext);
 
   const {
     isWaitingForMoving,
@@ -34,8 +30,7 @@ export default function MainPage() {
     currentMoveSteps,
     setCurrentMoveSteps,
   } = useContext(MoveContext);
-  const { isLoginModalOpen, onLoginModalOpen, onLoginModalClose } =
-    useContext(LoginContext);
+  const { isLoginModalOpen, onLoginModalClose } = useContext(LoginContext);
 
   const { allLandPrices, landAmount, userOwnedLands, userSteps } =
     useUserFomopolyData();
@@ -100,10 +95,7 @@ export default function MainPage() {
   const shouldHideOptions = selectingLandPurpose != null;
 
   return (
-    <ConnectModalProvider
-      isOpen={isConnectModalOpen}
-      onClose={onConnectModalClose}
-    >
+    <>
       <Box minH="100vsh" pt="75px">
         <Box id="phaser-zone-fomopoly" position="relative">
           <GameUtils
@@ -146,7 +138,7 @@ export default function MainPage() {
         isOpen={isWaitingForMoving}
         onClose={() => setIsWaitingForMoving(false)}
       />
-      <LoginModal isOpen={true} onClose={onLoginModalClose} />
-    </ConnectModalProvider>
+      <LoginModal isOpen={isLoginModalOpen} onClose={onLoginModalClose} />
+    </>
   );
 }

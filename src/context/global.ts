@@ -8,9 +8,6 @@ export const GlobalContext = createContext<{
   setUserId: (userId: string | null) => void;
   chainId: string | null;
   setChainId: (chainId: string | null) => void;
-  isConnectModalOpen: boolean,
-  onConnectModalOpen: () => void,
-  onConnectModalClose: () => void,
   selectingLandPurpose: SelectingLandPurpose | null,
   setSelectingLandPurpose: (selectingLandPurpose: SelectingLandPurpose | null) => void,
 
@@ -22,9 +19,6 @@ export const GlobalContext = createContext<{
   setUserId: () => undefined,
   chainId: null,
   setChainId: () => undefined,
-  isConnectModalOpen: false,
-  onConnectModalOpen: () => undefined,
-  onConnectModalClose: () => undefined,
   selectingLandPurpose: null,
   setSelectingLandPurpose: () => undefined,
 });

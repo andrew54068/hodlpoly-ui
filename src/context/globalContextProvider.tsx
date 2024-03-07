@@ -14,11 +14,6 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
   const [selectingLandPurpose, setSelectingLandPurpose] =
     useState<SelectingLandPurpose | null>(null);
   const {
-    isOpen: isConnectModalOpen,
-    onOpen: onConnectModalOpen,
-    onClose: onConnectModalClose,
-  } = useDisclosure();
-  const {
     isOpen: isLoginModalOpen,
     onOpen: onLoginModalOpen,
     onClose: onLoginModalClose,
@@ -33,9 +28,6 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
         setUserId: setUserId,
         chainId,
         setChainId,
-        isConnectModalOpen,
-        onConnectModalOpen,
-        onConnectModalClose,
         selectingLandPurpose,
         setSelectingLandPurpose,
       }}

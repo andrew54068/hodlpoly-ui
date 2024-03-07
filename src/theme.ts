@@ -116,17 +116,18 @@ const theme = extendTheme(
           secondary: {
             width: "100%",
             py: "space.m",
-            bg: "interaction.secondary",
-            color: "font.highlight",
+            bg: "background.dark",
+            color: "primary",
+            border: "2px solid #FCFC54",
             borderRadius: "12px",
             _hover: {
-              bg: { md: "interaction.secondary.hovered" },
+              bg: { md: "background.dark" },
             },
             _active: {
-              bg: "interaction.secondary.pressed",
+              bg: "background.dark",
             },
             _disabled: {
-              bg: "interaction.secondary.disabled",
+              bg: "background.dark",
             },
           },
           support: {
