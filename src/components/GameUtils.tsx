@@ -17,6 +17,7 @@ import BuyLandModal from "src/components/BuyLandModal";
 import useUserFomopolyData from "src/hooks/useUserFomopolyData";
 import { GoButton } from "./Buttons/GoButton";
 import { RoundButton } from "./Buttons/RoundButton";
+import useCheckLogin from "src/hooks/useCheckLogin";
 
 export default function GameUtils({
   outterSharedMargin,
@@ -35,6 +36,7 @@ export default function GameUtils({
 }) {
   const { refetchPlayer, refetchAllLandPrices } = useUserFomopolyData();
   const { rollTheDice, buyLand } = useUserActions();
+  const checkLogin = useCheckLogin();
   const {
     isOpen: isBuyLandModalOpen,
     onOpen: onBuyLandModalOpen,
@@ -42,6 +44,9 @@ export default function GameUtils({
   } = useDisclosure();
 
   const onClickMove = async () => {
+    const isUserLogin = checkLogin();
+    if (!isUserLogin) return;
+
     try {
       setIsWaitingForMoving(true);
       const { steps = 0 } = (await rollTheDice(NumberType.Any)) || {};
@@ -58,6 +63,9 @@ export default function GameUtils({
   };
 
   const onClickBuyLand = async () => {
+    const isUserLogin = checkLogin();
+    if (!isUserLogin) return;
+
     const hash = await buyLand();
     console.log("hash :", hash);
   };

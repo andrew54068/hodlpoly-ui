@@ -3,10 +3,12 @@ import useUserFomopolyData from "src/hooks/useUserFomopolyData";
 import logo from "src/assets/logo.png";
 import { formatEther } from "viem";
 import { MAX_DISPLAY_ETHER_DIGITS } from "src/utils/constants";
+import useCheckLogin from "src/hooks/useCheckLogin";
 import RevenueModal from "./RevenueModal";
 
 export const BalanceBoard = ({ ...rest }: any) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const checkLogin = useCheckLogin();
   const { playerClaimableReward } = useUserFomopolyData();
   const formattedReward = parseFloat(
     formatEther(playerClaimableReward)
@@ -19,7 +21,10 @@ export const BalanceBoard = ({ ...rest }: any) => {
       boxShadow="0px 2px 6px 0px rgba(16, 24, 40, 0.06)"
       p="8px"
       cursor={"pointer"}
-      onClick={onOpen}
+      onClick={() => {
+        if (!checkLogin()) return;
+        onOpen();
+      }}
       {...rest}
     >
       <Flex

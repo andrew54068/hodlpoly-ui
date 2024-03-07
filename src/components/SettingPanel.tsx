@@ -32,7 +32,7 @@ const activeButtonStyle = {
     "0px 2px 6px 0px rgba(16, 24, 40, 0.06), -3px 1px 0px 0px rgba(0, 0, 0, 0.40) inset",
 };
 
-export const SettingPanel = () => {
+export const SettingPanel = ({ onClose }) => {
   return (
     <TabPanel p="24px" bg="#FFFFFF" h="180px">
       <Flex
@@ -103,6 +103,7 @@ export const SettingPanel = () => {
             _active={activeButtonStyle}
             onClick={() => {
               disconnect(wagmiConfig);
+              onClose();
             }}
           >
             Logout

@@ -26,6 +26,7 @@ import setting from "src/assets/setting.svg";
 import guide from "src/assets/guide.svg";
 import { PropsType } from "src/types";
 import { GuidePanel } from "./Guide";
+import useCheckLogin from "src/hooks/useCheckLogin";
 
 export type ShopItem = {
   image: string;
@@ -71,6 +72,7 @@ const GameMenu = ({ ...rest }: any) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [, forceUpdate] = useReducer((x) => x + 1, 0);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const checkUserLogin = useCheckLogin();
 
   const { userProps, refetchUserProps } = useUserFomopolyData();
 
@@ -116,6 +118,7 @@ const GameMenu = ({ ...rest }: any) => {
         <Button
           {...buttonStyle}
           onClick={() => {
+            if (!checkUserLogin()) return;
             setSelectedIndex(0);
             onOpen();
           }}
@@ -125,6 +128,7 @@ const GameMenu = ({ ...rest }: any) => {
         <Button
           {...buttonStyle}
           onClick={() => {
+            if (!checkUserLogin()) return;
             setSelectedIndex(1);
             onOpen();
           }}
@@ -134,6 +138,7 @@ const GameMenu = ({ ...rest }: any) => {
         <Button
           {...buttonStyle}
           onClick={() => {
+            if (!checkUserLogin()) return;
             setSelectedIndex(2);
             onOpen();
           }}
@@ -212,7 +217,7 @@ const GameMenu = ({ ...rest }: any) => {
                   }}
                 />
                 <InventoryPanel items={inventoryItems} onDismiss={onClose} />
-                <SettingPanel />
+                <SettingPanel onClose={onClose} />
                 <GuidePanel />
               </TabPanels>
             </Tabs>

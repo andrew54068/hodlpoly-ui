@@ -18,6 +18,7 @@ import { formatEther } from "viem";
 import { useAccount, useEnsName } from "wagmi";
 import { mainnet } from "wagmi/chains";
 import { FillButton } from "./Buttons/FillButton";
+import useCheckLogin from "src/hooks/useCheckLogin";
 
 const ProfileImageAndName = () => {
   const { address = "0x" } = useAccount();
@@ -104,6 +105,7 @@ const BalanceCard = ({ balance, symbol }: BalanceCardProps) => {
 export const UserProfile = ({ ...rest }: any) => {
   const { userBalance, fmpBalance } = useUserFomopolyData();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const checkUserLogin = useCheckLogin();
 
   return (
     <Box>
@@ -122,7 +124,10 @@ export const UserProfile = ({ ...rest }: any) => {
           background: "primary",
           boxShadow: "0px 4px 8px 0px rgba(0, 0, 0, 0.40) inset",
         }}
-        onClick={onOpen}
+        onClick={() => {
+          if (!checkUserLogin()) return;
+          onOpen();
+        }}
       >
         <Image boxSize="64px" src={avatar}></Image>
       </Button>

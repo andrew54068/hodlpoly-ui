@@ -19,6 +19,7 @@ import ticketSmall from "src/assets/ticket.svg";
 import ticketBig from "src/assets/ticket-big.png";
 import users from "src/assets/users.png";
 import { fixDecimal } from "src/utils/fixDecimal";
+import useCheckLogin from "src/hooks/useCheckLogin";
 
 interface RankCardProps {
   rank: string;
@@ -81,6 +82,7 @@ const RankCard = ({ rank, name, value }: RankCardProps) => {
 export const LeaderBoard = ({ ...rest }: any) => {
   const { systemPool } = useUserFomopolyData();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const checkUserLogin = useCheckLogin();
 
   const prizeAmount: bigint = BigInt(systemPool ?? 0);
 
@@ -97,7 +99,10 @@ export const LeaderBoard = ({ ...rest }: any) => {
         p="0px"
         _hover={{}}
         _active={{ bg: "none", transform: "scale(0.98)" }}
-        onClick={onOpen}
+        onClick={() => {
+          if (!checkUserLogin()) return;
+          onOpen();
+        }}
       >
         <Image src={ticketSmall}></Image>
         <Marquee autoFill>
