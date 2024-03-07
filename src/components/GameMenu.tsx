@@ -1,32 +1,45 @@
 import {
-  Button,
   Modal,
   ModalBody,
   ModalCloseButton,
   ModalContent,
   ModalOverlay,
-  Tab,
   TabList,
   TabPanels,
   Tabs,
   useDisclosure,
-  Image,
   Stack,
   Box,
+  Link,
 } from "@chakra-ui/react";
-import { shopItems } from "src/utils/constants";
-import { ShopPanel } from "./ShopPanel";
-import { InventoryPanel } from "./InventoryPanel";
-import useUserFomopolyData from "src/hooks/useUserFomopolyData";
 import { useReducer, useState } from "react";
-import { SettingPanel } from "./SettingPanel";
-import store from "src/assets/store.svg";
-import inventory from "src/assets/inventory.svg";
-import setting from "src/assets/setting.svg";
-import guide from "src/assets/guide.svg";
+
+import useUserFomopolyData from "src/hooks/useUserFomopolyData";
+import { shopItems } from "src/utils/constants";
+import { FMTab } from "./FMTab";
+import { MenuButton } from "./Buttons/MenuButton";
 import { PropsType } from "src/types";
-import { GuidePanel } from "./Guide";
 import useCheckLogin from "src/hooks/useCheckLogin";
+
+import { ShopPanel } from "./Panels/ShopPanel";
+import { InventoryPanel } from "./Panels/InventoryPanel";
+import { SettingPanel } from "./Panels/SettingPanel";
+
+import store from "src/assets/menu/store.svg";
+import storeHover from "src/assets/menu/store-hover.svg";
+import storeActive from "src/assets/menu/store-active.svg";
+
+import inventory from "src/assets/menu/inventory.svg";
+import inventoryHover from "src/assets/menu/inventory-hover.svg";
+import inventoryActive from "src/assets/menu/inventory-active.svg";
+
+import setting from "src/assets/menu/setting.svg";
+import settingHover from "src/assets/menu/setting-hover.svg";
+import settingActive from "src/assets/menu/setting-active.svg";
+
+import guide from "src/assets/menu/guide.svg";
+import guideHover from "src/assets/menu/guide-hover.svg";
+import guideActive from "src/assets/menu/guide-active.svg";
 
 export type ShopItem = {
   image: string;
@@ -39,33 +52,45 @@ export type InventoryItem = ShopItem & {
   amount: number;
 };
 
-const normalTabTextStyle = {
-  color: "#C0C0C0",
-  fontSize: "16px",
-  fontStyle: "normal",
-  fontWeight: "400",
-  lineHeight: "normal",
-};
+enum TabIndex {
+  SHOP = 0,
+  INVENTORY = 1,
+  SETTING = 2,
+  GUIDE = 3,
+}
 
-const focuseTabTextStyle = {
-  bg: "#FFFFFF",
-  color: "#000000",
-  fontSize: "18px",
-  fontStyle: "normal",
-  fontWeight: "600",
-  lineHeight: "normal",
-};
+const generateInventoryItems = (
+  userProps: bigint[] | undefined
+): InventoryItem[] => {
+  if (!userProps) return [];
+  const [
+    oddDice,
+    evenDice,
+    lowDice,
+    highDice,
+    titleDeed,
+    ,
+    lotteryTicket,
+    worldWideTravel,
+  ] = userProps.map((value) => Number(value));
+  const reorderedAmount = [
+    titleDeed,
+    lotteryTicket,
+    worldWideTravel,
+    highDice,
+    lowDice,
+    oddDice,
+    evenDice,
+  ];
 
-const buttonStyle = {
-  width: "60px",
-  height: "60px",
-  p: "0px",
-  bg: "none",
-  _hover: {},
-  _active: {
-    bg: "none",
-    transform: "scale(0.98)",
-  },
+  return shopItems
+    .map((value, index) => {
+      return {
+        ...value,
+        amount: reorderedAmount[index],
+      };
+    })
+    .filter((value) => value.amount != 0);
 };
 
 const GameMenu = ({ ...rest }: any) => {
@@ -75,85 +100,62 @@ const GameMenu = ({ ...rest }: any) => {
   const checkUserLogin = useCheckLogin();
 
   const { userProps, refetchUserProps } = useUserFomopolyData();
+  const [inventoryItems, setInventoryItems] = useState<InventoryItem[]>(
+    generateInventoryItems(userProps)
+  );
 
-  let inventoryItems: InventoryItem[] = [];
-  if (userProps) {
-    console.log(typeof userProps);
-
-    const [
-      oddDice,
-      evenDice,
-      lowDice,
-      highDice,
-      titleDeed,
-      ,
-      lotteryTicket,
-      worldWideTravel,
-    ] = userProps.map((value) => Number(value));
-    const reorderedAmount = [
-      titleDeed,
-      highDice,
-      lowDice,
-      oddDice,
-      evenDice,
-      lotteryTicket,
-      worldWideTravel,
-    ];
-    inventoryItems = shopItems
-      .map((value, index) => {
-        return {
-          ...value,
-          amount: reorderedAmount[index],
-        };
-      })
-      .filter((value) => value.amount != 0);
-  }
-
-  const onTabChange = () => {
-    refetchUserProps();
+  const onTabChange = async () => {
+    const result = await refetchUserProps();
+    const newInventoryItems = generateInventoryItems(result.data);
+    setInventoryItems(newInventoryItems);
   };
+
   return (
     <Box {...rest}>
       <Stack justify="space-between" direction="column" align="center">
-        <Button
-          {...buttonStyle}
+        <MenuButton
+          normalImage={store}
+          hoverImage={storeHover}
+          activeImage={storeActive}
           onClick={() => {
             if (!checkUserLogin()) return;
-            setSelectedIndex(0);
+            setSelectedIndex(TabIndex.SHOP);
             onOpen();
           }}
-        >
-          <Image src={store}></Image>
-        </Button>
-        <Button
-          {...buttonStyle}
+        />
+        <MenuButton
+          normalImage={inventory}
+          hoverImage={inventoryHover}
+          activeImage={inventoryActive}
           onClick={() => {
             if (!checkUserLogin()) return;
-            setSelectedIndex(1);
+            setSelectedIndex(TabIndex.INVENTORY);
             onOpen();
           }}
-        >
-          <Image src={inventory}></Image>
-        </Button>
-        <Button
-          {...buttonStyle}
+        />
+        <MenuButton
+          normalImage={setting}
+          hoverImage={settingHover}
+          activeImage={settingActive}
           onClick={() => {
             if (!checkUserLogin()) return;
-            setSelectedIndex(2);
+            setSelectedIndex(TabIndex.SETTING);
             onOpen();
           }}
+        />
+        <MenuButton
+          normalImage={guide}
+          hoverImage={guideHover}
+          activeImage={guideActive}
         >
-          <Image src={setting}></Image>
-        </Button>
-        <Button
-          {...buttonStyle}
-          onClick={() => {
-            setSelectedIndex(3);
-            onOpen();
-          }}
-        >
-          <Image src={guide}></Image>
-        </Button>
+          <Link
+            href="https://freeflow.gitbook.io/freeflow/projects/fomopoly/game-mechanism"
+            target="_blank"
+            width="100%"
+            height="100%"
+            isExternal
+          />
+        </MenuButton>
       </Stack>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
@@ -163,7 +165,7 @@ const GameMenu = ({ ...rest }: any) => {
           p="16px"
           maxW="564px"
           borderRadius="0px"
-          bg="linear-gradient(270deg, #FFF -26.8%, #000 30.45%)"
+          bg="gray.oliver.dark"
         >
           <ModalBody m="0px" p="0px" bg="none">
             <Tabs
@@ -171,43 +173,10 @@ const GameMenu = ({ ...rest }: any) => {
               variant="enclosed"
               onChange={onTabChange}
             >
-              <TabList color="#C0C0C0">
-                <Tab
-                  isFocusable
-                  borderRadius="0px"
-                  {...normalTabTextStyle}
-                  _focus={focuseTabTextStyle}
-                  _selected={focuseTabTextStyle}
-                >
-                  Shop
-                </Tab>
-                <Tab
-                  isFocusable
-                  borderRadius="0px"
-                  {...normalTabTextStyle}
-                  _focus={focuseTabTextStyle}
-                  _selected={focuseTabTextStyle}
-                >
-                  Inventory
-                </Tab>
-                <Tab
-                  isFocusable
-                  borderRadius="0px"
-                  {...normalTabTextStyle}
-                  _focus={focuseTabTextStyle}
-                  _selected={focuseTabTextStyle}
-                >
-                  Setting
-                </Tab>
-                <Tab
-                  isFocusable
-                  borderRadius="0px"
-                  {...normalTabTextStyle}
-                  _focus={focuseTabTextStyle}
-                  _selected={focuseTabTextStyle}
-                >
-                  Guide
-                </Tab>
+              <TabList>
+                <FMTab>Shop</FMTab>
+                <FMTab>Inventory</FMTab>
+                <FMTab>Setting</FMTab>
               </TabList>
               <TabPanels>
                 <ShopPanel
@@ -218,7 +187,6 @@ const GameMenu = ({ ...rest }: any) => {
                 />
                 <InventoryPanel items={inventoryItems} onDismiss={onClose} />
                 <SettingPanel onClose={onClose} />
-                <GuidePanel />
               </TabPanels>
             </Tabs>
           </ModalBody>
