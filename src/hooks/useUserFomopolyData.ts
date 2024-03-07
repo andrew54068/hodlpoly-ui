@@ -3,7 +3,6 @@ import { useAccount, useReadContract, useBalance } from "wagmi";
 import { blastSepolia } from "wagmi/chains";
 import fomopolyAbi from "src/abi/fomopoly";
 import fmpAbi from "src/abi/fmp";
-import { useState } from "react";
 
 const CHAIN_ID = blastSepolia.id;
 
@@ -69,16 +68,13 @@ export default function useUserFomopolyData() {
     chainId: CHAIN_ID,
   });
 
-  const { data: remoteUserProps, refetch: _refetchUserProps } = useReadContract(
-    {
-      abi: fomopolyAbi.abi,
-      address: FOMOPOLY_PROXY_ADDRESS,
-      functionName: "getPlayerProps",
-      args: [address],
-      chainId: CHAIN_ID,
-    }
-  );
-  const [userProps, setUserProps] = useState(remoteUserProps);
+  const { data: userProps, refetch: refetchUserProps } = useReadContract({
+    abi: fomopolyAbi.abi,
+    address: FOMOPOLY_PROXY_ADDRESS,
+    functionName: "getPlayerProps",
+    args: [address],
+    chainId: CHAIN_ID,
+  });
 
   const { data: allPropsPrices = [] } = useReadContract({
     abi: fomopolyAbi.abi,
@@ -103,16 +99,7 @@ export default function useUserFomopolyData() {
     BigInt(userLandAmount ?? 0) * (accRewardPerShare ?? BigInt(0)) -
     (rewardDebt ?? BigInt(0));
 
-  const refetchUserProps = async () => {
-    const props = await _refetchUserProps();
-    console.log(`setUserProps`);
-    
-    setUserProps(props.data);
-  }
-
-  const userBalance = _userBalance.data?.value || BigInt(0)
-
-  return [
+  return {
     allLandPrices,
     refetchAllLandPrices,
     systemPool,
@@ -121,7 +108,7 @@ export default function useUserFomopolyData() {
     refetchPlayer,
     userOwnedLands,
     refetchUserOwnedLands,
-    userBalance,
+    userBalance: _userBalance.data?.value || BigInt(0),
     fmpBalance,
     userProps,
     refetchUserProps,
@@ -129,5 +116,5 @@ export default function useUserFomopolyData() {
     allPropsPrices,
     userPendingReward,
     userTotalRevenue,
-  ];
+  };
 }
