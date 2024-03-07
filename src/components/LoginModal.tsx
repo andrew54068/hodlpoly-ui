@@ -10,7 +10,7 @@ import {
   ModalContent,
   ModalBody,
 } from "@chakra-ui/react";
-import Button from "src/components/Button";
+import Button from "src/components/Buttons/Button";
 import MetamaskLogo from "src/assets/metamask-logo.svg";
 import BloctoLogo from "src/assets/blocto-logo.svg";
 import { logConnectSuccessfully } from "src/services/Amplitude/log";
