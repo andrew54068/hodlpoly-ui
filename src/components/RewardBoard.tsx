@@ -1,10 +1,27 @@
 import { useDisclosure, Box, Flex, Image, Text } from "@chakra-ui/react";
 import useUserFomopolyData from "src/hooks/useUserFomopolyData";
-import logo from "src/assets/logo.png";
+import money from "src/assets/money.svg";
 import { formatEther } from "viem";
 import { MAX_DISPLAY_ETHER_DIGITS } from "src/utils/constants";
 import useCheckLogin from "src/hooks/useCheckLogin";
 import RevenueModal from "./RevenueModal";
+
+const normalRewardStyle = {
+  borderRadius: "12px",
+  border: "2px solid #FCFC54",
+  boxShadow: "0px 2px 6px 0px rgba(16, 24, 40, 0.06)",
+  padding: "12px",
+  width: "180px",
+};
+
+const hoverRewardStyle = {
+  border: "2px solid #FCFC54",
+  boxShadow: "0px 2px 6px 0px rgba(16, 24, 40, 0.06), 0px 0px 5px 0px #FCFC54",
+};
+
+const activeRewardStyle = {
+  boxShadow: "0px 2px 6px 0px rgba(16, 24, 40, 0.06), 0px 2px 2px 0px rgba(0, 0, 0, 0.25) inset",
+};
 
 export const RewardBoard = ({ ...rest }: any) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -17,25 +34,18 @@ export const RewardBoard = ({ ...rest }: any) => {
 
   return (
     <Box
-      borderRadius="12px"
-      border="4px solid #FCFC54"
-      background="none"
-      boxShadow="0px 2px 6px 0px rgba(16, 24, 40, 0.06)"
-      p="8px"
       cursor={"pointer"}
       onClick={() => {
         if (!checkLogin()) return;
         onOpen();
       }}
+      {...normalRewardStyle}
+      _hover={hoverRewardStyle}
+      _active={activeRewardStyle}
       {...rest}
     >
-      <Flex
-        height="100%"
-        justifyContent="space-between"
-        alignItems="center"
-        minWidth="160px"
-      >
-        <Image src={logo}></Image>
+      <Flex height="100%" justifyContent="space-between" alignItems="center">
+        <Image src={money}></Image>
         <Text
           color="var(--Neutral-500, #9EA889)"
           fontSize="18px"
