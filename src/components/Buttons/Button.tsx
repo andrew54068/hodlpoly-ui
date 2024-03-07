@@ -36,7 +36,7 @@ const Button = forwardRef<HTMLButtonElement, CustomButtonProps>(
           justifyContent="center"
           width="100%"
         >
-          <Box as="span" textAlign="center">
+          <Box as="span" textAlign="center" width="100%">
             {isLoading ? <Spinner size="sm" /> : children}
           </Box>
         </Flex>

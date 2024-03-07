@@ -1,76 +1,82 @@
 // LoginModal.tsx
 import React from "react";
+import { useConnect } from "wagmi";
 import {
+  Box,
+  Flex,
+  Image,
   Modal,
   ModalOverlay,
   ModalContent,
-  ModalHeader,
-  ModalFooter,
   ModalBody,
-  ModalCloseButton,
-  Button,
-  VStack,
-  useTheme,
-  Box,
-  Link,
-  Text,
 } from "@chakra-ui/react";
+import Button from "src/components/Button";
+import MetamaskLogo from "src/assets/metamask-logo.svg";
+import BloctoLogo from "src/assets/blocto-logo.svg";
+import { logConnectSuccessfully } from "src/services/Amplitude/log";
 
 interface LoginModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
-  const theme = useTheme();
-
+const iconMapping = {
+  blocto: BloctoLogo,
+  injected: MetamaskLogo,
+};
+export const WalletOptions = ({ onClose }) => {
+  const { connectors, connect } = useConnect();
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Flex gap="12px" flexDir="column">
+      {connectors.map((connector) => (
+        <Button
+          variant="secondary"
+          key={connector.uid}
+          padding="6px 12px"
+          onClick={async () => {
+            onClose();
+            await connect({ connector });
+            logConnectSuccessfully();
+          }}
+        >
+          <Flex justifyContent="space-between" width="100%" alignItems="center">
+            <Box width="32px" height="32px">
+              {iconMapping[connector?.id] && (
+                <Image src={iconMapping[connector?.id]} />
+              )}
+            </Box>
+            <Box
+              color="gray.oliver"
+              fontSize="12px"
+              lineHeight="20px"
+              mx="auto"
+            >
+              {connector.name === "Injected" ? "Metamask" : connector.name}
+            </Box>
+          </Flex>
+        </Button>
+      ))}
+    </Flex>
+  );
+};
+
+const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
+  return (
+    <Modal isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay />
-      <ModalContent>
-        <ModalHeader>FOMOPOLY</ModalHeader>
-        <ModalCloseButton />
-        <ModalBody>
-          <VStack spacing={4}>
-            <Button
-              colorScheme="yellow"
-              size="lg"
-              leftIcon={<Box w="24px" h="24px" bg="gray.300" />}
-            >
-              Wallet Connect
-            </Button>
-            <Button
-              colorScheme="orange"
-              size="lg"
-              leftIcon={<Box w="24px" h="24px" bg="gray.300" />}
-            >
-              Metamask
-            </Button>
-          </VStack>
+      <ModalContent
+        background="background.dark"
+        boxShadow="none"
+        borderColor="primary"
+        borderWidth="2px"
+        padding="20px"
+      >
+        <ModalBody bg="background.dark">
+          <Box color="primary" textAlign="center" fontSize="24px" mb="20px">
+            Connect Wallet
+          </Box>
+          <WalletOptions onClose={onClose} />
         </ModalBody>
-        <ModalFooter justifyContent="center">
-          <Text fontSize="sm" color={theme.colors.gray[500]}>
-            This site is protected by reCAPTCHA and the Google
-            <Link
-              href="https://policies.google.com/privacy"
-              isExternal
-              color="teal.500"
-            >
-              {" "}
-              Privacy Policy{" "}
-            </Link>
-            and
-            <Link
-              href="https://policies.google.com/terms"
-              isExternal
-              color="teal.500"
-            >
-              {" "}
-              Terms of Service{" "}
-            </Link>
-            apply.
-          </Text>
-        </ModalFooter>
       </ModalContent>
     </Modal>
   );

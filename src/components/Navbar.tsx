@@ -13,6 +13,7 @@ import useClickAway from "src/hooks/useClickAway";
 import { useState, useContext } from "react";
 import { useAccount, useDisconnect } from "wagmi";
 import { Link } from "react-router-dom";
+import LoginContext from "src/context/login";
 import formatAddress from "src/utils/formatAddress";
 import {
   useMediaQuery,
@@ -43,7 +44,7 @@ const ListItem = ({ children, ...rest }: any) => (
 );
 
 export default function Navbar() {
-  const { onConnectModalOpen } = useContext(GlobalContext);
+  const { onLoginModalOpen } = useContext(LoginContext);
 
   const [showDropdown, setShowDropdown] = useState(false);
   const [isMobile] = useMediaQuery("(max-width: 768px)");
@@ -61,7 +62,7 @@ export default function Navbar() {
 
   const onClickConnect = () => {
     logClickConnectButton();
-    onConnectModalOpen();
+    onLoginModalOpen();
   };
 
   return (
