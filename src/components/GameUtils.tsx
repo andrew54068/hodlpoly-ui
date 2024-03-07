@@ -8,7 +8,7 @@ import {
 import dice from "src/assets/dice.svg";
 import GameMenu from "./GameMenu";
 import { NAVBAR_HIGHT } from "src/utils/constants";
-import { BalanceBoard } from "./BalanceBoard";
+import { RewardBoard } from "./BalanceBoard";
 import { UserProfile } from "./UserProfile";
 import { LeaderBoard } from "./LeaderBoard";
 import useUserActions from "src/hooks/useUserActions";
@@ -90,7 +90,7 @@ export default function GameUtils({
               height="52px"
               justifyContent="center"
             />
-            <BalanceBoard width="180px" height="52px" />
+            <RewardBoard width="180px" height="52px" />
           </Flex>
 
           <GameMenu
