@@ -1,80 +1,84 @@
+import { FMP_PROXY_ADDRESS, FOMOPOLY_PROXY_ADDRESS } from "src/constants";
+import { useAccount, useReadContract, useBalance } from "wagmi";
+import { blastSepolia } from "wagmi/chains";
+import fomopolyAbi from "src/abi/fomopoly";
+import fmpAbi from "src/abi/fmp";
+import { useState } from "react";
 
-import { FMP_PROXY_ADDRESS, FOMOPOLY_PROXY_ADDRESS } from 'src/constants'
-import { useAccount, useReadContract, useBalance } from 'wagmi'
-import { blastSepolia } from 'wagmi/chains'
-import fomopolyAbi from 'src/abi/fomopoly'
-import fmpAbi from 'src/abi/fmp'
-
-const CHAIN_ID = blastSepolia.id
+const CHAIN_ID = blastSepolia.id;
 
 export default function useUserFomopolyData() {
-  const { address = '0x0' } = useAccount()
-  const userBalance = useBalance({ address, chainId: CHAIN_ID })
+  const { address = "0x0" } = useAccount();
+  const _userBalance = useBalance({ address, chainId: CHAIN_ID });
 
   const { data: landAmount } = useReadContract({
     abi: fomopolyAbi.abi,
     address: FOMOPOLY_PROXY_ADDRESS,
-    functionName: 'maxLands',
-    chainId: CHAIN_ID
-  })
+    functionName: "maxLands",
+    chainId: CHAIN_ID,
+  });
 
   const { data: [systemPool, accRewardPerShare] = [] } = useReadContract({
     abi: fomopolyAbi.abi,
     address: FOMOPOLY_PROXY_ADDRESS,
-    functionName: 'getSystemPool',
-    chainId: CHAIN_ID
-  })
+    functionName: "getSystemPool",
+    chainId: CHAIN_ID,
+  });
 
-  const { data: [userSteps, userLandAmount, rewardDebt] = [], refetch: refetchPlayer } = useReadContract({
-    abi: fomopolyAbi.abi,
-    address: FOMOPOLY_PROXY_ADDRESS,
-    functionName: 'getPlayer',
-    args: [address],
-    chainId: CHAIN_ID
-  }) || {}
+  const {
+    data: [userSteps, userLandAmount, rewardDebt] = [],
+    refetch: refetchPlayer,
+  } =
+    useReadContract({
+      abi: fomopolyAbi.abi,
+      address: FOMOPOLY_PROXY_ADDRESS,
+      functionName: "getPlayer",
+      args: [address],
+      chainId: CHAIN_ID,
+    }) || {};
 
-
-  // @todo: show land price on the map 
+  // @todo: show land price on the map
   const {
     data: allLandPrices = [],
-    refetch: refetchAllLandPrices
+    refetch: refetchAllLandPrices,
   }: {
-    data?: bigint[],
-    refetch: () => void
+    data?: bigint[];
+    refetch: () => void;
   } = useReadContract({
     abi: fomopolyAbi.abi,
     address: FOMOPOLY_PROXY_ADDRESS,
-    functionName: 'getAllLandPrice',
+    functionName: "getAllLandPrice",
     args: [0, landAmount],
-    chainId: CHAIN_ID
-  })
+    chainId: CHAIN_ID,
+  });
 
-  const {
-    data: userOwnedLands = [],
-    refetch: refetchUserOwnedLands
-  } = useReadContract({
-    abi: fomopolyAbi.abi,
-    address: FOMOPOLY_PROXY_ADDRESS,
-    functionName: 'getPlayerOwnedLandIDs',
-    args: [address],
-    chainId: CHAIN_ID
-  })
+  const { data: userOwnedLands = [], refetch: refetchUserOwnedLands } =
+    useReadContract({
+      abi: fomopolyAbi.abi,
+      address: FOMOPOLY_PROXY_ADDRESS,
+      functionName: "getPlayerOwnedLandIDs",
+      args: [address],
+      chainId: CHAIN_ID,
+    });
 
   const { data: fmpBalance = BigInt(0) } = useReadContract({
     abi: fmpAbi.abi,
     address: FMP_PROXY_ADDRESS,
-    functionName: 'balanceOf',
+    functionName: "balanceOf",
     args: [address],
-    chainId: CHAIN_ID
-  })
-
-  const { data: userProps, refetch: refetchUserProps } = useReadContract({
-    abi: fomopolyAbi.abi,
-    address: FOMOPOLY_PROXY_ADDRESS,
-    functionName: "getPlayerProps",
-    args: [address],
-    chainId: CHAIN_ID
+    chainId: CHAIN_ID,
   });
+
+  const { data: remoteUserProps, refetch: _refetchUserProps } = useReadContract(
+    {
+      abi: fomopolyAbi.abi,
+      address: FOMOPOLY_PROXY_ADDRESS,
+      functionName: "getPlayerProps",
+      args: [address],
+      chainId: CHAIN_ID,
+    }
+  );
+  const [userProps, setUserProps] = useState(remoteUserProps);
 
   const { data: allPropsPrices = [] } = useReadContract({
     abi: fomopolyAbi.abi,
@@ -85,20 +89,30 @@ export default function useUserFomopolyData() {
   });
 
   // const { data: [userPendingReward, userTotalRevenue] = [] } = useReadContract({
-  const { data: [
-    userPendingReward = BigInt(0),
-    userTotalRevenue = BigInt(0)] = [] } = useReadContract({
-      abi: fomopolyAbi.abi,
-      address: FOMOPOLY_PROXY_ADDRESS,
-      functionName: "getLatestPendingReward",
-      args: [address],
-      chainId: CHAIN_ID,
-    });
+  const {
+    data: [userPendingReward = BigInt(0), userTotalRevenue = BigInt(0)] = [],
+  } = useReadContract({
+    abi: fomopolyAbi.abi,
+    address: FOMOPOLY_PROXY_ADDRESS,
+    functionName: "getLatestPendingReward",
+    args: [address],
+    chainId: CHAIN_ID,
+  });
 
+  const playerClaimableReward =
+    BigInt(userLandAmount ?? 0) * (accRewardPerShare ?? BigInt(0)) -
+    (rewardDebt ?? BigInt(0));
 
-  const playerClaimableReward = BigInt(userLandAmount ?? 0) * (accRewardPerShare ?? BigInt(0)) - (rewardDebt ?? BigInt(0))
+  const refetchUserProps = async () => {
+    const props = await _refetchUserProps();
+    console.log(`setUserProps`);
+    
+    setUserProps(props.data);
+  }
 
-  return {
+  const userBalance = _userBalance.data?.value || BigInt(0)
+
+  return [
     allLandPrices,
     refetchAllLandPrices,
     systemPool,
@@ -107,13 +121,13 @@ export default function useUserFomopolyData() {
     refetchPlayer,
     userOwnedLands,
     refetchUserOwnedLands,
-    userBalance: userBalance.data?.value || BigInt(0),
+    userBalance,
     fmpBalance,
     userProps,
     refetchUserProps,
     playerClaimableReward,
     allPropsPrices,
     userPendingReward,
-    userTotalRevenue
-  }
+    userTotalRevenue,
+  ];
 }
