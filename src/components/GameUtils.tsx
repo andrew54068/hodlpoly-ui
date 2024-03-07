@@ -8,7 +8,7 @@ import {
 import dice from "src/assets/dice.svg";
 import GameMenu from "./GameMenu";
 import { NAVBAR_HIGHT } from "src/utils/constants";
-import { RewardBoard } from "./BalanceBoard";
+import { RewardBoard } from "./RewardBoard";
 import { UserProfile } from "./UserProfile";
 import { LeaderBoard } from "./LeaderBoard";
 import useUserActions from "src/hooks/useUserActions";
