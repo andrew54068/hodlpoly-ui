@@ -90,7 +90,7 @@ export default function useUserFomopolyData() {
     userTotalRevenue = BigInt(0)] = [] } = useReadContract({
       abi: fomopolyAbi.abi,
       address: FOMOPOLY_PROXY_ADDRESS,
-      functionName: "getPendingReward",
+      functionName: "getLatestPendingReward",
       args: [address],
       chainId: CHAIN_ID,
     });

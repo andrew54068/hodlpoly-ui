@@ -9,10 +9,12 @@ import RevenueModal from "./RevenueModal";
 export const BalanceBoard = ({ ...rest }: any) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const checkLogin = useCheckLogin();
-  const { playerClaimableReward } = useUserFomopolyData();
-  const formattedReward = parseFloat(
-    formatEther(playerClaimableReward)
-  ).toFixed(MAX_DISPLAY_ETHER_DIGITS);
+  const { userPendingReward } = useUserFomopolyData();
+
+  const formattedReward = parseFloat(formatEther(userPendingReward)).toFixed(
+    MAX_DISPLAY_ETHER_DIGITS
+  );
+
   return (
     <Box
       borderRadius="12px"
