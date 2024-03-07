@@ -1,7 +1,7 @@
 import { Flex, SimpleGrid, TabPanel } from "@chakra-ui/react";
 import { ShopItem } from "./GameMenu";
 import { useState } from "react";
-import { PropButton } from "./PropButton";
+import { PropButton } from "./Buttons/PropButton";
 import { SelectedPropCard } from "./SelectedPropCard";
 import useUserAction from "src/hooks/useUserActions";
 import { logClickBuyProps } from "src/services/Amplitude/log";

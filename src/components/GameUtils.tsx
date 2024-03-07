@@ -1,12 +1,11 @@
 import {
-  Button,
   Switch,
   Image,
   Flex,
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import dice from "src/assets/dice.png";
+import dice from "src/assets/dice.svg";
 import GameMenu from "./GameMenu";
 import { NAVBAR_HIGHT } from "src/utils/constants";
 import { BalanceBoard } from "./BalanceBoard";
@@ -16,6 +15,8 @@ import useUserActions from "src/hooks/useUserActions";
 import { NumberType } from "src/types";
 import BuyLandModal from "src/components/BuyLandModal";
 import useUserFomopolyData from "src/hooks/useUserFomopolyData";
+import { GoButton } from "./Buttons/GoButton";
+import { RoundButton } from "./Buttons/RoundButton";
 
 export default function GameUtils({
   outterSharedMargin,
@@ -73,7 +74,7 @@ export default function GameUtils({
             alignItems="center"
             p="0px 52px"
           >
-            <UserProfile minWidth="96px" />
+            <UserProfile/>
             <LeaderBoard
               mx="16px"
               maxWidth="700px"
@@ -94,87 +95,38 @@ export default function GameUtils({
             m="0px"
           />
 
-          <Button
+          <RoundButton
             width="146px"
-            height="146px"
             position="absolute"
-            bottom={`${outterSharedMargin + 146 + 30}px`}
+            bottom={`${outterSharedMargin + 146 + 12}px`}
             right={`${outterSharedMargin}px`}
             onClick={onClickBuyLand}
-            _hover={{
-              background:
-                "0px 25px 60px -15px rgba(3, 3, 3, 0.20), 0px 25px 60px -15px rgba(3, 3, 3, 0.12), 0px 0px 7px 0px #222",
-              boxShadow:
-                "0px 25px 60px -15px rgba(16, 24, 40, 0.20), 0px 25px 60px -15px rgba(16, 24, 40, 0.12), 0px 0px 7px 0px #222",
-              linearGradient: "(270deg, #FFF -26.8%, #000 30.45%)",
-            }}
-            _active={{
-              background: "linear-gradient(270deg, #FFF -26.8%, #000 30.45%)",
-              boxShadow:
-                "0px 25px 60px -15px rgba(16, 24, 40, 0.20), 0px 25px 60px -15px rgba(16, 24, 40, 0.12), -6px 1px 0px 0px rgba(0, 0, 0, 0.40) inset",
-              transform: "scale(0.98)",
-            }}
-            boxShadow="0px 25px 60px -15px rgba(16, 24, 40, 0.20), 0px 25px 60px -15px rgba(16, 24, 40, 0.12)"
-            background="linear-gradient(270deg, #FFF -26.8%, #000 30.45%)"
-            borderRadius="16.22px"
           >
-            <Flex direction="column" alignItems="center">
-              <Image src={dice}></Image>
-              <Text
-                color="#FFFFFF"
-                textAlign="center"
-                fontFamily="Inter"
-                fontSize="26px"
-                fontStyle="normal"
-                fontWeight="500"
-                lineHeight="35.689px"
-                letterSpacing="-0.72px"
-              >
-                Buy Land!
-              </Text>
-            </Flex>
-          </Button>
+            Buy Land!
+          </RoundButton>
 
-          <Button
-            width="146px"
-            height="146px"
+          <GoButton
             position="absolute"
             bottom={`${outterSharedMargin}px`}
             right={`${outterSharedMargin}px`}
             onClick={onClickMove}
-            _hover={{
-              background:
-                "0px 25px 60px -15px rgba(3, 3, 3, 0.20), 0px 25px 60px -15px rgba(3, 3, 3, 0.12), 0px 0px 7px 0px #222",
-              boxShadow:
-                "0px 25px 60px -15px rgba(16, 24, 40, 0.20), 0px 25px 60px -15px rgba(16, 24, 40, 0.12), 0px 0px 7px 0px #222",
-              linearGradient: "(270deg, #FFF -26.8%, #000 30.45%)",
-            }}
-            _active={{
-              background: "linear-gradient(270deg, #FFF -26.8%, #000 30.45%)",
-              boxShadow:
-                "0px 25px 60px -15px rgba(16, 24, 40, 0.20), 0px 25px 60px -15px rgba(16, 24, 40, 0.12), -6px 1px 0px 0px rgba(0, 0, 0, 0.40) inset",
-              transform: "scale(0.98)",
-            }}
-            boxShadow="0px 25px 60px -15px rgba(16, 24, 40, 0.20), 0px 25px 60px -15px rgba(16, 24, 40, 0.12)"
-            background="linear-gradient(270deg, #FFF -26.8%, #000 30.45%)"
-            borderRadius="16.22px"
           >
-            <Flex direction="column" alignItems="center">
+            <Flex direction="column" alignItems="center" rowGap="6px">
               <Image src={dice}></Image>
               <Text
-                color="#FFFFFF"
+                color="background.dark"
                 textAlign="center"
                 fontFamily="Inter"
                 fontSize="36px"
                 fontStyle="normal"
                 fontWeight="500"
-                lineHeight="35.689px"
+                lineHeight="35px"
                 letterSpacing="-0.72px"
               >
                 GO!
               </Text>
             </Flex>
-          </Button>
+          </GoButton>
         </>
       )}
 

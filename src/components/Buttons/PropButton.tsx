@@ -7,7 +7,7 @@ import {
   Text,
   Image,
 } from "@chakra-ui/react";
-import { ShopItem } from "./GameMenu";
+import { ShopItem } from "../GameMenu";
 
 interface PropButtonProps extends ButtonProps {
   item: ShopItem;

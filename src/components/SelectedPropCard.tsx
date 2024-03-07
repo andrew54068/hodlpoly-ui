@@ -54,7 +54,7 @@ export const SelectedPropCard = ({
           <Divider />
           <Text>{item.desc}</Text>
           <Button
-            p="16px 10px"
+            p="10px 16px"
             color="#FFFFFF"
             background="linear-gradient(270deg, #FFF -26.8%, #000 30.45%)"
             onClick={() => {

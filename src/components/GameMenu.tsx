@@ -20,10 +20,12 @@ import { InventoryPanel } from "./InventoryPanel";
 import useUserFomopolyData from "src/hooks/useUserFomopolyData";
 import { useReducer, useState } from "react";
 import { SettingPanel } from "./SettingPanel";
-import store from "src/assets/store.png";
-import inventory from "src/assets/inventory.png";
-import setting from "src/assets/setting.png";
+import store from "src/assets/store.svg";
+import inventory from "src/assets/inventory.svg";
+import setting from "src/assets/setting.svg";
+import guide from "src/assets/guide.svg";
 import { PropsType } from "src/types";
+import { GuidePanel } from "./Guide";
 
 export type ShopItem = {
   image: string;
@@ -138,6 +140,15 @@ const GameMenu = ({ ...rest }: any) => {
         >
           <Image src={setting}></Image>
         </Button>
+        <Button
+          {...buttonStyle}
+          onClick={() => {
+            setSelectedIndex(3);
+            onOpen();
+          }}
+        >
+          <Image src={guide}></Image>
+        </Button>
       </Stack>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
@@ -183,6 +194,15 @@ const GameMenu = ({ ...rest }: any) => {
                 >
                   Setting
                 </Tab>
+                <Tab
+                  isFocusable
+                  borderRadius="0px"
+                  {...normalTabTextStyle}
+                  _focus={focuseTabTextStyle}
+                  _selected={focuseTabTextStyle}
+                >
+                  Guide
+                </Tab>
               </TabList>
               <TabPanels>
                 <ShopPanel
@@ -193,6 +213,7 @@ const GameMenu = ({ ...rest }: any) => {
                 />
                 <InventoryPanel items={inventoryItems} onDismiss={onClose} />
                 <SettingPanel />
+                <GuidePanel />
               </TabPanels>
             </Tabs>
           </ModalBody>
