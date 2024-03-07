@@ -6,7 +6,7 @@ import { MAX_DISPLAY_ETHER_DIGITS } from "src/utils/constants";
 import useCheckLogin from "src/hooks/useCheckLogin";
 import RevenueModal from "./RevenueModal";
 
-export const BalanceBoard = ({ ...rest }: any) => {
+export const RewardBoard = ({ ...rest }: any) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const checkLogin = useCheckLogin();
   const { userPendingReward } = useUserFomopolyData();
