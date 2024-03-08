@@ -44,6 +44,8 @@ export const InventoryPanel = ({ items, onDismiss }: InventoryPanelProps) => {
       setIsWaitingForMoving(false);
     }
   };
+  console.log("selectedItem", selectedItem);
+  console.log("items", items);
 
   return (
     <FMPanel h="auto">

@@ -107,6 +107,7 @@ const GameMenu = ({ ...rest }: any) => {
   const onTabChange = async () => {
     const result = await refetchUserProps();
     const newInventoryItems = generateInventoryItems(result.data);
+    console.log("newInventoryItems :", newInventoryItems);
     setInventoryItems(newInventoryItems);
   };
 
