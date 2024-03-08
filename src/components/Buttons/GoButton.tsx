@@ -1,4 +1,5 @@
 import { Button, ButtonProps } from "@chakra-ui/react";
+import { GoButtonSize } from "../MainPage";
 
 const normalGoButtonStyle = {
   color: "background.dark",
@@ -28,8 +29,8 @@ const disableGoButtonStyle = {
 export const GoButton = ({ children, ...rest }: ButtonProps) => {
   return (
     <Button
-      width="146px"
-      height="146px"
+      width={GoButtonSize.map(value => `${value}px`)}
+      height={GoButtonSize.map(value => `${value}px`)}
       {...rest}
       {...normalGoButtonStyle}
       _hover={hoverGoButtonStyle}
