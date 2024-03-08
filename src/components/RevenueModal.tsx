@@ -13,6 +13,7 @@ import Button from "src/components/Buttons/Button";
 import useUserFomopolyData from "src/hooks/useUserFomopolyData";
 import useUserActions from "src/hooks/useUserActions";
 import { formatEther } from "viem";
+import { FillButton } from "./Buttons/FillButton";
 
 interface RewardModalProps {
   isOpen: boolean;
@@ -45,9 +46,11 @@ const RevenueModal: React.FC<RewardModalProps> = ({ isOpen, onClose }) => {
         backgroundColor="gray.oliver.dark"
         borderRadius={0}
         color="white"
-        minW="564px"
-        p="16px"
-        pt="56px"
+        width={["85%", "auto", "564px"]}
+        minW={["85%", "300px", "564px"]}
+        mt="15%"
+        p={["8px", "12px", "16px"]}
+        pt={["30px", "35px", "40px"]}
       >
         <ModalCloseButton />
         <ModalBody>
@@ -65,7 +68,7 @@ const RevenueModal: React.FC<RewardModalProps> = ({ isOpen, onClose }) => {
               <Text
                 fontSize="24px"
                 fontWeight={500}
-                lineHeight="16.3px"
+                lineHeight="22px"
                 color="primary"
               >
                 {formattedTotalRevenue} ETH
@@ -79,19 +82,19 @@ const RevenueModal: React.FC<RewardModalProps> = ({ isOpen, onClose }) => {
               <Text
                 fontSize="24px"
                 fontWeight={500}
-                lineHeight="16.3px"
+                lineHeight="22px"
                 color="primary"
               >
                 {formattedReward} ETH
               </Text>
-              <Button
+              <FillButton
                 onClick={handleClaimReward}
                 w="100%"
                 p="10px 16px"
                 mt="24px"
               >
                 Claim Reward
-              </Button>
+              </FillButton>
             </Box>
           </Box>
         </ModalBody>

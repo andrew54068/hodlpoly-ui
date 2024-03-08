@@ -16,7 +16,7 @@ import RevenueModal from "./RevenueModal";
 const normalRewardStyle = (isMobile: boolean) => {
   return {
     width: isMobile ? "52px" : "180px",
-    height: isMobile ? "52px" : "52px",
+    height: "52px",
     borderRadius: "12px",
     border: "2px solid #FCFC54",
     boxShadow: "0px 2px 6px 0px rgba(16, 24, 40, 0.06)",

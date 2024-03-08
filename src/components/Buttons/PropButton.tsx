@@ -8,11 +8,12 @@ import {
   CardProps,
 } from "@chakra-ui/react";
 import { ShopItem } from "../GameMenu";
+import { PropImageSize, PropTitleSize, PropTitleWidth } from "../MainPage";
 
 const normalButtonStyle: {
   p: string;
-  w: string;
-  h: string;
+  w: string | string[];
+  h: string | string[];
   border: string;
   flexDirection: ResponsiveValue<any>;
   justifyContent: string;
@@ -23,8 +24,8 @@ const normalButtonStyle: {
   borderRadius: string;
 } = {
   p: "12px",
-  w: "100px",
-  h: "120px",
+  w: ["70px", "90px", "100px"],
+  h: ["95px", "110px", "120px"],
   border: "2px solid #9EA889",
   flexDirection: "column",
   justifyContent: "space-between",
@@ -72,7 +73,7 @@ export const PropButton = ({ item, onClickItem, ...rest }: PropButtonProps) => {
             color="gray.oliver"
             textAlign="center"
             fontFamily="Inter"
-            fontSize="10px"
+            fontSize={["8px", "10px"]}
             fontStyle="normal"
             fontWeight="600"
             lineHeight="20px"
@@ -81,12 +82,15 @@ export const PropButton = ({ item, onClickItem, ...rest }: PropButtonProps) => {
             x {rest.amount}
           </Text>
         )}
-        <Flex direction="column" alignItems="center" rowGap="10px">
-          <Image src={item.image}></Image>
+        <Flex direction="column" alignItems="center" rowGap={["5px", "10px"]}>
+          <Image
+            boxSize={PropImageSize.map((value) => `${value}px`)}
+            src={item.image}
+          ></Image>
           <Text
-            width="76px"
-            fontSize="13px"
-            lineHeight="16px"
+            width={PropTitleWidth.map((value) => `${value}px`)}
+            fontSize={PropTitleSize.map((value) => `${value}px`)}
+            lineHeight={["13px", "16px"]}
             fontWeight="600"
             align="center"
             whiteSpace="normal"

@@ -11,6 +11,7 @@ import {
   useDisclosure,
   ModalHeader,
   Box,
+  Center,
 } from "@chakra-ui/react";
 import useUserFomopolyData from "src/hooks/useUserFomopolyData";
 import avatar from "src/assets/avatar.svg";
@@ -30,19 +31,19 @@ const ProfileImageAndName = () => {
   const displayContent = result.data || address;
 
   return (
-    <Flex justifyContent="space-between" alignItems="center" columnGap="24px">
-      <Box
+    <Flex justifyContent="start" alignItems="center" columnGap="24px">
+      <Center
         flexShrink={0}
-        width="76px"
-        height="76px"
+        width={["55px", "62px", "76px"]}
+        height={["55px", "62px", "76px"]}
         padding="12.667px"
         justifyContent="center"
         alignItems="center"
         bg="primary"
         borderRadius="316.667px"
       >
-        <Image boxSize="50px" src={avatar}></Image>
-      </Box>
+        <Image boxSize={["40px", "45px", "50px"]} src={avatar}></Image>
+      </Center>
       <Box>
         <Text
           fontSize="24px"
@@ -95,7 +96,12 @@ const BalanceCard = ({ balance, symbol }: BalanceCardProps) => {
           {formatEther(balance)} {symbol}
         </Text>
       </Flex>
-      <Flex columnGap="24px">
+      <Flex
+        direction="column"
+        width="100%"
+        columnGap="24px"
+        alignItems="stretch"
+      >
         <FillButton>Deposit</FillButton>
       </Flex>
     </Flex>
@@ -134,10 +140,11 @@ export const UserProfile = ({ ...rest }: any) => {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent
-          width="564px"
+          width={["85%", "auto", "564px"]}
+          minW={["85%", "300px", "564px"]}
           height="auto"
           p="16px"
-          maxW="564px"
+          mt="15%"
           borderRadius="0px"
           bg="gray.oliver.dark"
         >

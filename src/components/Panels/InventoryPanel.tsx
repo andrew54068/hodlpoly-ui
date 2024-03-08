@@ -10,6 +10,7 @@ import MoveContext from "src/context/move";
 import { GlobalContext } from "src/context/global";
 import { logClickUseProps } from "src/services/Amplitude/log";
 import { FMPanel } from "./FMPanel";
+import { PropListSpacing, PropPanelColumnGap } from "../MainPage";
 
 interface InventoryPanelProps {
   items: InventoryItem[];
@@ -50,10 +51,14 @@ export const InventoryPanel = ({ items, onDismiss }: InventoryPanelProps) => {
         minH="60px"
         alignItems="start"
         justifyContent="space-between"
-        columnGap="24px"
+        columnGap={PropPanelColumnGap.map((value) => `${value}px`)}
       >
         {items.length > 0 && (
-          <SimpleGrid columns={3} spacing="20px" m="0px">
+          <SimpleGrid
+            columns={3}
+            spacing={PropListSpacing.map((value) => `${value}px`)}
+            m="0px"
+          >
             {items.map((item) => {
               return (
                 <PropButton
