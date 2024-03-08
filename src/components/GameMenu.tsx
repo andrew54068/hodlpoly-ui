@@ -25,21 +25,21 @@ import { ShopPanel } from "./Panels/ShopPanel";
 import { InventoryPanel } from "./Panels/InventoryPanel";
 import { SettingPanel } from "./Panels/SettingPanel";
 
-import store from "src/assets/menu/store.svg";
-import storeHover from "src/assets/menu/store-hover.svg";
-import storeActive from "src/assets/menu/store-active.svg";
+import store from "/store.svg";
+import storeHover from "/store-hover.svg";
+import storeActive from "/store-active.svg";
 
 import inventory from "/inventory.svg";
 import inventoryHover from "/inventory-hover.svg";
 import inventoryActive from "/inventory-active.svg";
 
-import setting from "src/assets/menu/setting.svg";
-import settingHover from "src/assets/menu/setting-hover.svg";
-import settingActive from "src/assets/menu/setting-active.svg";
+import setting from "/setting.svg";
+import settingHover from "/setting-hover.svg";
+import settingActive from "/setting-active.svg";
 
-import guide from "src/assets/menu/guide.svg";
-import guideHover from "src/assets/menu/guide-hover.svg";
-import guideActive from "src/assets/menu/guide-active.svg";
+import guide from "/guide.svg";
+import guideHover from "/guide-hover.svg";
+import guideActive from "/guide-active.svg";
 
 export type ShopItem = {
   image: string;
