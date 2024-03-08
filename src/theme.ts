@@ -27,6 +27,7 @@ const theme = extendTheme(
       colors: {
         "primary": "#FCFC54",
         "background.dark": "#11140C",
+        "background.gray": "#C1CCAB",
         "background.hover.dark": "#464646",
         "background.disable.gray": "#898C84",
         "text.black": "#23271A",

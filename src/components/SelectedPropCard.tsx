@@ -24,7 +24,6 @@ export const SelectedPropCard = ({
 }: SelectedPropCardProps) => {
   return (
     <Card
-      border="2px solid #000"
       borderRadius="unset"
       bg="gray.oliver"
       w="120px"

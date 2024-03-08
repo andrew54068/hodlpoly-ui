@@ -79,13 +79,7 @@ export default function GameUtils({
             gap={["10px", "15px", "20px"]}
           >
             <UserProfile flexShrink={0.5} />
-            <LeaderBoard
-              flexShrink={1}
-              maxWidth={["50%", "60%", "700px"]}
-              minWidth={["100px", "200px", "300px"]}
-              height="52px"
-              justifyContent="center"
-            />
+            <LeaderBoard flexShrink={1} />
             <RewardBoard flexShrink={0} />
           </Flex>
 
@@ -94,7 +88,7 @@ export default function GameUtils({
             width="60px"
             height="204px"
             right={outterSharedMargin.map((value) => `${value}px`)}
-            top={GameMenuTopMargin.map(value => `${value + NAVBAR_HIGHT}px`)}
+            top={GameMenuTopMargin.map((value) => `${value + NAVBAR_HIGHT}px`)}
             p="0px"
             m="0px"
           />

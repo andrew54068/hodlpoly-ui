@@ -6,6 +6,7 @@ import { SelectedPropCard } from "../SelectedPropCard";
 import useUserAction from "src/hooks/useUserActions";
 import { logClickBuyProps } from "src/services/Amplitude/log";
 import { FMPanel } from "./FMPanel";
+import { PropPanelColumnGap } from "../MainPage";
 
 interface ShopPanelProps {
   items: ShopItem[];
@@ -25,7 +26,11 @@ export const ShopPanel = ({ items, onUpdateAmount }: ShopPanelProps) => {
 
   return (
     <FMPanel>
-      <Flex alignItems="start" justifyContent="space-between" columnGap="24px">
+      <Flex
+        alignItems="start"
+        justifyContent="space-between"
+        columnGap={PropPanelColumnGap.map((value) => `${value}px`)}
+      >
         <SimpleGrid columns={3} spacing="20px" m="0px">
           {items.map((item) => {
             return (

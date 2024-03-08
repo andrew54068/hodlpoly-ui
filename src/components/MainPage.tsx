@@ -17,6 +17,12 @@ export const outterSharedMargin = [20, 35, 54];
 export const GoButtonSize = [100, 120, 146];
 export const GameMenuTopMargin = [100, 140, 156];
 export const MenuButtonSize = [52, 56, 60];
+export const PropImageSize = [28, 30, 52];
+export const PropTitleSize = [10, 13];
+export const PropTitleWidth = [50, 65, 76];
+export const PropListSpacing = [15, 18, 24];
+export const PropPanelPadding = [12, 18, 24];
+export const PropPanelColumnGap = [15, 18, 24];
 
 export default function MainPage() {
   const { worldWideTravel } = useUserActions();
