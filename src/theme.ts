@@ -2,14 +2,21 @@ import boTheme from "@blocto/web-chakra-theme";
 import { extendTheme } from "@chakra-ui/react";
 import merge from "lodash.merge";
 
-import { tagAnatomy } from "@chakra-ui/anatomy";
+import { tagAnatomy, switchAnatomy } from "@chakra-ui/anatomy";
 import { createMultiStyleConfigHelpers } from "@chakra-ui/react";
+import switchThumbOn from "src/assets/switch-thumb-on.svg";
+import switchThumbOff from "src/assets/switch-thumb-off.svg";
 
-const { definePartsStyle, defineMultiStyleConfig } = createMultiStyleConfigHelpers(tagAnatomy.keys);
+const { definePartsStyle, defineMultiStyleConfig } =
+  createMultiStyleConfigHelpers(tagAnatomy.keys);
+const {
+  definePartsStyle: defineSwitchPartsStyle,
+  defineMultiStyleConfig: defineSwitchMultiStyleConfig,
+} = createMultiStyleConfigHelpers(switchAnatomy.keys);
 
 const baseStyle = definePartsStyle({
   container: {
-    bg: " background.secondary",
+    bg: "background.secondary",
     color: "font.highlight",
     py: "4px",
     px: "10px",
@@ -18,6 +25,25 @@ const baseStyle = definePartsStyle({
 const tagTheme = defineMultiStyleConfig({
   baseStyle,
 });
+
+const switchBaseStyle = defineSwitchPartsStyle({
+  container: {},
+  thumb: {
+    backgroundImage: switchThumbOff,
+    backgroundSize: "cover",
+    _checked: {
+      backgroundImage: switchThumbOn,
+    },
+  },
+  track: {
+    bg: "neutral.100",
+    _checked: {
+      bg: "gray.oliver",
+    },
+  },
+});
+
+const switchTheme = defineSwitchMultiStyleConfig({ baseStyle: switchBaseStyle });
 
 const IS_PROD = import.meta.env.VITE_APP_ENV === "production";
 
@@ -36,6 +62,7 @@ const theme = extendTheme(
         "gray.oliver.dark": "#25291B",
         "generic.black": "#000000",
         "neutral.700": "#374151",
+        "neutral.100": "#F3F4F6",
         "network.hint": IS_PROD ? "transparent" : "status.warning.light",
         "network.hint.text": IS_PROD ? "transparent" : "status.warning.dark",
       },
@@ -162,6 +189,7 @@ const theme = extendTheme(
           },
         },
       },
+      Switch: switchTheme,
     },
   })
 );
