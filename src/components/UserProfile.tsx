@@ -137,14 +137,13 @@ export const UserProfile = ({ ...rest }: any) => {
       >
         <Image boxSize={["60px", "64px"]} src={avatar}></Image>
       </Button>
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
         <ModalContent
           width={["85%", "auto", "564px"]}
           minW={["85%", "300px", "564px"]}
           height="auto"
           p="16px"
-          mt="15%"
           borderRadius="0px"
           bg="gray.oliver.dark"
         >

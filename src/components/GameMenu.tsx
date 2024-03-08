@@ -29,9 +29,9 @@ import store from "src/assets/menu/store.svg";
 import storeHover from "src/assets/menu/store-hover.svg";
 import storeActive from "src/assets/menu/store-active.svg";
 
-import inventory from "src/assets/menu/inventory.svg";
-import inventoryHover from "src/assets/menu/inventory-hover.svg";
-import inventoryActive from "src/assets/menu/inventory-active.svg";
+import inventory from "/inventory.svg";
+import inventoryHover from "/inventory-hover.svg";
+import inventoryActive from "/inventory-active.svg";
 
 import setting from "src/assets/menu/setting.svg";
 import settingHover from "src/assets/menu/setting-hover.svg";
@@ -157,7 +157,7 @@ const GameMenu = ({ ...rest }: any) => {
           />
         </MenuButton>
       </Stack>
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
         <ModalContent
           width="564px"
