@@ -140,7 +140,6 @@ export default function GameUtils({
           left={outterSharedMargin.map((value) => `${value}px`)}
           bottom={outterSharedMargin.map((value) => `${value}px`)}
           size="lg"
-          colorScheme="red"
           onChange={onHeatMapSwitchClick}
         />
       )}
