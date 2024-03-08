@@ -10,17 +10,14 @@ import {
   ModalHeader,
   ModalOverlay,
   useDisclosure,
-  Button,
 } from "@chakra-ui/react";
 import { formatEther } from "viem";
 import Marquee from "react-fast-marquee";
 import useUserFomopolyData from "src/hooks/useUserFomopolyData";
 import smallTicket from "src/assets/leaderBoard/small-ticket.svg";
 import bigTicket from "src/assets/leaderBoard/big-ticket.svg";
-import users from "src/assets/users.png";
 import { fixDecimal } from "src/utils/fixDecimal";
 import useCheckLogin from "src/hooks/useCheckLogin";
-import { RankingCard } from "./RankingCard";
 
 const normalRewardStyle = {
   bg: "none",
