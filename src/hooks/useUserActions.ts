@@ -77,7 +77,7 @@ export default function useUserActions() {
     if (!contract) return;
     const propPrice = allPropsPrices[prop];
 
-    const hash = await contract.write.buyProps([prop], {
+    const hash = await contract.write.buyProps([prop, 1], {
       value: propPrice,
     });
 
