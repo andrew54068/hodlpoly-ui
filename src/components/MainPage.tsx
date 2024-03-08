@@ -13,7 +13,10 @@ import { SelectingLandPurpose } from "src/types";
 import PendingDiceModal from "src/components/PendingDiceModal";
 import LoginModal from "src/components/LoginModal";
 
-export const outterSharedMargin = 54;
+export const outterSharedMargin = [20, 35, 54];
+export const GoButtonSize = [100, 120, 146];
+export const GameMenuTopMargin = [100, 140, 156];
+export const MenuButtonSize = [52, 56, 60];
 
 export default function MainPage() {
   const { worldWideTravel } = useUserActions();
@@ -119,7 +122,7 @@ export default function MainPage() {
           onMouseDown={(e) => {
             e.stopPropagation();
           }}
-          bottom={`${outterSharedMargin}px`}
+          bottom={outterSharedMargin.map(value => `${value}px`)}
         >
           <Button pointerEvents="auto" onClick={onCancelLandSelection}>
             Cancel

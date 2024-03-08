@@ -1,10 +1,4 @@
-import {
-  Switch,
-  Image,
-  Flex,
-  Text,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { Switch, Image, Flex, Text, useDisclosure } from "@chakra-ui/react";
 import dice from "src/assets/dice.svg";
 import GameMenu from "./GameMenu";
 import { NAVBAR_HIGHT } from "src/utils/constants";
@@ -18,6 +12,7 @@ import useUserFomopolyData from "src/hooks/useUserFomopolyData";
 import { GoButton } from "./Buttons/GoButton";
 import { RoundButton } from "./Buttons/RoundButton";
 import useCheckLogin from "src/hooks/useCheckLogin";
+import { GameMenuTopMargin, GoButtonSize } from "./MainPage";
 
 export default function GameUtils({
   outterSharedMargin,
@@ -27,7 +22,7 @@ export default function GameUtils({
   setIsWaitingForMoving,
   setCurrentMoveSteps,
 }: {
-  outterSharedMargin: number;
+  outterSharedMargin: number[];
   onHeatMapSwitchClick: () => void;
   isHeatMapMode: boolean;
   hideAllOptions: boolean;
@@ -77,37 +72,40 @@ export default function GameUtils({
           <Flex
             position="absolute"
             w="100%"
-            top={`${outterSharedMargin}px`}
+            top={outterSharedMargin.map((value) => `${value}px`)}
             justifyContent="space-between"
             alignItems="center"
-            p="0px 52px"
+            p={outterSharedMargin.map((value) => `0px ${value}px`)}
+            gap={["10px", "15px", "20px"]}
           >
-            <UserProfile/>
+            <UserProfile flexShrink={0.5} />
             <LeaderBoard
-              mx="16px"
-              maxWidth="700px"
-              minWidth="300px"
+              flexShrink={1}
+              maxWidth={["50%", "60%", "700px"]}
+              minWidth={["100px", "200px", "300px"]}
               height="52px"
               justifyContent="center"
             />
-            <RewardBoard width="180px" height="52px" />
+            <RewardBoard flexShrink={0} />
           </Flex>
 
           <GameMenu
             position="absolute"
             width="60px"
             height="204px"
-            right={`${outterSharedMargin}px`}
-            top={`${156 + NAVBAR_HIGHT}px`}
+            right={outterSharedMargin.map((value) => `${value}px`)}
+            top={GameMenuTopMargin.map(value => `${value + NAVBAR_HIGHT}px`)}
             p="0px"
             m="0px"
           />
 
           <RoundButton
-            width="146px"
+            width={GoButtonSize.map((value) => `${value}px`)}
             position="absolute"
-            bottom={`${outterSharedMargin + 146 + 12}px`}
-            right={`${outterSharedMargin}px`}
+            bottom={outterSharedMargin.map(
+              (value, index) => `${value + GoButtonSize[index] + 12}px`
+            )}
+            right={outterSharedMargin.map((value) => `${value}px`)}
             onClick={onClickBuyLand}
           >
             Buy Land!
@@ -115,17 +113,21 @@ export default function GameUtils({
 
           <GoButton
             position="absolute"
-            bottom={`${outterSharedMargin}px`}
-            right={`${outterSharedMargin}px`}
+            bottom={outterSharedMargin.map((value) => `${value}px`)}
+            right={outterSharedMargin.map((value) => `${value}px`)}
             onClick={onClickMove}
           >
-            <Flex direction="column" alignItems="center" rowGap="6px">
-              <Image src={dice}></Image>
+            <Flex
+              direction="column"
+              alignItems="center"
+              rowGap={["3px", "5px", "6px"]}
+            >
+              <Image boxSize={["40px", "55px", "69px"]} src={dice}></Image>
               <Text
                 color="background.dark"
                 textAlign="center"
                 fontFamily="Inter"
-                fontSize="36px"
+                fontSize={["25px", "30px", "36px"]}
                 fontStyle="normal"
                 fontWeight="500"
                 lineHeight="35px"
@@ -141,8 +143,8 @@ export default function GameUtils({
       {!hideAllOptions && (
         <Switch
           position="absolute"
-          left={`${outterSharedMargin}px`}
-          bottom={`${outterSharedMargin}px`}
+          left={outterSharedMargin.map((value) => `${value}px`)}
+          bottom={outterSharedMargin.map((value) => `${value}px`)}
           size="lg"
           colorScheme="red"
           onChange={onHeatMapSwitchClick}

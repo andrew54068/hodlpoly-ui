@@ -110,8 +110,8 @@ export const UserProfile = ({ ...rest }: any) => {
   return (
     <Box>
       <Button
-        width="96px"
-        height="96px"
+        width={["60px", "96px"]}
+        height={["60px", "96px"]}
         bg="none"
         borderRadius="400px"
         background="primary"
@@ -129,7 +129,7 @@ export const UserProfile = ({ ...rest }: any) => {
           onOpen();
         }}
       >
-        <Image boxSize="64px" src={avatar}></Image>
+        <Image boxSize={["60px", "64px"]} src={avatar}></Image>
       </Button>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
