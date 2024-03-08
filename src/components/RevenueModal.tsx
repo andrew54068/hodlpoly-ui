@@ -39,7 +39,7 @@ const RevenueModal: React.FC<RewardModalProps> = ({ isOpen, onClose }) => {
   ).toFixed(MAX_DISPLAY_ETHER_DIGITS);
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay />
       <ModalContent
         backgroundColor="gray.oliver.dark"
@@ -47,7 +47,6 @@ const RevenueModal: React.FC<RewardModalProps> = ({ isOpen, onClose }) => {
         color="white"
         width={["85%", "auto", "564px"]}
         minW={["85%", "300px", "564px"]}
-        mt="15%"
         p={["8px", "12px", "16px"]}
         pt={["30px", "35px", "40px"]}
       >

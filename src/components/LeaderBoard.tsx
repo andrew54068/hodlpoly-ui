@@ -85,12 +85,11 @@ export const LeaderBoard = ({ ...rest }: any) => {
           {"$" + fixDecimal(Number(formatEther(prizeAmount)), 8)}
         </Box>
       </Marquee>
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
         <ModalContent
           height="auto"
           p="16px"
-          mt="15%"
           width={["85%", "auto", "564px"]}
           minW={["85%", "300px", "564px"]}
           borderRadius="0px"
