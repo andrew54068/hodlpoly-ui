@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Center, Flex, SimpleGrid } from "@chakra-ui/react";
 import { InventoryItem, ShopItem } from "../GameMenu";
 import { PropButton } from "../Buttons/PropButton";
@@ -25,6 +25,11 @@ export const InventoryPanel = ({ items, onDismiss }: InventoryPanelProps) => {
   const { setSelectingLandPurpose } = useContext(GlobalContext);
   const { setIsWaitingForMoving, setCurrentMoveSteps } =
     useContext(MoveContext);
+
+  useEffect(() => {
+    setSelectedItem(items[0]);
+  }, [items]);
+
   const openPhaserSelectionMode = (purpose: SelectingLandPurpose) => {
     setSelectingLandPurpose(purpose);
     if (window.fomopolyMap) {
@@ -44,8 +49,6 @@ export const InventoryPanel = ({ items, onDismiss }: InventoryPanelProps) => {
       setIsWaitingForMoving(false);
     }
   };
-  console.log("selectedItem", selectedItem);
-  console.log("items", items);
 
   return (
     <FMPanel h="auto">
