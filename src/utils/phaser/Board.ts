@@ -23,7 +23,7 @@ const getQuadGrid = function (scene, tileLength) {
 
   const grid = scene.rexBoard.add.quadGrid({
     // some how there's a BOARD_CELL_WIDTH / 2 offset
-    x: (window.innerWidth - (tileLength * BOARD_CELL_WIDTH) / 2) / 2 + BOARD_CELL_WIDTH / 2,
+    x: (window.innerWidth - (tileLength * BOARD_CELL_WIDTH) / 2),
     y: 250,
     cellWidth: BOARD_CELL_WIDTH,
     cellHeight: BOARD_CELL_HEIGHT,
