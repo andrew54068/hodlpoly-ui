@@ -29,14 +29,14 @@ export default class ChessA extends RexShape implements IChessA {
     }
 
     // Shape(board, startPoint.x, startPoint.y, startPoint.z, fillColor, fillAlpha, addToBoard)
-    super(board, startPoint.x, startPoint.y, 1, 0x3f51b5);
+    super(board, startPoint.x, startPoint.y, 1, 0xFCFC54);
 
     this.startPoint = startPoint;
     this.currentPoint = startPoint;
     this.endPoint = endPoint;
 
     scene.add.existing(this);
-    this.setScale(0.5);
+    this.setScale(0.4);
     this.setDepth(10);
 
     // add behaviors        
