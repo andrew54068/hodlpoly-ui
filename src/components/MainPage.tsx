@@ -25,7 +25,7 @@ export const PropPanelPadding = [12, 18, 24];
 export const PropPanelColumnGap = [15, 18, 24];
 
 export default function MainPage() {
-  const { worldWideTravel } = useUserActions();
+  const { worldWideTravel, flipLandPrice } = useUserActions();
   const [isHeatMapMode, setIsHeatMapMode] = useState(false);
   const hasInit = useRef(false);
 
@@ -93,6 +93,8 @@ export default function MainPage() {
 
       if (selectingLandPurpose === SelectingLandPurpose.WorldWideTravel) {
         await worldWideTravel(selectedTileId);
+      } else if (selectingLandPurpose === SelectingLandPurpose.LandFlipper) {
+        await flipLandPrice(selectedTileId);
       }
 
       window.fomopolyMap.closeSelectionMode();
@@ -128,7 +130,7 @@ export default function MainPage() {
           onMouseDown={(e) => {
             e.stopPropagation();
           }}
-          bottom={outterSharedMargin.map(value => `${value}px`)}
+          bottom={outterSharedMargin.map((value) => `${value}px`)}
         >
           <Button pointerEvents="auto" onClick={onCancelLandSelection}>
             Cancel

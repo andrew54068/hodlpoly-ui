@@ -70,6 +70,7 @@ export const InventoryPanel = ({ items, onDismiss }: InventoryPanelProps) => {
                   key={item.name}
                   amount={item.amount}
                   item={item}
+                  isSelected={item === selectedItem}
                   onClickItem={setSelectedItem}
                 />
               );
@@ -86,7 +87,7 @@ export const InventoryPanel = ({ items, onDismiss }: InventoryPanelProps) => {
               if (numberType) {
                 await onRollingDice(numberType);
               } else if (item.prop == PropsType.TitleDeed) {
-                openPhaserSelectionMode(SelectingLandPurpose.ProtectLand);
+                openPhaserSelectionMode(SelectingLandPurpose.LandFlipper);
               } else if (item.prop == PropsType.WorldWideTravel) {
                 openPhaserSelectionMode(SelectingLandPurpose.WorldWideTravel);
               }

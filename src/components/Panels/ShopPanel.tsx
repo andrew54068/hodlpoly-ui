@@ -37,6 +37,7 @@ export const ShopPanel = ({ items, onUpdateAmount }: ShopPanelProps) => {
               <PropButton
                 key={item.name}
                 item={item}
+                isSelected={selectedItem === item}
                 onClickItem={setSelectedItem}
               />
             );

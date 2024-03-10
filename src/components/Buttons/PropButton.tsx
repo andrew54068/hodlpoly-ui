@@ -50,9 +50,15 @@ interface PropButtonProps extends CardProps {
   item: ShopItem;
   amount?: number;
   onClickItem: (item: ShopItem) => void;
+  isSelected: boolean;
 }
 
-export const PropButton = ({ item, onClickItem, ...rest }: PropButtonProps) => {
+export const PropButton = ({
+  item,
+  onClickItem,
+  isSelected,
+  ...rest
+}: PropButtonProps) => {
   return (
     <Card
       key={item.name}
@@ -60,6 +66,9 @@ export const PropButton = ({ item, onClickItem, ...rest }: PropButtonProps) => {
       {...rest}
       _hover={hoverButtonStyle}
       _active={activeButtonStyle}
+      cursor="pointer"
+      color={isSelected ? "primary" : "gray.oliver"}
+      borderColor={isSelected ? "primary" : "gray.oliver"}
       onClick={() => {
         onClickItem(item);
       }}
