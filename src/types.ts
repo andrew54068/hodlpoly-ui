@@ -12,6 +12,6 @@ export enum PropsType {
 }
 
 export enum SelectingLandPurpose {
-    ProtectLand,
+    LandFlipper,
     WorldWideTravel
 }

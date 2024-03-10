@@ -95,6 +95,17 @@ export default function useUserActions() {
     return hash
   }
 
+  const flipLandPrice = async (position: number) => {
+    const contract = await getContractClient();
+    await checkChain()
+    if (!contract) return;
+
+    const hash = await contract.write.flipLandPrice([position]);
+    await publicClient.waitForTransactionReceipt({ hash });
+
+    return hash
+  }
+
 
   const claimReward = async () => {
     const contract = await getContractClient();
@@ -107,6 +118,8 @@ export default function useUserActions() {
     return hash
   }
 
-  return { rollTheDice, buyLand, buyProp, getContractClient, worldWideTravel, claimReward }
+
+
+  return { rollTheDice, buyLand, buyProp, getContractClient, worldWideTravel, claimReward, flipLandPrice }
 
 } 
