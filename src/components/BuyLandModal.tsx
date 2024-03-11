@@ -8,11 +8,17 @@ import {
   Text,
   Box,
 } from "@chakra-ui/react";
+import fomopolyAbi from "src/abi/fomopoly";
+import { FOMOPOLY_PROXY_ADDRESS } from "src/constants";
+import { useReadContract, useAccount } from "wagmi";
+import { blastSepolia } from "wagmi/chains";
 import { MAX_DISPLAY_ETHER_DIGITS } from "src/utils/constants";
 import { formatEther } from "viem";
 import Button from "src/components/Buttons/Button";
 import useUserFomopolyData from "src/hooks/useUserFomopolyData";
 import useUserActions from "src/hooks/useUserActions";
+
+const CHAIN_ID = blastSepolia.id;
 
 // format number to  a 4 digit string
 const formatLandId = (num: number) => {
@@ -28,13 +34,26 @@ const BuyLandModal = ({
   onClose: () => void;
 }) => {
   // todo: get land trading volume
-  const { userSteps, allLandPrices } = useUserFomopolyData();
+  const { userSteps = 0 } = useUserFomopolyData();
   const { buyLand } = useUserActions();
-  const landPrice = allLandPrices?.[userSteps] ?? 0;
 
-  const formattedLandPrice = parseFloat(formatEther(landPrice)).toFixed(
-    MAX_DISPLAY_ETHER_DIGITS
-  );
+  const { data } =
+    useReadContract({
+      abi: fomopolyAbi.abi,
+      address: FOMOPOLY_PROXY_ADDRESS,
+      functionName: "getLand",
+      args: [userSteps],
+      chainId: CHAIN_ID,
+    }) || {};
+
+  const [landVolume = BigInt(0), landPrice = BigInt(0)] = data || [];
+
+  const formattedLandPrice = parseFloat(
+    formatEther(landPrice.toString())
+  ).toFixed(MAX_DISPLAY_ETHER_DIGITS);
+  const formattedLandVolume = parseFloat(
+    formatEther(landVolume.toString())
+  ).toFixed(MAX_DISPLAY_ETHER_DIGITS);
 
   const onClickBuy = async () => {
     try {
@@ -114,7 +133,7 @@ const BuyLandModal = ({
                       Volume
                     </Text>
                     <Text fontSize="24px" color="primary" lineHeight="16.3px">
-                      003
+                      {formattedLandVolume ?? 0} ETH
                     </Text>
                   </Box>
                 </Flex>
