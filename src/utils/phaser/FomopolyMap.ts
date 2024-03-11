@@ -75,8 +75,8 @@ export default class FomopolyMap extends Phaser.Scene {
     // this.background = this.add.image(0, 0, 'background').setOrigin(0, 0);
     const minZoom = this.setZoomToMinValue()
 
-    const boundWidth = window.innerWidth / minZoom
-    const boundHeight = window.innerHeight / minZoom
+    const boundWidth = Math.max(window.innerWidth, board.width) / minZoom
+    const boundHeight = Math.max(window.innerHeight, board.height) / minZoom
     this.cameras.main.setBounds(0, 0,
       boundWidth,
       boundHeight

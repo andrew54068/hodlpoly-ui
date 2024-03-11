@@ -21,9 +21,11 @@ import {
 
 const getQuadGrid = function (scene, tileLength) {
 
+  const boardWidth = BOARD_CELL_WIDTH * tileLength;
+  const boardHeight = BOARD_CELL_HEIGHT * tileLength;
+  const YminZoom = Math.min(window.innerHeight / boardHeight, boardHeight / window.innerHeight);
   const grid = scene.rexBoard.add.quadGrid({
-    // some how there's a BOARD_CELL_WIDTH / 2 offset
-    x: (window.innerWidth - (tileLength * BOARD_CELL_WIDTH) / 2),
+    x: (window.innerWidth / 2) + ((boardWidth) * YminZoom / 2),
     y: 250,
     cellWidth: BOARD_CELL_WIDTH,
     cellHeight: BOARD_CELL_HEIGHT,
@@ -56,6 +58,7 @@ export default class Board extends RexBoard {
   selectedTileId = '';
 
   constructor(scene, tiles, pathXY, tilePathWithId) {
+
     // create board
     const config = {
       // grid: getHexagonGrid(scene),
