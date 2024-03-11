@@ -34,7 +34,7 @@ const BuyLandModal = ({
   onClose: () => void;
 }) => {
   // todo: get land trading volume
-  const { userSteps = 0 } = useUserFomopolyData();
+  const { userSteps = 0, allLandPrices } = useUserFomopolyData();
   const { buyLand } = useUserActions();
 
   const { data } =
@@ -46,11 +46,12 @@ const BuyLandModal = ({
       chainId: CHAIN_ID,
     }) || {};
 
-  const [landVolume = BigInt(0), landPrice = BigInt(0)] = data || [];
+  const [, , landVolume = BigInt(0)] = data || [];
+  const landPrice = allLandPrices?.[userSteps] || BigInt(0);
 
-  const formattedLandPrice = parseFloat(
-    formatEther(landPrice.toString())
-  ).toFixed(MAX_DISPLAY_ETHER_DIGITS);
+  const formattedLandPrice = parseFloat(formatEther(landPrice)).toFixed(
+    MAX_DISPLAY_ETHER_DIGITS
+  );
   const formattedLandVolume = parseFloat(
     formatEther(landVolume.toString())
   ).toFixed(MAX_DISPLAY_ETHER_DIGITS);
