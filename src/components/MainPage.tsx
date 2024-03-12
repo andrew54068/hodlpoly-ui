@@ -12,6 +12,7 @@ import useUserActions from "src/hooks/useUserActions";
 import { SelectingLandPurpose } from "src/types";
 import PendingDiceModal from "src/components/PendingDiceModal";
 import LoginModal from "src/components/LoginModal";
+import useSoundEffect from "src/hooks/useSoundEffect";
 
 export const outterSharedMargin = [20, 35, 54];
 export const GoButtonSize = [100, 120, 146];
@@ -26,6 +27,7 @@ export const PropPanelColumnGap = [15, 18, 24];
 
 export default function MainPage() {
   const { worldWideTravel, flipLandPrice } = useUserActions();
+  const { loopPlayBackgroundMusic } = useSoundEffect();
   const [isHeatMapMode, setIsHeatMapMode] = useState(false);
   const hasInit = useRef(false);
 
@@ -42,6 +44,10 @@ export default function MainPage() {
 
   const { allLandPrices, landAmount, userOwnedLands, userSteps } =
     useUserFomopolyData();
+
+  useEffect(() => {
+    loopPlayBackgroundMusic();
+  }, [loopPlayBackgroundMusic]);
 
   useEffect(() => {
     const phaserContainer = document.getElementById("phaser-zone-fomopoly");
