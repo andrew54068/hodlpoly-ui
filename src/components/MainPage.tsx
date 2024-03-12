@@ -46,7 +46,6 @@ export default function MainPage() {
     useUserFomopolyData();
 
   useEffect(() => {
-    console.log("loopPlayBackgroundMusic", loopPlayBackgroundMusic);
     loopPlayBackgroundMusic();
   }, [loopPlayBackgroundMusic]);
 
