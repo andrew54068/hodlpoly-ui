@@ -77,7 +77,7 @@ export default class FomopolyMap extends Phaser.Scene {
     const boundHeight = Math.max(window.innerHeight, board.height) / minZoom
     this.cameras.main.setBounds(0, -300,
       boundWidth,
-      boundHeight
+      boundHeight + 300
     );
 
     this.createGradientBackground(boundWidth, boundHeight);
@@ -100,12 +100,23 @@ export default class FomopolyMap extends Phaser.Scene {
 
     this.input.on('wheel', (pointer, gameObjects, deltaX, deltaY) => {
       console.log(`wheel`);
-      let zoom = this.cameras.main.zoom + deltaY * -0.001;
 
-      const minZoom = this.setZoomToMinValue()
+      const minZoom = this.setZoomToMinValue(false)
 
-      zoom = Phaser.Math.Clamp(zoom, minZoom, 2); // Set minimum and maximum zoom levels
-      this.cameras.main.setZoom(zoom);
+      const camera = this.cameras.main;
+
+      const worldPoint = camera.getWorldPoint(pointer.x, pointer.y);
+      const newZoom = camera.zoom - camera.zoom * 0.001 * deltaY;
+      camera.zoom = Phaser.Math.Clamp(newZoom, minZoom, 2);
+
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
+      // Update camera matrix, so `getWorldPoint` returns zoom-adjusted coordinates.
+      camera.preRender();
+      const newWorldPoint = camera.getWorldPoint(pointer.x, pointer.y);
+      // Scroll the camera to keep the pointer under the same world point.
+      camera.scrollX -= newWorldPoint.x - worldPoint.x;
+      camera.scrollY -= newWorldPoint.y - worldPoint.y;
     });
 
     // for drag and scrolling
@@ -123,7 +134,7 @@ export default class FomopolyMap extends Phaser.Scene {
 
   }
 
-  setZoomToMinValue() {
+  setZoomToMinValue(set: boolean = true) {
     let minZoom
     if (window.innerHeight > window.innerWidth) {
       // mobile
@@ -137,7 +148,9 @@ export default class FomopolyMap extends Phaser.Scene {
         this.boardHeight / this.displayHeight, 1) * 0.8
     }
 
-    this.cameras.main.setZoom(minZoom);
+    if (set) {
+      this.cameras.main.setZoom(minZoom);
+    }
     return minZoom
   }
 
