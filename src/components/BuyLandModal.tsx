@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import fomopolyAbi from "src/abi/fomopoly";
 import { FOMOPOLY_PROXY_ADDRESS } from "src/constants";
-import { useReadContract, useAccount } from "wagmi";
+import { useReadContract } from "wagmi";
 import { blastSepolia } from "wagmi/chains";
 import { MAX_DISPLAY_ETHER_DIGITS } from "src/utils/constants";
 import { formatEther } from "viem";
