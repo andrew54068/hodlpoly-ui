@@ -1,12 +1,10 @@
 import Phaser from 'phaser'
 import Board from './Board'
 import ChessA from './ChessA'
-import Background from 'src/assets/background.svg'
 import {
   CHESS_SPEED_FAST,
   BOARD_CELL_HEIGHT,
   BOARD_CELL_WIDTH,
-  CHESS_SPEED_NORMAL,
   // LAND_TAG_COLOR,
   // HEATMAP_COLORS
 } from './constants'
@@ -19,6 +17,7 @@ export default class FomopolyMap extends Phaser.Scene {
   background?: Phaser.GameObjects.Image;
   isHeatMapMode: boolean = false;
   isSelectionMode: boolean = false;
+  imageLoaded: boolean = false;
   landAmount: number = 1;
   dragStartX: number = 0;
   dragStartY: number = 0;
@@ -39,7 +38,12 @@ export default class FomopolyMap extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('background', Background);
+    this.load.image('avatar', 'src/assets/avatar.svg')
+      .once('filecomplete-image-avatar', () => {
+        console.log(`✅ load image complete`);
+        this.imageLoaded = true;
+      }, this)
+      .start();
   }
 
   createBoard() {
@@ -55,16 +59,11 @@ export default class FomopolyMap extends Phaser.Scene {
     this.board = board;
     this.pathXY = pathXY
 
-
     this.boardWidth = (this.board.tilesSize) * BOARD_CELL_WIDTH
     this.boardHeight = (this.board.tilesSize) * BOARD_CELL_HEIGHT
 
     this.displayWidth = this.scale.displaySize.width;
     this.displayHeight = this.scale.displaySize.height;
-
-
-
-
 
     const chessA = new ChessA(board, {
       startPoint,
@@ -72,12 +71,11 @@ export default class FomopolyMap extends Phaser.Scene {
     });
 
     this.chessA = chessA;
-    // this.background = this.add.image(0, 0, 'background').setOrigin(0, 0);
     const minZoom = this.setZoomToMinValue()
 
     const boundWidth = Math.max(window.innerWidth, board.width) / minZoom
     const boundHeight = Math.max(window.innerHeight, board.height) / minZoom
-    this.cameras.main.setBounds(0, 0,
+    this.cameras.main.setBounds(0, -300,
       boundWidth,
       boundHeight
     );
@@ -87,7 +85,6 @@ export default class FomopolyMap extends Phaser.Scene {
 
   create() {
     // this.add.text(10, 30, 'Roll the dice to move forward.')
-
 
     this.input.on('pointerdown', (pointer) => {
       // Move the chess
@@ -102,11 +99,10 @@ export default class FomopolyMap extends Phaser.Scene {
     });
 
     this.input.on('wheel', (pointer, gameObjects, deltaX, deltaY) => {
+      console.log(`wheel`);
       let zoom = this.cameras.main.zoom + deltaY * -0.001;
 
-      const minZoom = Math.min(
-        this.displayHeight / this.boardHeight,
-        this.boardHeight / this.displayHeight, 1)
+      const minZoom = this.setZoomToMinValue()
 
       zoom = Phaser.Math.Clamp(zoom, minZoom, 2); // Set minimum and maximum zoom levels
       this.cameras.main.setZoom(zoom);
@@ -128,9 +124,18 @@ export default class FomopolyMap extends Phaser.Scene {
   }
 
   setZoomToMinValue() {
-    const minZoom = Math.min(
-      this.displayHeight / this.boardHeight,
-      this.boardHeight / this.displayHeight, 1) * 0.9
+    let minZoom
+    if (window.innerHeight > window.innerWidth) {
+      // mobile
+      minZoom = Math.min(
+        this.displayWidth / this.boardWidth,
+        this.boardWidth / this.displayWidth, 1) * 0.8
+    } else {
+      // desktop
+      minZoom = Math.min(
+        this.displayHeight / this.boardHeight,
+        this.boardHeight / this.displayHeight, 1) * 0.8
+    }
 
     this.cameras.main.setZoom(minZoom);
     return minZoom
@@ -146,8 +151,7 @@ export default class FomopolyMap extends Phaser.Scene {
     if (ctx) {
       const grd = ctx.createLinearGradient(0, 0, 0, height);
       grd.addColorStop(0, 'black');
-      grd.addColorStop(0.2, 'rgba(110,110,110, 0.57)');
-      grd.addColorStop(0.5, 'rgba(110,110,110, 0.57)');
+      grd.addColorStop(0.5786, 'rgba(158,168,137, 0.61)');
       grd.addColorStop(1, 'black');
 
       ctx.fillStyle = grd;
@@ -170,20 +174,22 @@ export default class FomopolyMap extends Phaser.Scene {
   }
 
   setUserPositionBySteps(totalSteps: number) {
-    if (this.chessA) {
+    console.log(`setUserPositionBySteps`);
+    if (this.chessA && this.board) {
       this.chessA.moveTo.setSpeed(CHESS_SPEED_FAST);
       const userPosition = this.pathXY?.[totalSteps] ?? { x: 0, y: 0 }
-      const nextPosition = this.pathXY?.[totalSteps + 1] ?? { x: 0, y: 0 }
-      const userDirection = this.board?.getNeighborTileDirection(userPosition, nextPosition);
+      // const nextPosition = this.pathXY?.[totalSteps + 1] ?? { x: 0, y: 0 }
+      // const userDirection = this.board?.getNeighborTileDirection(userPosition, nextPosition);
       this.chessA.moveTo.moveTo(userPosition.x, userPosition.y);
+      this.chessA.updateImageLocation(userPosition.x, userPosition.y)
 
-      if (userDirection !== undefined && userDirection !== null) {
-        this.chessA.monopoly.setFace(userDirection)
-      }
+      // if (userDirection !== undefined && userDirection !== null) {
+      //   this.chessA.monopoly.setFace(userDirection)
+      // }
 
-      this.chessA.moveTo.once('complete', () => {
-        this.chessA?.moveTo.setSpeed(CHESS_SPEED_NORMAL);
-      })
+      // this.chessA.moveTo.once('complete', () => {
+      //   this.chessA?.moveTo.setSpeed(CHESS_SPEED_NORMAL);
+      // })
     }
   }
 
@@ -194,7 +200,17 @@ export default class FomopolyMap extends Phaser.Scene {
     if (this.board) {
       this.board.destroy()
     }
-    this.createBoard()
+    if (this.imageLoaded) {
+      this.createBoard();
+    } else {
+      // create board after image loaded.
+      const timerId = setInterval(() => { 
+        if (this.imageLoaded) {
+          this.createBoard();
+          clearInterval(timerId);
+        }
+      }, 100)
+    }
   }
 
   setOwnedLandTags(ownedLands) {

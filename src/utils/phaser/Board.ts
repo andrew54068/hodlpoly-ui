@@ -7,6 +7,7 @@ import {
   HIGHLIGHT_BORDER_COLOR,
   TILE_BOARDER_COLOR
 } from './constants';
+import { TopBarHeight, outterSharedMargin } from 'src/components/MainPage';
 
 
 // const createTileMap = function (tilesMap, out: string[] = []) {
@@ -23,31 +24,35 @@ const getQuadGrid = function (scene, tileLength) {
 
   const boardWidth = BOARD_CELL_WIDTH * tileLength;
   const boardHeight = BOARD_CELL_HEIGHT * tileLength;
-  const YminZoom = Math.min(window.innerHeight / boardHeight, boardHeight / window.innerHeight);
+
+  const displayWidth = scene.scale.displaySize.width;
+  const displayHeight = scene.scale.displaySize.height;
+
+  let minZoom
+  if (window.innerHeight > window.innerWidth) {
+    // mobile
+    minZoom = Math.min(
+      displayWidth / boardWidth,
+      boardWidth / displayWidth, 1) * 0.8
+  } else {
+    // desktop
+    minZoom = Math.min(
+      displayHeight / boardHeight,
+      boardHeight / displayHeight, 1) * 0.8
+  }
+
+  const x = (window.innerWidth - boardWidth * minZoom) / 2
+  const y = (window.innerHeight - boardHeight * minZoom) / 2
+  
   const grid = scene.rexBoard.add.quadGrid({
-    x: (window.innerWidth / 2) + ((boardWidth) * YminZoom / 2),
-    y: 250,
+    x: x / minZoom,
+    y: y / minZoom + TopBarHeight[1] + outterSharedMargin[1],
     cellWidth: BOARD_CELL_WIDTH,
     cellHeight: BOARD_CELL_HEIGHT,
     type: 0
   });
   return grid;
 }
-
-
-
-// const getHexagonGrid = function (scene) {
-//   const staggeraxis = 'x';
-//   const staggerindex = 'odd';
-//   const grid = scene.rexBoard.add.hexagonGrid({
-//     x: 100,
-//     y: 100,
-//     size: 30,
-//     staggeraxis: staggeraxis,
-//     staggerindex: staggerindex
-//   })
-//   return grid;
-// };
 
 export default class Board extends RexBoard {
   pathXY?: { x: number, y: number }[];
@@ -220,7 +225,7 @@ export default class Board extends RexBoard {
         const tileRectangle = this.scene.rexBoard.add.shape(this, tileX, tileY, 0)
           .setStrokeStyle(2, TILE_BOARDER_COLOR, 1)
           .setData('cost', cost)
-          .setDepth(1);
+          .setDepth(3);
 
         // add land tag
         const worldXY = this.tileXYToWorldXY(tileX, tileY, true);
