@@ -2,7 +2,6 @@ import {
   Flex,
   Text,
   Image,
-  Button,
   Modal,
   ModalOverlay,
   ModalBody,
@@ -14,12 +13,14 @@ import {
   Center,
 } from "@chakra-ui/react";
 import useUserFomopolyData from "src/hooks/useUserFomopolyData";
-import avatar from "src/assets/avatar.svg";
+import avatarSmall from "src/assets/avatar-profile-small.svg";
+import avatar from "src/assets/avatar-profile.svg";
 import { formatEther } from "viem";
 import { useAccount, useEnsName } from "wagmi";
 import { mainnet } from "wagmi/chains";
 import { FillButton } from "./Buttons/FillButton";
 import useCheckLogin from "src/hooks/useCheckLogin";
+import { TopBarHeight } from "./MainPage";
 
 const ProfileImageAndName = () => {
   const { address = "0x" } = useAccount();
@@ -42,7 +43,7 @@ const ProfileImageAndName = () => {
         bg="primary"
         borderRadius="316.667px"
       >
-        <Image boxSize={["40px", "45px", "50px"]} src={avatar}></Image>
+        <Image boxSize={["40px", "45px", "50px"]} src={avatarSmall}></Image>
       </Center>
       <Box>
         <Text
@@ -115,10 +116,11 @@ export const UserProfile = ({ ...rest }: any) => {
 
   return (
     <Box>
-      <Button
-        width={["60px", "96px"]}
-        height={["60px", "96px"]}
+      <Box
+        width={TopBarHeight.map(value => `${value}px`)}
+        height={TopBarHeight.map(value => `${value}px`)}
         bg="none"
+        p="0px"
         borderRadius="400px"
         background="primary"
         {...rest}
@@ -135,8 +137,8 @@ export const UserProfile = ({ ...rest }: any) => {
           onOpen();
         }}
       >
-        <Image boxSize={["60px", "64px"]} src={avatar}></Image>
-      </Button>
+        <Image boxSize={TopBarHeight.map(value => `${value}px`)} src={avatar}></Image>
+      </Box>
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
         <ModalContent
