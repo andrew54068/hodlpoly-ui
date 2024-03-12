@@ -24,6 +24,7 @@ export const PropTitleWidth = [50, 65, 76];
 export const PropListSpacing = [15, 18, 24];
 export const PropPanelPadding = [12, 18, 24];
 export const PropPanelColumnGap = [15, 18, 24];
+export const TopBarHeight = [60, 90];
 
 export default function MainPage() {
   const { worldWideTravel, flipLandPrice } = useUserActions();
