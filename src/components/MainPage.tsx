@@ -69,7 +69,10 @@ export default function MainPage() {
     }
 
     if (window.fomopolyMap && userSteps) {
-      window.fomopolyMap.setUserPositionBySteps(userSteps);
+      // workaround for the race condition of the phaser map not ready
+      setTimeout(() => {
+        window.fomopolyMap.setUserPositionBySteps(userSteps);
+      }, 1000);
     }
 
     if (window.fomopolyMap && userOwnedLands) {
