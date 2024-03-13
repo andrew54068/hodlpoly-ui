@@ -38,7 +38,7 @@ export default class FomopolyMap extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('avatar', 'src/assets/avatar.svg')
+    this.load.image('avatar', '/avatar.svg')
       .once('filecomplete-image-avatar', () => {
         console.log(`✅ load image complete`);
         this.imageLoaded = true;
