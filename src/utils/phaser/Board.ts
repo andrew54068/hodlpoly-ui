@@ -1,14 +1,13 @@
-import { Board as RexBoard } from 'phaser3-rex-plugins/plugins/board-components.js';
-import FomopolyMap from './FomopolyMap';
+import { Board as RexBoard } from "phaser3-rex-plugins/plugins/board-components.js";
+import FomopolyMap from "./FomopolyMap";
 import {
   HEATMAP_COLORS,
   BOARD_CELL_HEIGHT,
   BOARD_CELL_WIDTH,
   HIGHLIGHT_BORDER_COLOR,
-  TILE_BOARDER_COLOR
-} from './constants';
-import { TopBarHeight, outterSharedMargin } from 'src/components/MainPage';
-
+  TILE_BOARDER_COLOR,
+} from "./constants";
+import { TopBarHeight, outterSharedMargin } from "src/components/MainPage";
 
 // const createTileMap = function (tilesMap, out: string[] = []) {
 //   if (out === undefined) {
@@ -21,49 +20,52 @@ import { TopBarHeight, outterSharedMargin } from 'src/components/MainPage';
 // }
 
 const getQuadGrid = function (scene, tileLength) {
-
   const boardWidth = BOARD_CELL_WIDTH * tileLength;
   const boardHeight = BOARD_CELL_HEIGHT * tileLength;
 
   const displayWidth = scene.scale.displaySize.width;
   const displayHeight = scene.scale.displaySize.height;
 
-  let minZoom
+  let minZoom;
   if (window.innerHeight > window.innerWidth) {
     // mobile
-    minZoom = Math.min(
-      displayWidth / boardWidth,
-      boardWidth / displayWidth, 1) * 0.8
+    minZoom =
+      Math.min(displayWidth / boardWidth, boardWidth / displayWidth, 1) * 0.8;
   } else {
     // desktop
-    minZoom = Math.min(
-      displayHeight / boardHeight,
-      boardHeight / displayHeight, 1) * 0.8
+    minZoom =
+      Math.min(displayHeight / boardHeight, boardHeight / displayHeight, 1) *
+      0.8;
   }
 
-  const x = (window.innerWidth - boardWidth * minZoom) / 2
-  const y = (window.innerHeight - boardHeight * minZoom) / 2
-  
+  const x = (window.innerWidth - boardWidth * minZoom) / 2;
+  const y = (window.innerHeight - boardHeight * minZoom) / 2;
+
   const grid = scene.rexBoard.add.quadGrid({
     x: x / minZoom,
     y: y / minZoom + TopBarHeight[1] + outterSharedMargin[1],
     cellWidth: BOARD_CELL_WIDTH,
     cellHeight: BOARD_CELL_HEIGHT,
-    type: 0
+    type: 0,
   });
   return grid;
-}
+};
 
 export default class Board extends RexBoard {
-  pathXY?: { x: number, y: number }[];
+  pathXY?: { x: number; y: number }[];
   tilesSize: number = 0;
   tilePathWithId: string[][] = [];
   heatMapShapes: any[] = [];
   prevHighlightGraphics?: Phaser.GameObjects.Graphics[] = undefined;
-  selectedTileId = '';
+  selectedTileId = "";
+  hoverEventHandler: (
+    hover: boolean,
+    x: number,
+    y: number,
+    currentTileId: string
+  ) => void = () => {};
 
   constructor(scene, tiles, pathXY, tilePathWithId) {
-
     // create board
     const config = {
       // grid: getHexagonGrid(scene),
@@ -72,16 +74,26 @@ export default class Board extends RexBoard {
       height: tiles.length,
 
       // wrap: true
-    }
+    };
     super(scene, config);
     this.scene = scene;
     this.createPath(tiles);
     this.pathXY = pathXY;
-    this.tilePathWithId = tilePathWithId
+    this.tilePathWithId = tilePathWithId;
     this.tilesSize = tiles.length;
+
+    this.scene.input.topOnly = true;
   }
 
-  createBorderRectangle(scene, x, y, width, height, borderColor, borderWidth): Phaser.GameObjects.Graphics {
+  createBorderRectangle(
+    scene,
+    x,
+    y,
+    width,
+    height,
+    borderColor,
+    borderWidth
+  ): Phaser.GameObjects.Graphics {
     const graphics = scene.add.graphics();
 
     graphics.lineStyle(borderWidth, borderColor);
@@ -90,29 +102,27 @@ export default class Board extends RexBoard {
     graphics.strokeRect(x - width / 2, y - height / 2, width, height);
 
     graphics.setDepth(1);
-    return graphics
+
+    return graphics;
   }
 
-
   createLandTagRectangle(scene, x, y) {
-
     const width = BOARD_CELL_WIDTH;
-    const landTagHeight = BOARD_CELL_HEIGHT / 4
-    const landHighLightHeight = BOARD_CELL_HEIGHT * 3 / 4
+    const landTagHeight = BOARD_CELL_HEIGHT / 4;
+    const landHighLightHeight = (BOARD_CELL_HEIGHT * 3) / 4;
     // create a canvas
-    const landTagCanvas = document.createElement('canvas');
-    const landHighLightCanvas = document.createElement('canvas');
+    const landTagCanvas = document.createElement("canvas");
+    const landHighLightCanvas = document.createElement("canvas");
 
-    const ctx = landTagCanvas.getContext('2d');
+    const ctx = landTagCanvas.getContext("2d");
     landTagCanvas.width = width;
     landTagCanvas.height = landTagHeight;
 
-    const landHighLightCtx = landHighLightCanvas.getContext('2d');
+    const landHighLightCtx = landHighLightCanvas.getContext("2d");
     landHighLightCanvas.width = width;
     landHighLightCanvas.height = landHighLightHeight;
 
     if (!ctx || !landHighLightCtx) return;
-
 
     ctx.fillStyle = `#FCFC54`;
     ctx.fillRect(0, 0, width, landTagHeight);
@@ -121,21 +131,23 @@ export default class Board extends RexBoard {
     landHighLightCtx.fillRect(0, 0, width, landHighLightHeight);
 
     // transform the canvas into a texture
-    const landTagKey = 'landTagTexture' + Date.now();
-    const landTagHighlightKey = 'landTagHighLight' + Date.now();
+    const landTagKey = "landTagTexture" + Date.now();
+    const landTagHighlightKey = "landTagHighLight" + Date.now();
 
     scene.textures.addCanvas(landTagKey, landTagCanvas);
     scene.textures.addCanvas(landTagHighlightKey, landHighLightCanvas);
 
     // 0,0 is at the left top of the canvas
     const landTagSprite = scene.add.sprite(
-      (x - BOARD_CELL_WIDTH / 2),
-      (y - BOARD_CELL_HEIGHT / 2),
-      landTagKey);
+      x - BOARD_CELL_WIDTH / 2,
+      y - BOARD_CELL_HEIGHT / 2,
+      landTagKey
+    );
     const landHighLightSprite = scene.add.sprite(
-      (x - BOARD_CELL_WIDTH / 2),
-      (y - BOARD_CELL_HEIGHT / 2 + landTagHeight),
-      landTagHighlightKey);
+      x - BOARD_CELL_WIDTH / 2,
+      y - BOARD_CELL_HEIGHT / 2 + landTagHeight,
+      landTagHighlightKey
+    );
 
     // 0,0 is at the center of the board tile
     landTagSprite.setOrigin(0, 0);
@@ -144,10 +156,9 @@ export default class Board extends RexBoard {
     landHighLightSprite.setOrigin(0, 0);
     landHighLightSprite.setDepth(1);
 
-
     return {
       landTagSprite,
-      landHighLightSprite
+      landHighLightSprite,
     };
   }
 
@@ -156,11 +167,10 @@ export default class Board extends RexBoard {
     const highlightBorderWidth = 2;
     const worldXY = this.tileXYToWorldXY(tileX, tileY, true);
 
-
     const landTag = this.createBorderRectangle(
       scene,
       worldXY.x,
-      (worldXY.y - BOARD_CELL_HEIGHT / 2 + BOARD_CELL_HEIGHT / 8),
+      worldXY.y - BOARD_CELL_HEIGHT / 2 + BOARD_CELL_HEIGHT / 8,
       BOARD_CELL_WIDTH,
       BOARD_CELL_HEIGHT / 4,
       HIGHLIGHT_BORDER_COLOR,
@@ -177,38 +187,38 @@ export default class Board extends RexBoard {
       highlightBorderWidth
     ).setDepth(2);
 
-
-
     return {
       landTag,
-      mainREctangle
-    }
+      mainREctangle,
+    };
   }
 
-  highLightTileForSelection(
-    tileX,
-    tileY
-  ) {
+  highLightTileForSelection(tileX, tileY) {
     if (this.prevHighlightGraphics?.length) {
-      this.prevHighlightGraphics.forEach(graphic => graphic.destroy());
-      this.prevHighlightGraphics = []
+      this.prevHighlightGraphics.forEach((graphic) => graphic.destroy());
+      this.prevHighlightGraphics = [];
     }
 
-    const {
-      landTag: prevLandTag,
-      mainREctangle: prevMainRectangle
-    } = this.highlightTile(tileX, tileY);
+    const { landTag: prevLandTag, mainREctangle: prevMainRectangle } =
+      this.highlightTile(tileX, tileY);
 
     if (this.prevHighlightGraphics) {
-      this.prevHighlightGraphics.push(
-        prevLandTag,
-        prevMainRectangle
-      )
+      this.prevHighlightGraphics.push(prevLandTag, prevMainRectangle);
     } else {
       this.prevHighlightGraphics = [prevLandTag, prevMainRectangle];
     }
   }
 
+  setEventHandler(
+    handler: (
+      hover: boolean,
+      x: number,
+      y: number,
+      currentTileId: string
+    ) => void
+  ) {
+    this.hoverEventHandler = handler;
+  }
 
   createPath(tiles) {
     // tiles : 2d array
@@ -217,20 +227,22 @@ export default class Board extends RexBoard {
       line = tiles[tileY];
       for (let tileX = 0, xcnt = line.length; tileX < xcnt; tileX++) {
         symbol = line[tileX];
-        if (symbol === ' ') {
+        if (symbol === " ") {
           continue;
         }
 
         cost = parseFloat(symbol);
-        const tileRectangle = this.scene.rexBoard.add.shape(this, tileX, tileY, 0)
+        const tileRectangle = this.scene.rexBoard.add
+          .shape(this, tileX, tileY, 0)
           .setStrokeStyle(2, TILE_BOARDER_COLOR, 1)
-          .setData('cost', cost)
+          .setData("cost", cost)
+          .setInteractive()
           .setDepth(3);
 
         // add land tag
         const worldXY = this.tileXYToWorldXY(tileX, tileY, true);
-        const landTagWidth = BOARD_CELL_WIDTH
-        const landTagHeight = BOARD_CELL_HEIGHT / 4
+        const landTagWidth = BOARD_CELL_WIDTH;
+        const landTagHeight = BOARD_CELL_HEIGHT / 4;
 
         this.createBorderRectangle(
           this.scene,
@@ -242,20 +254,47 @@ export default class Board extends RexBoard {
           2
         );
 
-        tileRectangle.setInteractive()
-        tileRectangle.on('pointerdown', (data,) => {
+        tileRectangle.on("pointerover", (param) => {
+          const currentTileId = this.tilePathWithId[tileX][tileY];
+          this.hoverEventHandler(
+            true,
+            param.position.x,
+            param.position.y,
+            currentTileId
+          );
+        });
+
+        tileRectangle.on("pointerout", (param) => {
+          const currentTileId = this.tilePathWithId[tileX][tileY];
+          this.hoverEventHandler(
+            false,
+            param.position.x,
+            param.position.y,
+            currentTileId
+          );
+        });
+
+        tileRectangle.on("pointerdown", (data) => {
           if ((this.scene as FomopolyMap).isSelectionMode) {
             const tileXY = this.worldXYToTileXY(data.worldX, data.worldY);
 
             this.highLightTileForSelection(tileXY.x, tileXY.y);
-            this.selectedTileId = this.tilePathWithId[tileX][tileY]
+            this.selectedTileId = this.tilePathWithId[tileX][tileY];
+          } else {
+            const currentTileId = this.tilePathWithId[tileX][tileY];
+            this.hoverEventHandler(
+              true,
+              data.position.x,
+              data.position.y,
+              currentTileId
+            );
           }
-        })
+        });
 
         // add image to grid
         // const worldXY = this.tileXYToWorldXY(tileX, tileY);
         // const image = this.scene.add.image(worldXY.x, worldXY.y, 'grass');
-        // image.displayWidth = 50; 
+        // image.displayWidth = 50;
         // image.displayHeight = 50;
       }
     }
@@ -267,16 +306,10 @@ export default class Board extends RexBoard {
     const worldXY = this.tileXYToWorldXY(tileX, tileY, true);
     this.highlightTile(tileX, tileY);
 
-
-    this.createLandTagRectangle(
-      this.scene,
-      worldXY.x,
-      worldXY.y
-    );
+    this.createLandTagRectangle(this.scene, worldXY.x, worldXY.y);
   }
 
   openHeatMapMode(heatMapSteps) {
-
     // Create a local Graphics object for drawing heat map rectangles
     this.pathXY?.forEach((xy, index) => {
       const worldXY = this.tileXYToWorldXY(xy.x, xy.y, true);
@@ -289,30 +322,34 @@ export default class Board extends RexBoard {
         heatMapGraphics.fillStyle(colorHex, 1); // Set the fill color
         heatMapGraphics.lineStyle(2, 0x000000, 1);
         // Draw the rectangle
-        heatMapGraphics.fillRect(
-          worldXY.x - BOARD_CELL_WIDTH / 2,
-          worldXY.y - BOARD_CELL_HEIGHT / 2,
-          BOARD_CELL_WIDTH,
-          BOARD_CELL_HEIGHT
-        ).setDepth(5);
+        heatMapGraphics
+          .fillRect(
+            worldXY.x - BOARD_CELL_WIDTH / 2,
+            worldXY.y - BOARD_CELL_HEIGHT / 2,
+            BOARD_CELL_WIDTH,
+            BOARD_CELL_HEIGHT
+          )
+          .setDepth(5);
 
-        heatMapGraphics.strokeRect(
-          worldXY.x - BOARD_CELL_WIDTH / 2,
-          worldXY.y - BOARD_CELL_HEIGHT / 2,
-          BOARD_CELL_WIDTH,
-          BOARD_CELL_HEIGHT
-        ).setDepth(5);
+        heatMapGraphics
+          .strokeRect(
+            worldXY.x - BOARD_CELL_WIDTH / 2,
+            worldXY.y - BOARD_CELL_HEIGHT / 2,
+            BOARD_CELL_WIDTH,
+            BOARD_CELL_HEIGHT
+          )
+          .setDepth(5);
         this.heatMapShapes.push(heatMapGraphics);
       }
     });
   }
 
   closeHeatMapMode() {
-    this.heatMapShapes.forEach(shape => shape.destroy());
+    this.heatMapShapes.forEach((shape) => shape.destroy());
   }
 
   closeSelectionMode() {
-    this.prevHighlightGraphics?.forEach(graphic => graphic.destroy());
-    this.selectedTileId = '';
+    this.prevHighlightGraphics?.forEach((graphic) => graphic.destroy());
+    this.selectedTileId = "";
   }
 }

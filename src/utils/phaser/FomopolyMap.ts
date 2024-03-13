@@ -46,7 +46,7 @@ export default class FomopolyMap extends Phaser.Scene {
       .start();
   }
 
-  createBoard() {
+  createBoard(hoverEventHandler: any) {
     const {
       matrix: tilePath,
       matrixWithId: tilePathWithId,
@@ -56,6 +56,7 @@ export default class FomopolyMap extends Phaser.Scene {
     } = generateTilePath(this.landAmount)
 
     const board = new Board(this, tilePath, pathXY, tilePathWithId);
+    board.setEventHandler(hoverEventHandler)
     this.board = board;
     this.pathXY = pathXY
 
@@ -208,18 +209,22 @@ export default class FomopolyMap extends Phaser.Scene {
 
   // worldTravelToTile (){}
 
-  setLandAmount(landAmount) {
+  registerEventHandler(handler: any) {
+    this.board?.setEventHandler(handler);
+  }
+
+  setLandAmount(landAmount, hoverEventHandler) {
     this.landAmount = landAmount
     if (this.board) {
       this.board.destroy()
     }
     if (this.imageLoaded) {
-      this.createBoard();
+      this.createBoard(hoverEventHandler);
     } else {
       // create board after image loaded.
       const timerId = setInterval(() => { 
         if (this.imageLoaded) {
-          this.createBoard();
+          this.createBoard(hoverEventHandler);
           clearInterval(timerId);
         }
       }, 100)

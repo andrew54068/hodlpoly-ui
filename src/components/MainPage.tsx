@@ -13,6 +13,7 @@ import { SelectingLandPurpose } from "src/types";
 import PendingDiceModal from "src/components/PendingDiceModal";
 import LoginModal from "src/components/LoginModal";
 import useSoundEffect from "src/hooks/useSoundEffect";
+import { formatEther } from "viem/utils";
 
 export const outterSharedMargin = [20, 35, 54];
 export const GoButtonSize = [100, 120, 146];
@@ -30,6 +31,11 @@ export default function MainPage() {
   const { worldWideTravel, flipLandPrice } = useUserActions();
   const { loopPlayBackgroundMusic } = useSoundEffect();
   const [isHeatMapMode, setIsHeatMapMode] = useState(false);
+  const [popoverInfo, setPopoverInfo] = useState<{
+    x: number;
+    y: number;
+    currentTileId: string;
+  } | null>(null);
   const hasInit = useRef(false);
 
   const { selectingLandPurpose, setSelectingLandPurpose } =
@@ -56,16 +62,29 @@ export default function MainPage() {
       const game = new Phaser.Game(config);
       window.fomopolyMap = game.scene.keys.fomopolyMap;
       if (landAmount > 0) {
-        window.fomopolyMap.setLandAmount(landAmount);
+        window.fomopolyMap.setLandAmount(landAmount, hoverEventHandler);
       }
     }
 
     hasInit.current = true;
   }, [hasInit, landAmount]);
 
+  const hoverEventHandler = (
+    hover: boolean,
+    x: number,
+    y: number,
+    currentTileId: string
+  ) => {
+    if (hover) {
+      setPopoverInfo({ x, y, currentTileId });
+    } else {
+      setPopoverInfo(null);
+    }
+  };
+
   useEffect(() => {
     if (landAmount > 0 && window.fomopolyMap) {
-      window.fomopolyMap.setLandAmount(landAmount);
+      window.fomopolyMap.setLandAmount(landAmount, hoverEventHandler);
     }
 
     if (window.fomopolyMap && userSteps) {
@@ -159,6 +178,21 @@ export default function MainPage() {
         onClose={() => setIsWaitingForMoving(false)}
       />
       <LoginModal isOpen={isLoginModalOpen} onClose={onLoginModalClose} />
+      {popoverInfo && allLandPrices && (
+        <Box
+          position="absolute"
+          left={popoverInfo.x + 10}
+          top={popoverInfo.y - 100}
+          width="200px"
+          height="100px"
+          bg="gray"
+        >
+          This is the price of the land{" "}
+          {parseFloat(
+            formatEther(allLandPrices[popoverInfo.currentTileId].toString())
+          ).toFixed(4)}
+        </Box>
+      )}
     </>
   );
 }
