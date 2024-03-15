@@ -2,12 +2,9 @@ import Phaser from 'phaser'
 import Board from './Board'
 import ChessA from './ChessA'
 import {
-  CHESS_SPEED_FAST,
   BOARD_CELL_HEIGHT,
   BOARD_CELL_WIDTH,
   CHESS_SPEED_NORMAL,
-  // LAND_TAG_COLOR,
-  // HEATMAP_COLORS
 } from './constants'
 import generateTilePath from 'src/utils/phaser/generateTilePath'
 
