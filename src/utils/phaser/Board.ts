@@ -1,4 +1,4 @@
-import { Board as RexBoard } from "phaser3-rex-plugins/plugins/board-components.js";
+import { Board as RexBoard } from "phaser3-daw-plugins/plugins/board-components.js";
 import FomopolyMap from "./FomopolyMap";
 import {
   HEATMAP_COLORS,

@@ -4592,10 +4592,10 @@ i18next-browser-languagedetector@^7.1.0:
   dependencies:
     "@babel/runtime" "^7.23.2"
 
-i18next-http-backend@^2.4.1:
-  version "2.4.2"
-  resolved "https://registry.yarnpkg.com/i18next-http-backend/-/i18next-http-backend-2.4.2.tgz#bd53cacaed671e9f38bdcfd46ac9d1763a898186"
-  integrity sha512-wKrgGcaFQ4EPjfzBTjzMU0rbFTYpa0S5gv9N/d8WBmWS64+IgJb7cHddMvV+tUkse7vUfco3eVs2lB+nJhPo3w==
+i18next-http-backend@^2.5.0:
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/i18next-http-backend/-/i18next-http-backend-2.5.0.tgz#8396a7df30bfe722eff7a65f629df32a61720414"
+  integrity sha512-Z/aQsGZk1gSxt2/DztXk92DuDD20J+rNudT7ZCdTrNOiK8uQppfvdjq9+DFQfpAnFPn3VZS+KQIr1S/W1KxhpQ==
   dependencies:
     cross-fetch "4.0.0"
 
@@ -5626,14 +5626,14 @@ pbkdf2@^3.0.3:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
-phaser3-rex-plugins@^1.60.9:
-  version "1.60.9"
-  resolved "https://registry.yarnpkg.com/phaser3-rex-plugins/-/phaser3-rex-plugins-1.60.9.tgz#f6a945d06a46f62cb84f8378fc476625bb132737"
-  integrity sha512-3tH98Fo3boDIFwwehlGhFdpaHAK0/gLugTyaXipfVS4dyWbT7BO5LOLhcgSuGoCTgooWN020x5juMMOtttxbSw==
+phaser3-daw-plugins@1.80.7:
+  version "1.80.7"
+  resolved "https://registry.yarnpkg.com/phaser3-daw-plugins/-/phaser3-daw-plugins-1.80.7.tgz#fa20df83ec42f9597e5fd32bf5fc002648029ae9"
+  integrity sha512-gs3gtPaftnZIBHlVBkkGuRQ19pfNV+fO/q9FrmEx/OEcFehWNF5dNKY/kHB+CDZdOLMEeJb0tZOxOZM9pu60bQ==
   dependencies:
     eventemitter3 "^3.1.2"
     i18next "^22.5.1"
-    i18next-http-backend "^2.4.1"
+    i18next-http-backend "^2.5.0"
     js-yaml "^4.1.0"
     mustache "^4.2.0"
     papaparse "^5.4.1"

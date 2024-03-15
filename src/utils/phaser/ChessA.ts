@@ -1,16 +1,16 @@
 import Phaser from "phaser";
 import {
-  Shape as RexShape,
+  Image as DawImage,
   Monopoly,
   MoveTo,
-} from "phaser3-rex-plugins/plugins/board-components.js";
+} from "phaser3-daw-plugins/plugins/board-components.js";
 import { CHESS_SPEED_FAST, CHESS_SPEED_NORMAL } from "./constants";
 interface IChessA {
   monopoly: Monopoly;
   moveTo: MoveTo;
 }
 
-export default class ChessA extends RexShape implements IChessA {
+export default class ChessA extends DawImage implements IChessA {
   monopoly: Monopoly<Phaser.GameObjects.GameObject>;
   moveTo: MoveTo<Phaser.GameObjects.GameObject>;
   movingPathTiles: Phaser.GameObjects.GameObject[];
@@ -26,22 +26,13 @@ export default class ChessA extends RexShape implements IChessA {
       startPoint = board.getRandomEmptyTileXY(0);
     }
 
-    // Shape(board, startPoint.x, startPoint.y, startPoint.z, fillColor, fillAlpha, addToBoard)
-    super(board, startPoint.x, startPoint.y, 1, null, 0);
+    super(board, 'avatar', 0, 0);
 
     this.startPoint = startPoint;
     this.currentPoint = startPoint;
     this.endPoint = endPoint;
 
-    scene.add.existing(this);
-
-    this.avatar = scene.add.image(startPoint.x, startPoint.y, "avatar");
-    // const worldXY = board.tileXYToWorldXY(startPoint.x, startPoint.y, true);
-    this.avatar.setPosition(-100, -100);
-    this.avatar.setScale(0.5);
-    this.avatar.setDepth(2);
-
-    this.setScale(0.4);
+    this.setScale(0.7);
     this.setDepth(10);
 
     // add behaviors
@@ -66,15 +57,6 @@ export default class ChessA extends RexShape implements IChessA {
     });
   }
 
-  updateImageLocation(x, y) {
-    const board = this.rexChess?.board;
-
-    if (!board) return;
-    const worldXY = board.tileXYToWorldXY(x, y, true);
-    this.avatar.setPosition(worldXY.x, worldXY.y);
-    this.avatar.setDepth(2);
-  }
-
   showMovingPath(tileXYArray) {
     console.log(`showMovingPath`);
 
@@ -88,8 +70,6 @@ export default class ChessA extends RexShape implements IChessA {
     for (let i = 0, cnt = tileXYArray.length; i < cnt; i++) {
       tileXY = tileXYArray[i];
       worldXY = board.tileXYToWorldXY(tileXY.x, tileXY.y, true);
-      this.avatar.setPosition(worldXY.x, worldXY.y);
-      this.avatar.setDepth(2);
       this.movingPathTiles.push(
         scene.add.circle(worldXY.x, worldXY.y, 10, 0xb0003a)
       );
@@ -122,10 +102,12 @@ export default class ChessA extends RexShape implements IChessA {
     return this.endPoint.x === tileXY.x && this.endPoint.y === tileXY.y;
   }
 
-  moveAlongPath(path) {
-    console.log(`moveAlongPath`);
-    const board = this.rexChess?.board;
+  updateLocation(userPosition) {
+    this.moveTo.setSpeed(CHESS_SPEED_FAST);
+    this.moveTo.moveTo(userPosition.x, userPosition.y);
+  }
 
+  moveAlongPath(path) {
     if (path.length === 0) {
       return;
     }
@@ -134,13 +116,6 @@ export default class ChessA extends RexShape implements IChessA {
       "complete",
       ({ currentPoint }) => {
         console.log(`moveTo.once('complete)`);
-        const worldXY = board.tileXYToWorldXY(
-          currentPoint.x,
-          currentPoint.y,
-          true
-        );
-        this.avatar.setPosition(worldXY.x, worldXY.y);
-        this.avatar.setDepth(2);
 
         if (
           currentPoint.x === this.startPoint.x &&

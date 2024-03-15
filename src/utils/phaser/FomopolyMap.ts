@@ -5,6 +5,7 @@ import {
   CHESS_SPEED_FAST,
   BOARD_CELL_HEIGHT,
   BOARD_CELL_WIDTH,
+  CHESS_SPEED_NORMAL,
   // LAND_TAG_COLOR,
   // HEATMAP_COLORS
 } from './constants'
@@ -76,9 +77,9 @@ export default class FomopolyMap extends Phaser.Scene {
 
     const boundWidth = Math.max(window.innerWidth, board.width) / minZoom
     const boundHeight = Math.max(window.innerHeight, board.height) / minZoom
-    this.cameras.main.setBounds(0, -300,
+    this.cameras.main.setBounds(0, -50,
       boundWidth,
-      boundHeight + 300
+      boundHeight + 100
     );
 
     this.createGradientBackground(boundWidth, boundHeight);
@@ -182,28 +183,30 @@ export default class FomopolyMap extends Phaser.Scene {
 
 
   triggerMoveForward(movingPoints) {
+    console.log(`💥 movingPoints: ${JSON.stringify(movingPoints, null, '  ')}`);
     if (this.chessA) {
       this.chessA.moveForward(movingPoints);
     }
   }
 
   setUserPositionBySteps(totalSteps: number) {
+    if (this.chessA) {
+      this.add.existing(this.chessA);
+    }
     console.log(`setUserPositionBySteps`);
     if (this.chessA && this.board) {
-      this.chessA.moveTo.setSpeed(CHESS_SPEED_FAST);
       const userPosition = this.pathXY?.[totalSteps] ?? { x: 0, y: 0 }
-      // const nextPosition = this.pathXY?.[totalSteps + 1] ?? { x: 0, y: 0 }
-      // const userDirection = this.board?.getNeighborTileDirection(userPosition, nextPosition);
-      this.chessA.moveTo.moveTo(userPosition.x, userPosition.y);
-      this.chessA.updateImageLocation(userPosition.x, userPosition.y)
+      this.chessA.updateLocation(userPosition)
+      const nextPosition = this.pathXY?.[totalSteps + 1] ?? { x: 0, y: 0 }
+      const userDirection = this.board?.getNeighborTileDirection(userPosition, nextPosition);
 
-      // if (userDirection !== undefined && userDirection !== null) {
-      //   this.chessA.monopoly.setFace(userDirection)
-      // }
+      if (userDirection !== undefined && userDirection !== null) {
+        this.chessA.monopoly.setFace(userDirection)
+      }
 
-      // this.chessA.moveTo.once('complete', () => {
-      //   this.chessA?.moveTo.setSpeed(CHESS_SPEED_NORMAL);
-      // })
+      this.chessA.moveTo.once('complete', () => {
+        this.chessA?.moveTo.setSpeed(CHESS_SPEED_NORMAL);
+      })
     }
   }
 

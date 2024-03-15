@@ -29,7 +29,7 @@
     "lodash": "^4.17.21",
     "lodash.merge": "^4.6.2",
     "phaser": "^3.70.0",
-    "phaser3-rex-plugins": "^1.60.9",
+    "phaser3-daw-plugins": "1.80.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-fast-marquee": "^1.6.4",
