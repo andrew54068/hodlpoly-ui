@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState, useContext } from "react";
-import { Box, Button, Flex } from "@chakra-ui/react";
+import { Box, Button, Center, Flex } from "@chakra-ui/react";
 import "src/utils/phaser";
 import { config } from "src/utils/phaser";
 import { GlobalContext } from "src/context/global";
@@ -178,21 +178,27 @@ export default function MainPage() {
         onClose={() => setIsWaitingForMoving(false)}
       />
       <LoginModal isOpen={isLoginModalOpen} onClose={onLoginModalClose} />
-      {popoverInfo && allLandPrices && allLandPrices[popoverInfo.currentTileId] && (
-        <Box
-          position="absolute"
-          left={popoverInfo.x + 10}
-          top={popoverInfo.y - 100}
-          width="200px"
-          height="100px"
-          bg="gray"
-        >
-          This is the price of the land{" "}
-          {parseFloat(
-            formatEther(allLandPrices[popoverInfo.currentTileId].toString())
-          ).toFixed(5)}
-        </Box>
-      )}
+      {popoverInfo &&
+        allLandPrices &&
+        allLandPrices[popoverInfo.currentTileId] && (
+          <Flex
+            position="absolute"
+            left={popoverInfo.x + 10}
+            top={popoverInfo.y - 100}
+            width="180px"
+            height="30px"
+            bg="gray"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Center>
+              Land Price:{" "}
+              {parseFloat(
+                formatEther(allLandPrices[popoverInfo.currentTileId].toString())
+              ).toFixed(5)}
+            </Center>
+          </Flex>
+        )}
     </>
   );
 }
