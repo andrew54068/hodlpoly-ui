@@ -104,7 +104,7 @@ export default class ChessA extends DawImage implements IChessA {
 
   updateLocation(userPosition) {
     this.moveTo.setSpeed(CHESS_SPEED_FAST);
-    this.moveTo.moveTo(userPosition.x, userPosition.y + 0.1);
+    this.moveTo.moveTo(userPosition.x, userPosition.y + 0.125);
   }
 
   moveAlongPath(path) {
