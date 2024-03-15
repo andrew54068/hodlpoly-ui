@@ -190,7 +190,7 @@ export default function MainPage() {
           This is the price of the land{" "}
           {parseFloat(
             formatEther(allLandPrices[popoverInfo.currentTileId].toString())
-          ).toFixed(4)}
+          ).toFixed(5)}
         </Box>
       )}
     </>
