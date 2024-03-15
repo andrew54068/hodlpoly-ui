@@ -7,9 +7,8 @@ const useSoundEffect = () => {
   const basePath = "/soundEffects";
 
   const loopPlayBackgroundMusic = useCallback(() => {
-    load(`${basePath}/demo.mp3`, { loop: true, autoplay: true });
+    load(`${basePath}/bgmusic.mp3`, { loop: true, autoplay: true });
   }, [load]);
-
 
   return {
     loopPlayBackgroundMusic,
