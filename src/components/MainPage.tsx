@@ -178,7 +178,7 @@ export default function MainPage() {
         onClose={() => setIsWaitingForMoving(false)}
       />
       <LoginModal isOpen={isLoginModalOpen} onClose={onLoginModalClose} />
-      {popoverInfo && allLandPrices && (
+      {popoverInfo && allLandPrices && allLandPrices[popoverInfo.currentTileId] && (
         <Box
           position="absolute"
           left={popoverInfo.x + 10}
