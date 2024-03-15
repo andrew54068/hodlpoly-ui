@@ -162,9 +162,9 @@ export default class FomopolyMap extends Phaser.Scene {
 
     if (ctx) {
       const grd = ctx.createLinearGradient(0, 0, 0, height);
-      grd.addColorStop(0, 'black');
-      grd.addColorStop(0.5786, 'rgba(158,168,137, 0.61)');
-      grd.addColorStop(1, 'black');
+      grd.addColorStop(0, 'rgba(0, 0, 0, 0.51)');
+      grd.addColorStop(0.5, 'rgba(158,168,137, 0.27)');
+      grd.addColorStop(1, 'rgba(0, 0, 0, 0.60)');
 
       ctx.fillStyle = grd;
       ctx.fillRect(0, 0, width, height);
