@@ -260,7 +260,7 @@ export default class Board extends RexBoard {
         cost = parseFloat(symbol);
         const tileRectangle = this.scene.rexBoard.add
           .shape(this, tileX, tileY, 0)
-          .setStrokeStyle(2, TILE_BOARDER_COLOR, 1)
+          .setStrokeStyle(3, TILE_BOARDER_COLOR, 1)
           .setData("cost", cost)
           .setInteractive()
           .setDepth(3);
