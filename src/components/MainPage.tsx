@@ -183,13 +183,16 @@ export default function MainPage() {
         allLandPrices[popoverInfo.currentTileId] && (
           <Flex
             position="absolute"
-            left={popoverInfo.x + 10}
-            top={popoverInfo.y - 100}
+            left={popoverInfo.x + 5}
+            top={popoverInfo.y - 50}
             width="180px"
             height="30px"
-            bg="gray"
             justifyContent="center"
             alignItems="center"
+            boxShadow="0px 0px 9px 0px #FCFC54"
+            border="1px solid #FCFC54"
+            background="rgba(17, 20, 12, .6)"
+            color="primary"
           >
             <Center>
               Land Price:{" "}
