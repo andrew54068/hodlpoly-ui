@@ -101,7 +101,32 @@ export default class Board extends RexBoard {
     // the origin of the rectangle is at left top
     graphics.strokeRect(x - width / 2, y - height / 2, width, height);
 
-    graphics.setDepth(1);
+    graphics.setDepth(3);
+
+    return graphics;
+  }
+
+  createFilledRectangle(
+    scene,
+    x,
+    y,
+    width,
+    height,
+    borderColor,
+    borderWidth
+  ): Phaser.GameObjects.Graphics {
+    console.log(`createFilledRectangle`);
+    const graphics = scene.add.graphics();
+
+    graphics.lineStyle(borderWidth, borderColor);
+
+    graphics.fillStyle(HIGHLIGHT_BORDER_COLOR, 1)
+    graphics.fillRoundedRect(x - width / 2, y - height / 2, width, height, 0)
+
+    // the origin of the rectangle is at left top
+    graphics.strokeRect(x - width / 2, y - height / 2, width, height);
+
+    graphics.setDepth(3);
 
     return graphics;
   }
@@ -151,10 +176,10 @@ export default class Board extends RexBoard {
 
     // 0,0 is at the center of the board tile
     landTagSprite.setOrigin(0, 0);
-    landTagSprite.setDepth(1);
+    landTagSprite.setDepth(3);
 
     landHighLightSprite.setOrigin(0, 0);
-    landHighLightSprite.setDepth(1);
+    landHighLightSprite.setDepth(3);
 
     return {
       landTagSprite,
@@ -163,11 +188,12 @@ export default class Board extends RexBoard {
   }
 
   highlightTile(tileX, tileY) {
+    console.log(`highlightTile`);
     const scene = this.scene;
     const highlightBorderWidth = 2;
     const worldXY = this.tileXYToWorldXY(tileX, tileY, true);
 
-    const landTag = this.createBorderRectangle(
+    const landTag = this.createFilledRectangle(
       scene,
       worldXY.x,
       worldXY.y - BOARD_CELL_HEIGHT / 2 + BOARD_CELL_HEIGHT / 8,
@@ -175,9 +201,9 @@ export default class Board extends RexBoard {
       BOARD_CELL_HEIGHT / 4,
       HIGHLIGHT_BORDER_COLOR,
       highlightBorderWidth
-    ).setDepth(2);
+    ).setDepth(3);
 
-    const mainREctangle = this.createBorderRectangle(
+    const mainREctangle = this.createFilledRectangle(
       scene,
       worldXY.x,
       worldXY.y,
@@ -185,7 +211,7 @@ export default class Board extends RexBoard {
       BOARD_CELL_HEIGHT,
       HIGHLIGHT_BORDER_COLOR,
       highlightBorderWidth
-    ).setDepth(2);
+    ).setDepth(3);
 
     return {
       landTag,
@@ -201,7 +227,7 @@ export default class Board extends RexBoard {
 
     const { landTag: prevLandTag, mainREctangle: prevMainRectangle } =
       this.highlightTile(tileX, tileY);
-
+ 
     if (this.prevHighlightGraphics) {
       this.prevHighlightGraphics.push(prevLandTag, prevMainRectangle);
     } else {
@@ -329,7 +355,7 @@ export default class Board extends RexBoard {
             BOARD_CELL_WIDTH,
             BOARD_CELL_HEIGHT
           )
-          .setDepth(5);
+          .setDepth(3);
 
         heatMapGraphics
           .strokeRect(
@@ -338,7 +364,7 @@ export default class Board extends RexBoard {
             BOARD_CELL_WIDTH,
             BOARD_CELL_HEIGHT
           )
-          .setDepth(5);
+          .setDepth(3);
         this.heatMapShapes.push(heatMapGraphics);
       }
     });
