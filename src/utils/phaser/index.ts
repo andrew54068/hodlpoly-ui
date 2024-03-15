@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import BoardPlugin from 'phaser3-rex-plugins/plugins/board-plugin.js';
+import BoardPlugin from 'phaser3-daw-plugins/plugins/board-plugin.js';
 import FomopolyMap from './FomopolyMap';
 
 
