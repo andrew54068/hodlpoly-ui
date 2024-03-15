@@ -346,7 +346,7 @@ export default class Board extends RexBoard {
         const heatMapGraphics = this.scene.add.graphics();
 
         heatMapGraphics.fillStyle(colorHex, 1); // Set the fill color
-        heatMapGraphics.lineStyle(2, 0x000000, 1);
+        heatMapGraphics.lineStyle(3.5, 0x000000, 1);
         // Draw the rectangle
         heatMapGraphics
           .fillRect(
