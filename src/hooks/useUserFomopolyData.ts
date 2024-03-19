@@ -86,7 +86,7 @@ export default function useUserFomopolyData() {
 
   // const { data: [userPendingReward, userTotalRevenue] = [] } = useReadContract({
   const {
-    data: [userPendingReward = BigInt(0), userTotalRevenue = BigInt(0)] = [],
+    data: [userPendingReward = BigInt(0)] = [],
   } = useReadContract({
     abi: fomopolyAbi.abi,
     address: FOMOPOLY_PROXY_ADDRESS,
@@ -115,6 +115,5 @@ export default function useUserFomopolyData() {
     playerClaimableReward,
     allPropsPrices,
     userPendingReward,
-    userTotalRevenue,
   };
 }
