@@ -20,7 +20,7 @@ interface RewardModalProps {
 }
 
 const RevenueModal: React.FC<RewardModalProps> = ({ isOpen, onClose }) => {
-  const { userPendingReward, userTotalRevenue } = useUserFomopolyData();
+  const { userPendingReward } = useUserFomopolyData();
   const { claimReward } = useUserActions();
 
   // Function to handle the claim reward logic
@@ -33,10 +33,6 @@ const RevenueModal: React.FC<RewardModalProps> = ({ isOpen, onClose }) => {
   const formattedReward = parseFloat(formatEther(userPendingReward)).toFixed(
     MAX_DISPLAY_ETHER_DIGITS
   );
-
-  const formattedTotalRevenue = parseFloat(
-    formatEther(userTotalRevenue)
-  ).toFixed(MAX_DISPLAY_ETHER_DIGITS);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCentered>
@@ -58,7 +54,7 @@ const RevenueModal: React.FC<RewardModalProps> = ({ isOpen, onClose }) => {
             border="2px solid"
             borderColor="gray.oliver"
           >
-            <Box mb="12px" p="20px">
+            {/* <Box mb="12px" p="20px">
               <Box color="gray.oliver" mb="16px">
                 Revenue
               </Box>
@@ -71,7 +67,7 @@ const RevenueModal: React.FC<RewardModalProps> = ({ isOpen, onClose }) => {
               >
                 {formattedTotalRevenue} ETH
               </Text>
-            </Box>
+            </Box> */}
 
             <Box background="gray.oliver" borderRadius="10px" p="20px">
               <Box color="text.black" mb="16px">
