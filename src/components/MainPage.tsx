@@ -15,7 +15,7 @@ import LoginModal from "src/components/LoginModal";
 import useSoundEffect from "src/hooks/useSoundEffect";
 import { formatEther } from "viem/utils";
 
-export const outterSharedMargin = [20, 35, 54];
+export const outterSharedMargin = [20, 20, 35, 54];
 export const GoButtonSize = [60, 100, 120, 146];
 export const GameMenuTopMargin = [100, 140, 156];
 export const MenuButtonSize = [52, 56, 60];
