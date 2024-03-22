@@ -298,10 +298,10 @@
     "@babel/helper-validator-identifier" "^7.22.20"
     to-fast-properties "^2.0.0"
 
-"@blocto/sdk@^0.9.0-beta.2":
-  version "0.9.0-beta.2"
-  resolved "https://registry.yarnpkg.com/@blocto/sdk/-/sdk-0.9.0-beta.2.tgz#4019c55f65971d00b12ebdcc48a22e0713236bf3"
-  integrity sha512-n8Etm/TcDAtZMdOUyKWP5qcmU6I3Fn/W2lRWJA5h5NHI/fICvDrORhTZRfTzq0sMT5n6dxSNgUh8EAXIWU+/bQ==
+"@blocto/sdk@^0.10.0":
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/@blocto/sdk/-/sdk-0.10.0.tgz#31a4777773673b137e8c039b39ca6b348c852e64"
+  integrity sha512-PjmyQZtYTl7UkQcl223S8nh7j5pmWSEnyE3bTdMoXOaXd0blj9aIbkqu1ErvHb96GII2Co+FnbcSp6ioTZG+XQ==
   dependencies:
     buffer "^6.0.3"
     eip1193-provider "^1.0.1"
@@ -316,7 +316,7 @@
     eip1193-provider "^1.0.1"
     js-sha3 "^0.8.0"
 
-"@blocto/wagmi-connector@^2":
+"@blocto/wagmi-connector@2.0.0":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@blocto/wagmi-connector/-/wagmi-connector-2.0.0.tgz#dcbc006a200b45be6255eb928e734c34474a085a"
   integrity sha512-pztSiZl3YQx1LO2KidN2lqqykbVLLs3umgbgFIOjBBc9xxX658ABRx4o1c6iYq1+UdQRR8SjpriyRaD7THC/rw==
