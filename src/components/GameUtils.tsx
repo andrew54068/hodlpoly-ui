@@ -29,8 +29,9 @@ export default function GameUtils({
   setIsWaitingForMoving: (isWaiting: boolean) => void;
   setCurrentMoveSteps: (steps: number) => void;
 }) {
-  const { refetchPlayer, refetchAllLandPrices } = useUserFomopolyData();
-  const { rollTheDice, buyLand } = useUserActions();
+  const { refetchPlayer, refetchAllLandPrices, refetchUserOwnedLands } =
+    useUserFomopolyData();
+  const { rollTheDice, buyLand, waitForTransaction } = useUserActions();
   const checkLogin = useCheckLogin();
   const {
     isOpen: isBuyLandModalOpen,
@@ -63,6 +64,13 @@ export default function GameUtils({
 
     const hash = await buyLand();
     console.log("hash :", hash);
+    if (hash) {
+      await waitForTransaction(hash);
+      console.log("hash confirmed!, ", hash);
+      await refetchUserOwnedLands()
+    } else {
+      console.log(`failed to get hash`);
+    }
   };
 
   return (

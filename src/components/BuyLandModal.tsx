@@ -34,8 +34,8 @@ const BuyLandModal = ({
   onClose: () => void;
 }) => {
   // todo: get land trading volume
-  const { userSteps = 0, allLandPrices } = useUserFomopolyData();
-  const { buyLand } = useUserActions();
+  const { userSteps = 0, allLandPrices, refetchUserOwnedLands } = useUserFomopolyData();
+  const { buyLand, waitForTransaction } = useUserActions();
 
   const { data } =
     useReadContract({
@@ -58,8 +58,18 @@ const BuyLandModal = ({
 
   const onClickBuy = async () => {
     try {
-      await buyLand();
+      console.log(`onclik buy land`);
+      
+      const hash = await buyLand();
       onClose();
+      console.log("hash :", hash);
+      if (hash) {
+        await waitForTransaction(hash);
+        console.log("hash confirmed!, ", hash);
+        await refetchUserOwnedLands();
+      } else {
+        console.log(`failed to get hash`);
+      }
     } catch (e) {
       console.error(e);
     }

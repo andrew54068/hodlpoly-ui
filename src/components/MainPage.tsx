@@ -49,7 +49,7 @@ export default function MainPage() {
   } = useContext(MoveContext);
   const { isLoginModalOpen, onLoginModalClose } = useContext(LoginContext);
 
-  const { allLandPrices, landAmount, userOwnedLands, userSteps } =
+  const { landAmount, allLandPrices, userOwnedLands, userSteps } =
     useUserFomopolyData();
 
   useEffect(() => {
@@ -95,11 +95,13 @@ export default function MainPage() {
     if (landAmount > 0 && window.fomopolyMap) {
       window.fomopolyMap.setLandAmount(landAmount, hoverEventHandler);
     }
+  }, [landAmount]);
 
+  useEffect(() => {
     if (window.fomopolyMap && userOwnedLands) {
       window.fomopolyMap.setOwnedLandTags(userOwnedLands);
     }
-  }, [landAmount, userOwnedLands]);
+  }, [userOwnedLands]);
 
   const onHeatMapSwitchClick = () => {
     if (window.fomopolyMap) {
