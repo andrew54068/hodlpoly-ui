@@ -12,7 +12,7 @@ import {
   Box,
   Link,
 } from "@chakra-ui/react";
-import { useReducer, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 
 import useUserFomopolyData from "src/hooks/useUserFomopolyData";
 import { shopItems } from "src/utils/constants";
@@ -110,6 +110,10 @@ const GameMenu = ({ ...rest }: any) => {
     console.log("newInventoryItems :", newInventoryItems);
     setInventoryItems(newInventoryItems);
   };
+
+  useEffect(() => {
+    onTabChange()
+  }, []);
 
   return (
     <Box {...rest}>
