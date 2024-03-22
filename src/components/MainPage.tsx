@@ -83,21 +83,23 @@ export default function MainPage() {
   };
 
   useEffect(() => {
-    if (landAmount > 0 && window.fomopolyMap) {
-      window.fomopolyMap.setLandAmount(landAmount, hoverEventHandler);
-    }
-
     if (window.fomopolyMap && userSteps) {
       // workaround for the race condition of the phaser map not ready
       setTimeout(() => {
         window.fomopolyMap.setUserPositionBySteps(userSteps);
       }, 1000);
     }
+  }, [userSteps])
+
+  useEffect(() => {
+    if (landAmount > 0 && window.fomopolyMap) {
+      window.fomopolyMap.setLandAmount(landAmount, hoverEventHandler);
+    }
 
     if (window.fomopolyMap && userOwnedLands) {
       window.fomopolyMap.setOwnedLandTags(userOwnedLands);
     }
-  }, [landAmount, userSteps, userOwnedLands]);
+  }, [landAmount, userOwnedLands]);
 
   const onHeatMapSwitchClick = () => {
     if (window.fomopolyMap) {
