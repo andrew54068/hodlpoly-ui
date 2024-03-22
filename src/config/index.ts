@@ -1,4 +1,4 @@
-import { createConfig } from 'wagmi'
+import { createConfig, webSocket } from 'wagmi'
 import { blastSepolia, mainnet } from 'wagmi/chains'
 import { http } from "wagmi";
 import { injected } from "wagmi/connectors";
@@ -16,7 +16,8 @@ export const wagmiConfig = createConfig({
   connectors: [blocto(appId), injected()],
   ssr: true,
   transports: {
-    [blastSepolia.id]: http(BLAST_RPC_URL),
+    // [blastSepolia.id]: http(BLAST_RPC_URL),
+    [blastSepolia.id]: webSocket('wss://blast-sepolia.drpc.org'),
     [mainnet.id]: http(),
   },
 });
