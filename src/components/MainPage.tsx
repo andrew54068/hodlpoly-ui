@@ -200,7 +200,7 @@ export default function MainPage() {
               Land Price:{" "}
               {parseFloat(
                 formatEther(allLandPrices[popoverInfo.currentTileId].toString())
-              ).toFixed(5)}
+              ).toFixed(6)}
             </Center>
           </Flex>
         )}
