@@ -84,7 +84,6 @@ export default function useUserFomopolyData() {
     chainId: CHAIN_ID,
   });
 
-  // const { data: [userPendingReward, userTotalRevenue] = [] } = useReadContract({
   const {
     data: [userPendingReward = BigInt(0)] = [],
   } = useReadContract({
