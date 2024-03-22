@@ -1,4 +1,11 @@
-import { Switch, Image, Flex, Text, useDisclosure } from "@chakra-ui/react";
+import {
+  Switch,
+  Image,
+  Flex,
+  Text,
+  useDisclosure,
+  useMediaQuery,
+} from "@chakra-ui/react";
 import dice from "src/assets/dice.svg";
 import GameMenu from "./GameMenu";
 import { NAVBAR_HIGHT } from "src/utils/constants";
@@ -33,6 +40,7 @@ export default function GameUtils({
     useUserFomopolyData();
   const { rollTheDice, buyLand, waitForTransaction } = useUserActions();
   const checkLogin = useCheckLogin();
+  const [isMobile] = useMediaQuery("(max-width: 768px)");
   const {
     isOpen: isBuyLandModalOpen,
     onOpen: onBuyLandModalOpen,
@@ -67,7 +75,7 @@ export default function GameUtils({
     if (hash) {
       await waitForTransaction(hash);
       console.log("hash confirmed!, ", hash);
-      await refetchUserOwnedLands()
+      await refetchUserOwnedLands();
     } else {
       console.log(`failed to get hash`);
     }
@@ -125,18 +133,20 @@ export default function GameUtils({
               rowGap={["3px", "5px", "6px"]}
             >
               <Image boxSize={["40px", "55px", "69px"]} src={dice}></Image>
-              <Text
-                color="background.dark"
-                textAlign="center"
-                fontFamily="Inter"
-                fontSize={["25px", "30px", "36px"]}
-                fontStyle="normal"
-                fontWeight="500"
-                lineHeight="35px"
-                letterSpacing="-0.72px"
-              >
-                GO!
-              </Text>
+              {!isMobile && (
+                <Text
+                  color="background.dark"
+                  textAlign="center"
+                  fontFamily="Inter"
+                  fontSize={["25px", "30px", "36px"]}
+                  fontStyle="normal"
+                  fontWeight="500"
+                  lineHeight="35px"
+                  letterSpacing="-0.72px"
+                >
+                  GO!
+                </Text>
+              )}
             </Flex>
           </GoButton>
         </>

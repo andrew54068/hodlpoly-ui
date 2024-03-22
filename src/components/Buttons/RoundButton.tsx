@@ -8,7 +8,7 @@ const normalRoundedButtonStyle = {
   background: "background.dark",
   border: "1px solid #FCFC54",
   fontFamily: "Inter",
-  fontSize: "14px",
+  fontSize: ["10px", "14px", "20px"],
   fontStyle: "normal",
   fontWeight: "500",
   lineHeight: "16px",
