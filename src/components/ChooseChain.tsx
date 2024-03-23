@@ -12,6 +12,7 @@ import {
 import { zircuitTestnet } from "src/config/chains";
 import { chainSessionStorageKey } from "src/utils/constants";
 import { polygonMumbai } from "viem/chains";
+import avatar from "src/assets/original_avatar.png";
 
 export const ChooseChain = () => {
   const setChain = (chain: number) => {
@@ -28,6 +29,7 @@ export const ChooseChain = () => {
       alignItems="center"
       gap="50px"
     >
+      <Image src={avatar}></Image>
       <Text
         fontFamily="Inter"
         fontSize={"36px"}
