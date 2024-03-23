@@ -8,6 +8,8 @@ import oddDice from "src/assets/props/oddDice.svg";
 import evenDice from "src/assets/props/evenDice.svg";
 import ticket from "src/assets/props/ticket.svg";
 
+export const chainSessionStorageKey = "chainId";
+
 export const NAVBAR_HIGHT = 75;
 export const MAX_DISPLAY_ETHER_DIGITS = 8;
 

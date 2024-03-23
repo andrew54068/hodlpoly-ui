@@ -1,10 +1,13 @@
 import { FMP_PROXY_ADDRESS, FOMOPOLY_PROXY_ADDRESS } from "src/constants";
 import { useAccount, useReadContract, useBalance } from "wagmi";
-import { blastSepolia } from "wagmi/chains";
 import fomopolyAbi from "src/abi/fomopoly";
 import fmpAbi from "src/abi/fmp";
+import { chainSessionStorageKey } from "src/utils/constants";
+import { zircuitTestnet } from "src/config/chains";
 
-const CHAIN_ID = blastSepolia.id;
+const CHAIN_ID = Number(
+  sessionStorage.getItem(chainSessionStorageKey) ?? zircuitTestnet.id
+);
 
 export default function useUserFomopolyData() {
   const { address = "0x0" } = useAccount();
@@ -84,9 +87,7 @@ export default function useUserFomopolyData() {
     chainId: CHAIN_ID,
   });
 
-  const {
-    data: [userPendingReward = BigInt(0)] = [],
-  } = useReadContract({
+  const { data: [userPendingReward = BigInt(0)] = [] } = useReadContract({
     abi: fomopolyAbi.abi,
     address: FOMOPOLY_PROXY_ADDRESS,
     functionName: "getLatestPendingReward",
