@@ -12,6 +12,8 @@ import { WagmiProvider } from "wagmi";
 import { wagmiConfig } from "src/config";
 import "src/config/clients";
 import { logPageView } from "src/services/Amplitude/log";
+import { chainSessionStorageKey } from "./utils/constants";
+import { ChooseChain } from "./components/ChooseChain";
 
 const queryClient = new QueryClient();
 
@@ -20,8 +22,12 @@ function App() {
   const isLanding = pathname === "/";
 
   useEffect(() => {
-    logPageView(pathname);
-  }, [pathname]);
+    if (!sessionStorage.getItem(chainSessionStorageKey) && pathname !== "/choose-chain") {
+      window.location.href = "/choose-chain";
+    } else {
+      logPageView(pathname);
+    }
+  }, [isLanding, pathname]);
 
   return (
     <GlobalProvider>
@@ -36,7 +42,7 @@ function App() {
               <Box margin="0 auto" maxW={isLanding ? "100%" : `520px`}>
                 <Routes>
                   <Route path="/" element={<MainPage />} />
-                  <Route path="/login" element={<MainPage />} />
+                  <Route path="/choose-chain" element={<ChooseChain />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </Box>

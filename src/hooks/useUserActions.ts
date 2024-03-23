@@ -2,7 +2,6 @@ import { useCallback } from "react";
 import { getConnectedWalletClient, publicClient } from "src/config/clients";
 import { FOMOPOLY_PROXY_ADDRESS } from "src/constants";
 import { useAccount, useSwitchChain } from "wagmi";
-import { blastSepolia } from "wagmi/chains";
 import fomopolyAbi from "src/abi/fomopoly";
 import { getContract } from "viem";
 import { NumberType } from "src/types";
@@ -11,8 +10,12 @@ import {
   logClickRollTheDice,
   logClickBuyLand,
 } from "src/services/Amplitude/log";
+import { chainSessionStorageKey } from "src/utils/constants";
+import { zircuitTestnet } from "src/config/chains";
 
-const CHAIN_ID = blastSepolia.id;
+const CHAIN_ID = Number(
+  sessionStorage.getItem(chainSessionStorageKey) ?? zircuitTestnet.id
+);
 export default function useUserActions() {
   const { userSteps, allLandPrices, allPropsPrices } = useUserFomopolyData();
   const { address = "0x0", chainId } = useAccount();
