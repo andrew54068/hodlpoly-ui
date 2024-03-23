@@ -22,6 +22,7 @@ const baseStyle = definePartsStyle({
     px: "10px",
   },
 });
+
 const tagTheme = defineMultiStyleConfig({
   baseStyle,
 });
@@ -32,7 +33,7 @@ const switchBaseStyle = defineSwitchPartsStyle({
     backgroundImage: switchThumbOff,
     backgroundSize: "cover",
     _checked: {
-      backgroundImage: switchThumbOn,
+      backgroundImage: switchThumbOff,
     },
   },
   track: {
@@ -43,7 +44,27 @@ const switchBaseStyle = defineSwitchPartsStyle({
   },
 });
 
-const switchTheme = defineSwitchMultiStyleConfig({ baseStyle: switchBaseStyle });
+const switchTheme = defineSwitchMultiStyleConfig({
+  baseStyle: switchBaseStyle,
+  variants: {
+    zircuit: {
+      track: {
+        bg: "neutral.100",
+        _checked: {
+          bg: "zircuitPrimary",
+        },
+      },
+    },
+    polygon: {
+      track: {
+        bg: "neutral.100",
+        _checked: {
+          bg: "polygonPrimary",
+        },
+      },
+    },
+  },
+});
 
 const IS_PROD = import.meta.env.VITE_APP_ENV === "production";
 
@@ -51,7 +72,9 @@ const theme = extendTheme(
   merge(boTheme, {
     semanticTokens: {
       colors: {
-        "primary": "#FCFC54",
+        zircuitPrimary: "#437C30",
+        polygonPrimary: "#8247e5",
+        primary: "#FCFC54",
         "background.dark": "#11140C",
         "background.gray": "#C1CCAB",
         "background.hover.dark": "#464646",
