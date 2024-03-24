@@ -4,7 +4,6 @@ import merge from "lodash.merge";
 
 import { tagAnatomy, switchAnatomy } from "@chakra-ui/anatomy";
 import { createMultiStyleConfigHelpers } from "@chakra-ui/react";
-import switchThumbOn from "/switchThumbOn.svg";
 import switchThumbOff from "/switchThumbOff.svg";
 
 const { definePartsStyle, defineMultiStyleConfig } =
